@@ -49,6 +49,11 @@ ul.posts li {
 }
 
 
+img.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 
 /*Style all font awesome icons*/ 
