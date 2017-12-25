@@ -49,29 +49,11 @@ ul.posts li {
 }
 
 
-.displayed {
-    background-image: url(/images/Aks_small.png);
-    background-repeat: no-repeat;
-    background-position: left top;
-    padding-top:95px;
-    margin-bottom:60px;
-    animation-duration: 4s;
-    animation-fill-mode: both;
+img.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-
-@keyframes fadedown {
-    0% {
-            opacity: 0;
-            transform: translateY(-20px);
-    }
-    100% {
-            opacity: 1;
-            transform: translateY(0);
-         }
-    }
-}
-
 
 
 /*Style all font awesome icons*/ 
