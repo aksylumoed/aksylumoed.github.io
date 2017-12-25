@@ -49,7 +49,7 @@ ul.posts li {
 }
 
 
-logo.displayed {
+.displayed {
     background-image: url(/images/Aks_small.png);
     background-repeat: no-repeat;
     background-position: left top;
