@@ -17,7 +17,7 @@ a {
     color: #999;
 }
 a:hover {
-    text-decoration: bold;
+    text-decoration: italic;
 }
 h1 {
     font-size: 3em;
