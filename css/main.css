@@ -1,5 +1,4 @@
 body {
-    background: #fff;
     margin: 60px auto;
     width: 70%;
 }
@@ -13,14 +12,12 @@ nav ul li, footer ul li {
     display: inline;
     margin-right: 20px;
 }
-
-
 a {
     text-decoration: none;
     color: #999;
 }
 a:hover {
-    text-decoration: italic;
+    text-decoration: underline;
 }
 h1 {
     font-size: 3em;
@@ -33,7 +30,8 @@ p {
 }
 footer {
     border-top: 1px solid #d5d5d5;
-    margin-left: 10px
+    font-size: .8em;
+}
 
 ul.posts { 
     margin: 20px auto 40px; 
@@ -44,7 +42,10 @@ ul.posts li {
     list-style: none;
 }
 
-/*Style all font awesome icons*/
+
+
+
+/*Style all font awesome icons*/ /*
 .fa {
   padding: 5px;
   font-size: 10px;
@@ -77,3 +78,5 @@ ul.posts li {
     background: #000;
     color: white;
 }
+
+/*
