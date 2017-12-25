@@ -65,6 +65,11 @@ a.fa:hover {
     opacity: 0.05;
 }
 
+a.fa-linkedin {
+    background: #007bb5;
+    color: white;
+}
+
 a.fa-behance {
     background: #053eff;
     color: white;
