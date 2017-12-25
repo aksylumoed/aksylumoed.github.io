@@ -31,7 +31,9 @@ p {
 footer {
     border-top: 1px solid #d5d5d5;
     font-size: .8em;
-    margin: auto;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 ul.posts { 
@@ -48,7 +50,7 @@ ul.posts li {
 
 /*Style all font awesome icons*/ 
 a.fa {
-  padding: 10px;
+  padding: 5px;
   font-size: 10px;
   width: 10px;
   text-align: center;
