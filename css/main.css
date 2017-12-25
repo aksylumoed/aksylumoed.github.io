@@ -58,6 +58,7 @@ a.fa {
   width: 10px;
   text-align: center;
   text-decoration: none;
+  float: right;
 }
 
 a.fa:hover {
