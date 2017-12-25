@@ -37,7 +37,6 @@ footer {
     border-top: 1px solid #d5d5d5;
     font-size: .8em;
     margin-top: 5px;
-    margin: 0 auto;
 }
 
 ul.posts { 
@@ -59,6 +58,7 @@ a.fa {
   width: 10px;
   text-align: center;
   text-decoration: none;
+  margin: 0 auto;
 }
 
 a.fa:hover {
