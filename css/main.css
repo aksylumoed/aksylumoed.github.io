@@ -50,9 +50,13 @@ ul.posts li {
 
 
 img.displayed {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    background-image: url(/images/Aks_small.png);
+    background-repeat: no-repeat;
+    background-position: left top;
+    padding-top:95px;
+    margin-bottom:60px;
+    animation-duration: 4s;
+    animation-fill-mode: both;
 }
 
 
