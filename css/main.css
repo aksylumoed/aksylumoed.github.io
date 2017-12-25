@@ -1,4 +1,5 @@
 body {
+    background-color: #fff;
     margin: 60px auto;
     width: 70%;
 }
@@ -54,7 +55,7 @@ img.displayed {
     margin-left: auto;
     margin-right: auto;
     animation-name: fadedown;
-    animation-duration: 5s;
+    animation-duration: 4s;
     animation-fill-mode: both;
 }
 
