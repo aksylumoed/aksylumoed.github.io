@@ -1,18 +1,31 @@
 body {
-    background: #ffffff;
+    background: #fff;
     margin: 60px auto;
     width: 70%;
 }
-nav ul, footer ul {
+nav ul{
     font-family:'Helvetica', 'Arial', 'Sans-Serif';
     padding: 0px;
     list-style: none;
     font-weight: bold;
 }
-nav ul li, footer ul li {
+
+footer ul {
+    padding: 5px;
+    list-style: none;
+    font-weight: bold;
+}
+
+nav ul li{
     display: inline;
     margin-right: 20px;
 }
+
+footer ul li {
+    display: inline;
+    margin-right: 5px;
+}
+
 a {
     text-decoration: none;
     color: #999;
@@ -31,8 +44,7 @@ p {
 }
 footer {
     border-top: 1px solid #d5d5d5;
-    font-size: .8em;
-}
+    margin-left: 10px;
 
 ul.posts { 
     margin: 20px auto 40px; 
@@ -41,4 +53,38 @@ ul.posts {
 
 ul.posts li {
     list-style: none;
+}
+
+/*Style all font awesome icons*/
+.fa {
+  padding: 5px;
+  font-size: 10px;
+  width: 10px;
+  text-align: center;
+  text-decoration: none;
+  margin: auto;
+}
+
+.fa:hover {
+    opacity: 0.05;
+}
+
+.fa-behance {
+    background: #053eff
+    color: white;
+}
+
+.fa-github {
+    background: #171515;
+    color: white;
+}
+
+.fa-tumblr {
+    background: #34526f;
+    color: white;
+}
+
+.fa-envelope {
+    background: #000;
+    color: white;
 }
