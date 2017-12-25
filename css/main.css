@@ -63,7 +63,7 @@ a.fa {
   width: 10px;
   text-align: center;
   text-decoration: none;
-  float: right;
+  float: center;
 }
 
 a.fa:hover {
