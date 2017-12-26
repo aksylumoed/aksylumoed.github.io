@@ -17,7 +17,6 @@ nav ul, footer ul {
 nav ul li {
     display: inline;
     border-right: 1px solid #d5d5d5;
-    margin-right: 25px;
 }
 
 li:last { border-right: none; }
