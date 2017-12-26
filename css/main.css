@@ -5,6 +5,7 @@ body {
 }
 nav ul, footer ul {
     font-family:'Myriad Pro';
+    font-stretch: condensed;
     padding: 0px;
     list-style: none;
     font-weight: bold;
@@ -26,14 +27,13 @@ a:hover {
     text-decoration: underline;
 }
 h3 {
-    font-size: 2em;
+    font-size: 1.5em;
     font-family:'Myriad Pro'
 }
 p {
     font-family: 'Myriad Pro'
     font-size: 1em;
     line-height: 1.4em;
-    color: #333;
 }
 footer {
     border-top: 1px solid #d5d5d5;
