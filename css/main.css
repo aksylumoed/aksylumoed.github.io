@@ -73,7 +73,7 @@ img.displayed {
 
  /* PDF icon */
 
- a[href$=".pdf"]{
+ a.pdf{
     background-image: url('https://i.imgur.com/lZ5SgDE.png');
     background-position: center left;
     background-repeat: no-repeat;
