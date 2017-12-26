@@ -1,5 +1,5 @@
 html * {
-    font-family: 'Myriad Pro'
+    font-family: 'Myriad Pro';
     font-stretch: condensed !important; 
 }
 body {
@@ -34,9 +34,6 @@ a:hover {
 }
 
 
-h3 {
-    font-size: 1.5em;
-}
 p {
  
     font-size: 1.3em;
