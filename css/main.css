@@ -73,12 +73,14 @@ img.displayed {
 
  /* PDF icon */
 
- a[href$=".pdf"] {
-    background: url('pdf.png') no-repeat left;
-    padding-left: 50px;
-    padding-top: 50px;
-    padding-right: 50px;
-    padding-bottom: 50px;
+ a[href$=".pdf"]{
+    background-image: url('pdf.png');
+    background-position: center left;
+    background-repeat: no-repeat;
+    padding-left: 0px;
+    height: 35px;
+    display: inline-block;
+    padding-top: 10px;
 }
 
 
