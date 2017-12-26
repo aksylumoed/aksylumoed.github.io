@@ -1,3 +1,7 @@
+html * {
+    font-family: 'Myriad Pro'
+    font-stretch: condensed !important; 
+}
 body {
     background-color: #fff;
     margin: 60px auto;
@@ -42,7 +46,7 @@ p {
     font-family: 'Myriad Pro'
     font-stretch: condensed;
     font-size: 1.3em;
-    line-height: 1.4em;
+    line-height: 1em;
 }
 footer {
     border-top: 1px solid #d5d5d5;
