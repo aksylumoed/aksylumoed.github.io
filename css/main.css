@@ -77,9 +77,8 @@ img.displayed {
     background-image: url('pdf.png');
     background-position: center left;
     background-repeat: no-repeat;
-    padding-left: 0px;
     height: 85px;
-    width: 70px;
+    width: 75px;
     display: inline-block;
     padding-top: 20px;
 }
