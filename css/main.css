@@ -75,6 +75,7 @@ img.displayed {
 
  a[href$=".pdf"] {
     background: url('pdf.png') no-repeat left;
+    display: flex;
     padding-left: 35px;
     padding-top: 10px;
 }
