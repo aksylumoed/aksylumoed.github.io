@@ -75,8 +75,8 @@ img.displayed {
 
  a[href$=".pdf"] {
     background: url('pdf.png') no-repeat left;
-    margin: 0;
-    padding: 0;
+    margin: auto;
+    padding: auto;
 }
 
 
