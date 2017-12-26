@@ -33,6 +33,9 @@ a:hover {
     text-decoration: underline;
 }
 
+.blurb {
+    padding-top: 50px;
+}
 
 p {
  
@@ -86,7 +89,7 @@ img.displayed {
     height: 85px;
     width: 75px;
     display: inline-block;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 
