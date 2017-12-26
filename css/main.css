@@ -74,7 +74,7 @@ img.displayed {
  /* PDF icon */
 
  a[href$ = ".pdf"] {
-    background-image: url(../images/pdf.png);
+    background-image: url(/pdf.png);
     background-position: center left;
     background-repeat: no-repeat;
     padding-left: 35px;
