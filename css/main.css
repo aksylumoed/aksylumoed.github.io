@@ -19,15 +19,22 @@ footer ul li {
     display: inline;
     margin-right: 5px;
 }
+
 a {
     text-decoration: none;
     color: #999;
 }
+
 a:hover {
     text-decoration: underline;
 }
+
+h1 {
+    font-family:'Myriad Pro'
+    font-stretch: condensed;
+}
+
 h3 {
-    font-size: 1.5em;
     font-family:'Myriad Pro'
     font-stretch: condensed;
 }
@@ -52,6 +59,8 @@ ul.posts li {
     list-style: none;
 }
 
+
+/*home screen img */
 
 img.displayed {
     display: block;
