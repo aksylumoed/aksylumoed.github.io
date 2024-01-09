@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artwork Showcase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <img id="initialArtwork">
+    <div id="artworkContainer" class="artwork-container" style="display: none;">
+        <button id="closeViewer" style="position: absolute; top: 10px; right: 10px; z-index: 1000;">x</button>
+        <!-- Single artwork will be displayed here -->
+    </div>
+    <div class="info-navigation-container">
+        <div class="navigation">
+            <div class="navigation-button left" onclick="navigateArtwork('left')">&#60;</div>
+            <div class="navigation-button right" onclick="navigateArtwork('right')">&#62;</div>
+        </div>
+        <p id="artworkTitle" class="artwork-title"></p>
+        <p id="artworkDescription" class="artwork-description"></p>
+    </div>
+
+    <script src="dist/bundle.js"></script>
+</body>
+</html>
