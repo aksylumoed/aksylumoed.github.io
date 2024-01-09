@@ -7,15 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="header">
+        <a href="/" id="homeLink">●</a>
+        <!-- Other header content -->
+    </div>
     <img id="initialArtwork">
     <div id="artworkContainer" class="artwork-container" style="display: none;">
-        <button id="closeViewer" style="position: absolute; top: 10px; right: 10px; z-index: 1000;">x</button>
+        <button id="closeViewer" >x</button>
         <!-- Single artwork will be displayed here -->
     </div>
     <div class="info-navigation-container">
         <div class="navigation">
-            <div class="navigation-button left" onclick="navigateArtwork('left')">&#60;</div>
-            <div class="navigation-button right" onclick="navigateArtwork('right')">&#62;</div>
+            <div class="navigation-button left"">&#60;</div>
+            <div class="navigation-button right">&#62;</div>
         </div>
         <p id="artworkTitle" class="artwork-title"></p>
         <p id="artworkDescription" class="artwork-description"></p>

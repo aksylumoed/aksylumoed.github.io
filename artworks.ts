@@ -1,22 +1,8 @@
 import OpenSeadragon from 'openseadragon';
-
-interface Artwork {
-  title: string;
-  imagePath: string;
-  description: string;
-  dziPath: string;
-}
-
-const artworks: Artwork[] = [
-  {
-      title: "#5",
-      imagePath: "untitled-5.x.png",
-      dziPath: "output-5.dzi",
-      description: `190cm x 97.5cm\naluminium dibond`
-  }
-];
+import { artworks } from './constants';
 
 let currentArtworkIndex = 0;
+let viewer = null;
 
 function displayInitialArtwork(index: number): void {
   const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
@@ -31,7 +17,7 @@ function displayInitialArtwork(index: number): void {
   initialArtworkElement.alt = artwork.title; // Set appropriate alt text
 }
 
-let viewer = null;
+
 function displayArtwork(index: number): void {
   const container = document.getElementById('artworkContainer');
 
@@ -59,7 +45,7 @@ function displayArtwork(index: number): void {
 
 }
 
-function navigateArtwork(direction: 'left' | 'right'): void {
+export function navigateArtwork(direction: 'left' | 'right'): void {
   if (direction === 'right') {
       currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
   } else if (direction === 'left') {
@@ -88,4 +74,16 @@ document.getElementById('initialArtwork').addEventListener('click', function() {
 document.getElementById('closeViewer').addEventListener('click', function() {
   document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
   document.getElementById('initialArtwork').style.display = 'block'; // Show the initial artwork image
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const leftButton = document.querySelector('.navigation-button.left');
+  const rightButton = document.querySelector('.navigation-button.right');
+
+  if (leftButton) {
+    leftButton.addEventListener('click', () => navigateArtwork('left'));
+  }
+  if (rightButton) {
+    rightButton.addEventListener('click', () => navigateArtwork('right'));
+  }
 });
