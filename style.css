@@ -15,6 +15,13 @@
   transform: translateX(-50%); /* Adjust horizontally by half its width */
   text-align: center;
   color: #525252;
+  padding-bottom: 20px;
+}
+
+#homeLink:hover {
+  top: 46px;
+  font-size: 30px;
+  text-align: center;
 }
 
 body {
@@ -33,9 +40,19 @@ body {
 }
 
 #initialArtwork {
-  max-width: 20%; /* Adjust as needed */
   display: block;
-  transition: opacity 0.5s ease; /* Smooth transition for the opacity */
+  margin-top: 20px;
+}
+
+
+.loading-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: #000;
+
 }
 
 .artwork-container {

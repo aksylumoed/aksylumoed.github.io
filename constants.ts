@@ -3,49 +3,57 @@ export interface Artwork {
   imagePath: string;
   description: string;
   dziPath: string;
+  maxWidthPercentage: string;
 }
 
 export const artworks: Artwork[] = [
   {
     title: "#8",
-    imagePath: "untitled-8.x.png",
+    imagePath: "8.png",
     dziPath: "output-8.dzi",
-    description: `190cm x 97.5cm\naluminium dibond, direct print`
+    description: `190cm x 97.5cm\naluminium dibond, direct print`,
+    maxWidthPercentage: "45%"
   },
   {
       title: "#5",
-      imagePath: "untitled-5.x.png",
+      imagePath: "5.png",
       dziPath: "output-5.dzi",
-      description: `190cm x 97.5cm\naluminium dibond, direct print`
+      description: `190cm x 97.5cm\naluminium dibond, direct print`,
+      maxWidthPercentage: "25%"
   },
   {
     title: "#4",
-    imagePath: "untitled-4.x.png",
+    imagePath: "4.png",
     dziPath: "output-4.dzi",
-    description: `190cm x 97.5cm\naluminium dibond, direct print`
+    description: `190cm x 97.5cm\naluminium dibond, direct print`,
+    maxWidthPercentage: "70%"
   },
   {
     title: "#2",
-    imagePath: "untitled-2.x.png",
+    imagePath: "2.png",
     dziPath: "output-2.dzi",
-    description: `190cm x 97.5cm\naluminium dibond, direct print`
+    description: `190cm x 97.5cm\naluminium dibond, direct print`,
+    maxWidthPercentage: "60%"
   },
   {
     title: "#3",
-    imagePath: "untitled-3.x.png",
+    imagePath: "3.png",
     dziPath: "output-3.dzi",
-    description: `190cm x 97.5cm\naluminium dibond, direct print`
+    description: `190cm x 97.5cm\naluminium dibond, direct print`,
+    maxWidthPercentage: "60%"
   },
   {
     title: "#6",
-    imagePath: "untitled-6.x.png",
+    imagePath: "6.png",
     dziPath: "output-6.dzi",
-    description: `190cm x 97.5cm\naluminium dibond, direct print`
+    description: `190cm x 97.5cm\naluminium dibond, direct print`,
+    maxWidthPercentage: "30%"
   },
   {
     title: "#1",
-    imagePath: "untitled-1.x.png",
+    imagePath: "1.png",
     dziPath: "output-1.dzi",
-    description: `190cm x 97.5cm\naluminium dibond, direct print`
+    description: `190cm x 97.5cm\naluminium dibond, direct print`,
+    maxWidthPercentage: "60%"
   },
 ];

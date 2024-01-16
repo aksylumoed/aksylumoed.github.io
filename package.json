@@ -1,6 +1,8 @@
 {
   "dependencies": {
-    "openseadragon": "^4.1.0"
+    "openseadragon": "^4.1.0",
+    "spinkit": "^2.0.1",
+    "three-dots": "^0.3.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

@@ -9,12 +9,39 @@ function displayInitialArtwork(index: number): void {
   const titleElement = document.getElementById('artworkTitle');
   const descElement = document.getElementById('artworkDescription');
   if (!initialArtworkElement || !titleElement || !descElement || index < 0 || index >= artworks.length) return;
+  initialArtworkElement.src = '';
+
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  // Show loading indicator
+  if (loadingIndicator) {
+    loadingIndicator.style.display = 'block';
+  }
+
+  // Create a new Image object for loading
+  const newImage = new Image();
+
+  // When the new image is fully loaded
+  newImage.onload = () => {
+    // Update the initialArtworkElement's src attribute
+    initialArtworkElement.src = newImage.src;
+
+    // Hide loading indicator
+    if (loadingIndicator) {
+      loadingIndicator.style.display = 'none';
+    }
+  };
+
 
   const artwork = artworks[index];
   titleElement.textContent = artwork.title;
   descElement.textContent = artwork.description;
   initialArtworkElement.src = artwork.imagePath;
   initialArtworkElement.alt = artwork.title; // Set appropriate alt text
+  initialArtworkElement.style.maxWidth = artwork.maxWidthPercentage;
+  initialArtworkElement.style.display = "block";
+
+  // Start loading the new image
+  newImage.src = artwork.imagePath;
 }
 
 
@@ -42,7 +69,6 @@ function displayArtwork(index: number): void {
       showNavigationControl: false
     });
   }
-
 }
 
 export function navigateArtwork(direction: 'left' | 'right'): void {
@@ -50,6 +76,13 @@ export function navigateArtwork(direction: 'left' | 'right'): void {
       currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
   } else if (direction === 'left') {
       currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
+  }
+
+  document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
+  // Only display the initialArtwork if it has a source set
+  const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
+  if (initialArtwork && initialArtwork.src) {
+    initialArtwork.style.display = 'block';
   }
   displayInitialArtwork(currentArtworkIndex);
 }
@@ -73,7 +106,11 @@ document.getElementById('initialArtwork').addEventListener('click', function() {
 
 document.getElementById('closeViewer').addEventListener('click', function() {
   document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
-  document.getElementById('initialArtwork').style.display = 'block'; // Show the initial artwork image
+  // Only display the initialArtwork if it has a source set
+  const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
+  if (initialArtwork && initialArtwork.src) {
+    initialArtwork.style.display = 'block';
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -86,4 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (rightButton) {
     rightButton.addEventListener('click', () => navigateArtwork('right'));
   }
+});
+
+document.getElementById('homeLink').addEventListener('mouseover', function() {
+  this.textContent = '○'; // Text to display on hover
+});
+
+document.getElementById('homeLink').addEventListener('mouseout', function() {
+  this.textContent = '●'; // Original text
 });
