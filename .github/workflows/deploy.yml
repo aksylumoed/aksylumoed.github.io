@@ -1,0 +1,27 @@
+name: Deploy GitHub Pages with LFS
+
+on:
+  push:
+    branches:
+      - master  # Or your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          lfs: true 
+
+      - name: Build and Deploy
+        run: |
+          # Add your build commands here, for example:
+          npm install
+          npm run build
+          # Then, deploy to GitHub Pages (adjust for your setup)
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add -f dist/*  # Force-add the built files, replace 'dist' with your build directory
+          git commit -m 'Deploy GitHub Pages'
+          git push -f origin `git subtree split --prefix dist main`:gh-pages  # Adjust for your directory structure and branches
+
