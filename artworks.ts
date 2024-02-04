@@ -1,5 +1,6 @@
 import OpenSeadragon from 'openseadragon';
 import { artworks } from './constants';
+/// <reference path="openseadragon-extension.d.ts" />
 
 let currentArtworkIndex = 0;
 let viewer = null;
@@ -10,6 +11,7 @@ function displayInitialArtwork(index: number): void {
   const descElement = document.getElementById('artworkDescription');
   if (!initialArtworkElement || !titleElement || !descElement || index < 0 || index >= artworks.length) return;
   initialArtworkElement.src = '';
+  const isMobile = window.innerWidth <= 780;
 
   const loadingIndicator = document.getElementById('loadingIndicator');
   // Show loading indicator
@@ -37,7 +39,9 @@ function displayInitialArtwork(index: number): void {
   descElement.textContent = artwork.description;
   initialArtworkElement.src = artwork.imagePath;
   initialArtworkElement.alt = artwork.title; // Set appropriate alt text
-  initialArtworkElement.style.maxWidth = artwork.maxWidthPercentage;
+  initialArtworkElement.style.maxWidth = isMobile && artwork.maxWidthPercentageMobile
+                                          ? artwork.maxWidthPercentageMobile
+                                          : artwork.maxWidthPercentage;
   initialArtworkElement.style.display = "block";
 
   // Start loading the new image
@@ -58,15 +62,16 @@ function displayArtwork(index: number): void {
     // Update the tileSource if the viewer already exists
     viewer.open(artwork.dziPath);
   } else {
-    viewer = OpenSeadragon({
+    viewer = new OpenSeadragon.Viewer({
       id: "artworkContainer",
       prefixUrl: "images/", // Adjust the path to OpenSeadragon images
       tileSources: artwork.dziPath,
-      defaultZoomLevel: 0.8,
+      defaultZoomLevel: 1.0,
       minZoomLevel: 0.7,
       zoomPerScroll: 1.05,
       zoomPerClick: 1.20,
-      showNavigationControl: false
+      showNavigationControl: false,
+      subPixelRoundingForTransparency: OpenSeadragon.SUBPIXEL_ROUNDING_OCCURRENCES.ALWAYS
     });
   }
 }
@@ -99,8 +104,11 @@ function handleKeyPress(event: KeyboardEvent): void {
 document.addEventListener('DOMContentLoaded', () => displayInitialArtwork(currentArtworkIndex));
 document.addEventListener('keydown', handleKeyPress);
 
-document.getElementById('initialArtwork').addEventListener('click', function() {
-  this.style.display = 'none'; // Hide the initial artwork image
+document.getElementById('zoom').addEventListener('click', function() {
+  const initialArtwork = document.getElementById('initialArtwork');
+  if (initialArtwork) {
+    initialArtwork.style.display = 'none'; // Hide the initial artwork image
+  }
   displayArtwork(currentArtworkIndex); // Call to display artwork in OpenSeadragon
 });
 
