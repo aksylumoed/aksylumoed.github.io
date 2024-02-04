@@ -1,3 +1,10 @@
+name: Deploy GitHub Pages with LFS
+
+on:
+  push:
+    branches:
+      - master  # Or your default branch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
