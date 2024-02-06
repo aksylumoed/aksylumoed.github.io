@@ -146,6 +146,7 @@ body {
 .zoom {
   font-family: inherit;
   font-size: calc(1em + 2px);
+  font-weight: bold;
   /* margin-right: auto; */
   margin-top: 3px;
   color: #6c6c6c;
@@ -192,7 +193,7 @@ body {
   }
 
   .logo-image {
-    max-width: 80%;
+    max-width: 90%;
 
   }
 
