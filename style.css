@@ -118,7 +118,6 @@ body {
 }
 
 .artwork-title {
-  /* font-family: 'main-font'; */
   font-family: 'M PLUS Code Latin', monospace;
   font-size: 16px;
   color: #6f6f6f;
@@ -128,7 +127,6 @@ body {
 }
 
 .artwork-description {
-  /* font-family: 'main-font'; */
   font-family: 'M PLUS Code Latin', monospace;
   color: #6c6c6c;
   font-size: 16px;

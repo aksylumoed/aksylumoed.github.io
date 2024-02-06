@@ -14,35 +14,37 @@ function displayInitialArtwork(index: number): void {
   const isMobile = window.innerWidth <= 780;
 
   const loadingIndicator = document.getElementById('loadingIndicator');
+  initialArtworkElement.style.display = "none"; // Hide the image initially to prevent showing the old image
   // Show loading indicator
   if (loadingIndicator) {
     loadingIndicator.style.display = 'block';
   }
 
+
+   // Prepare to show the new artwork details
+   const artwork = artworks[index];
+   titleElement.textContent = artwork.title;
+   descElement.textContent = artwork.description;
+   initialArtworkElement.alt = artwork.title; // Set appropriate alt text
+
+   // Adjust styles based on the device
+   initialArtworkElement.style.maxWidth = window.innerWidth <= 780 && artwork.maxWidthPercentageMobile
+                                           ? artwork.maxWidthPercentageMobile
+                                           : artwork.maxWidthPercentage;
+
+
   // Create a new Image object for loading
   const newImage = new Image();
-
-  // When the new image is fully loaded
   newImage.onload = () => {
-    // Update the initialArtworkElement's src attribute
+    // Image is fully loaded, update src and display the image
     initialArtworkElement.src = newImage.src;
+    initialArtworkElement.style.display = "block"; // Show the image now that it's loaded
 
-    // Hide loading indicator
+    // Hide the loading indicator
     if (loadingIndicator) {
       loadingIndicator.style.display = 'none';
     }
   };
-
-
-  const artwork = artworks[index];
-  titleElement.textContent = artwork.title;
-  descElement.textContent = artwork.description;
-  initialArtworkElement.src = artwork.imagePath;
-  initialArtworkElement.alt = artwork.title; // Set appropriate alt text
-  initialArtworkElement.style.maxWidth = isMobile && artwork.maxWidthPercentageMobile
-                                          ? artwork.maxWidthPercentageMobile
-                                          : artwork.maxWidthPercentage;
-  initialArtworkElement.style.display = "block";
 
   // Start loading the new image
   newImage.src = artwork.imagePath;
