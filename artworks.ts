@@ -5,6 +5,8 @@ import { artworks } from './constants';
 let currentArtworkIndex = 0;
 let viewer = null;
 
+
+
 function displayInitialArtwork(index: number): void {
   const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
   const titleElement = document.getElementById('artworkTitle');
@@ -108,8 +110,10 @@ document.addEventListener('keydown', handleKeyPress);
 
 document.getElementById('zoom').addEventListener('click', function() {
   const initialArtwork = document.getElementById('initialArtwork');
+  const info = document.getElementById('infoContainer');
   if (initialArtwork) {
     initialArtwork.style.display = 'none'; // Hide the initial artwork image
+    info.style.display = 'none';
   }
   displayArtwork(currentArtworkIndex); // Call to display artwork in OpenSeadragon
 });
@@ -118,8 +122,10 @@ document.getElementById('closeViewer').addEventListener('click', function() {
   document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
   // Only display the initialArtwork if it has a source set
   const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
+  const info = document.getElementById('infoContainer');
   if (initialArtwork && initialArtwork.src) {
     initialArtwork.style.display = 'block';
+    info.style.display = 'block';
   }
 });
 

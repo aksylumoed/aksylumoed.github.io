@@ -97,6 +97,7 @@ body {
 
 .info-navigation-container {
   font-family: 'M PLUS Code Latin', monospace;
+  font-size: 16px;
   position: absolute;
   right: 30px;
   bottom: 30px;
@@ -105,23 +106,10 @@ body {
   flex-direction: column; /* Stack items vertically */
 }
 
-#zoom {
-  font-family: 'M PLUS Code Latin', monospace;
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: #6f6f6f;
-  cursor: pointer;
-  border: none; /* Remove button border */
-  outline: none; /* Remove focus outline */
-  background: transparent;
-  text-align: left;
-}
-
 .artwork-title {
   font-family: 'M PLUS Code Latin', monospace;
-  font-size: 16px;
   color: #6f6f6f;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 10px;
   text-align: left;
 }
@@ -129,7 +117,6 @@ body {
 .artwork-description {
   font-family: 'M PLUS Code Latin', monospace;
   color: #6c6c6c;
-  font-size: 16px;
   margin-top: 5px;
   text-align: left;
   max-width: 160px; /* Set a max-width to control the width of the description */
@@ -145,14 +132,30 @@ body {
   display: flex;
   width: 100%;
   margin-top: 10px;
-  /* Other navigation styles... */
 }
 
 .navigation-button {
   cursor: pointer;
-  margin-right: 50px; /* Adjust spacing between buttons */
+  margin-right: 30px; /* Adjust spacing between buttons */
   font-size: 20px;
   user-select: none;
+}
+
+.zoom {
+  font-family: inherit;
+  font-size: calc(1em + 3px);
+  margin-right: auto;
+  margin-bottom: 10px;
+  color: #6f6f6f;
+  cursor: pointer;
+  border: none; /* Remove button border */
+  outline: none; /* Remove focus outline */
+  background: transparent;
+  text-align: left;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 .left {
@@ -188,5 +191,16 @@ body {
   .logo-image {
     max-width: 70%;
 
+  }
+
+  .info-navigation-container {
+    font-family: 'M PLUS Code Latin', monospace;
+    font-size: 14px;
+    position: absolute;
+    right: -20px;
+    bottom: 15px;
+    text-align: left;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
   }
 }
