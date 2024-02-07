@@ -79,12 +79,14 @@ body {
   max-width: 27%; /* Ensures the image is responsive and fits the container */
   height: auto; /* Maintains the aspect ratio of the image */
   display: block; /* Makes the image a block-level element */
+  position: relative;
   margin: -80px auto 5px; /* Centers the image horizontally */
 }
 
 .view-link {
   /* font-family: 'main-font'; */
   font-family: 'M PLUS Code Latin', monospace;
+  position: relative;
   display: block; /* Makes the link a block-level element */
   margin: 5px auto; /* Adds space around the link and centers it horizontally */
   text-decoration: none;
@@ -183,6 +185,16 @@ body {
 
 
 @media (max-width: 780px) {
+  .view-link {
+    bottom: 20px;
+    font-size: 13px;
+  }
+
+  .logo-image {
+    bottom: 20px;
+    max-width: 70%;
+  }
+
   #initialArtwork {
     display: block;
     margin-top: -70px;
@@ -192,13 +204,12 @@ body {
     top: -30px;
   }
 
-  .logo-image {
-    max-width: 70%;
-
+  .loading-indicator {
+    font-size: 10px;
   }
 
   .info-navigation-container {
-    font-size: 14px;
+    font-size: 12px;
     position: absolute;
     right: 0px;
     bottom: 15px;
