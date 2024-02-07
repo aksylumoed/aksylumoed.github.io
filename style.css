@@ -195,6 +195,10 @@ body {
     max-width: 70%;
   }
 
+  #homeLink {
+    top: 30px;
+  }
+
   #initialArtwork {
     display: block;
     margin-top: -70px;
