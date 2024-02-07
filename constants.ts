@@ -18,7 +18,7 @@ export const artworks: Artwork[] = [
   },
   {
       title: "#5",
-      imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/5.png",
+      imagePath: "webp/5.webp",
       dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/5.dzi",
       description: `190cm x 97.5cm\naluminium dibond, direct print`,
       maxWidthPercentage: "25%",
@@ -26,7 +26,7 @@ export const artworks: Artwork[] = [
   },
   {
     title: "#4",
-    imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
+    imagePath: "webp/4.webp",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
     description: `190cm x 97.5cm\naluminium dibond, direct print`,
     maxWidthPercentage: "70%",
@@ -34,7 +34,7 @@ export const artworks: Artwork[] = [
   },
   {
     title: "#2",
-    imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/2.png",
+    imagePath: "webp/2.webp",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/2.dzi",
     description: `190cm x 97.5cm\naluminium dibond, direct print`,
     maxWidthPercentage: "60%",
@@ -42,7 +42,7 @@ export const artworks: Artwork[] = [
   },
   {
     title: "#3",
-    imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/3.png",
+    imagePath: "webp/3.webp",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/3.dzi",
     description: `190cm x 97.5cm\naluminium dibond, direct print`,
     maxWidthPercentage: "60%",
@@ -50,7 +50,7 @@ export const artworks: Artwork[] = [
   },
   {
     title: "#6",
-    imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/6.png",
+    imagePath: "webp/6.webp",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/6.dzi",
     description: `190cm x 97.5cm\naluminium dibond, direct print`,
     maxWidthPercentage: "30%",
@@ -58,7 +58,7 @@ export const artworks: Artwork[] = [
   },
   {
     title: "#1",
-    imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
+    imagePath: "webp/1.webp",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/1.dzi",
     description: `190cm x 97.5cm\naluminium dibond, direct print`,
     maxWidthPercentage: "60%",

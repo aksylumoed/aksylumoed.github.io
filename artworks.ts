@@ -38,14 +38,16 @@ function displayInitialArtwork(index: number): void {
   // Create a new Image object for loading
   const newImage = new Image();
   newImage.onload = () => {
-    // Image is fully loaded, update src and display the image
-    initialArtworkElement.src = newImage.src;
-    initialArtworkElement.style.display = "block"; // Show the image now that it's loaded
+    setTimeout(() => {
+      // Image is fully loaded, and 3 seconds have passed, update src and display the image
+      initialArtworkElement.src = newImage.src;
 
-    // Hide the loading indicator
-    if (loadingIndicator) {
-      loadingIndicator.style.display = 'none';
-    }
+      if (loadingIndicator) {
+        loadingIndicator.style.display = 'none';
+      }
+
+      initialArtworkElement.style.display = "block"; // Show the image now that it's loaded and waited for 3 seconds
+    }, 1500);
   };
 
   // Start loading the new image

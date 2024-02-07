@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          lfs: true
+          lfs: false
           token: ${{ secrets.GITHUB_TOKEN }}  # Ensure this is correctly referenced
 
       - name: Build and Deploy
