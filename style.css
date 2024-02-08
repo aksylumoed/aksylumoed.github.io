@@ -33,7 +33,8 @@ body {
 }
 
 #initialArtwork {
-  object-fit: cover;
+  /* object-fit: cover; */
+  transform: translateY(-30px);
 }
 
 #loadingIndicator {
@@ -111,16 +112,17 @@ body {
   font-family: 'M PLUS Code Latin', monospace;
   color: #6f6f6f;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
   text-align: left;
 }
 
 .artwork-description {
   font-family: 'M PLUS Code Latin', monospace;
   color: #6c6c6c;
+  font-size: 14px;
   margin-top: 5px;
   text-align: left;
-  max-width: 160px; /* Set a max-width to control the width of the description */
+  max-width: 140px; /* Set a max-width to control the width of the description */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -195,11 +197,11 @@ body {
   }
 
   #homeLink {
-    top: 30px;
+    top: 50px;
   }
 
   #homeLink:hover {
-    top: 25px;
+    top: 30px;
   }
 
   .artwork-container {
