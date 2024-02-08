@@ -2,7 +2,7 @@
   position: absolute;
   left: 50%; /* Set to middle of the page */
   top: 50px;
-  font-size: 24px;
+  font-size: 20px;
   text-decoration: none; /* Removes the underline */
   transform: translateX(-50%); /* Adjust horizontally by half its width */
   text-align: center;
@@ -13,7 +13,7 @@
 
 #homeLink:hover {
   top: 46px;
-  font-size: 30px;
+  font-size: 26px;
   text-align: center;
 }
 
@@ -24,8 +24,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f0f0f0;
+  /* height: 100vh; */
+  background-color: #f0f0f000;
 }
 
 .container, .artwork-container {
@@ -33,8 +33,7 @@ body {
 }
 
 #initialArtwork {
-  display: block;
-  margin-top: 20px;
+  object-fit: cover;
 }
 
 #loadingIndicator {
@@ -199,9 +198,8 @@ body {
     top: 30px;
   }
 
-  #initialArtwork {
-    display: block;
-    margin-top: -70px;
+  #homeLink:hover {
+    top: 25px;
   }
 
   .artwork-container {

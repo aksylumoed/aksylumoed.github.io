@@ -13,7 +13,6 @@ function displayInitialArtwork(index: number): void {
   const descElement = document.getElementById('artworkDescription');
   if (!initialArtworkElement || !titleElement || !descElement || index < 0 || index >= artworks.length) return;
   initialArtworkElement.src = '';
-  const isMobile = window.innerWidth <= 780;
 
   const loadingIndicator = document.getElementById('loadingIndicator');
   initialArtworkElement.style.display = "none"; // Hide the image initially to prevent showing the old image
@@ -130,6 +129,7 @@ document.getElementById('closeViewer').addEventListener('click', function() {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.style.height = window.innerHeight + 'px';
   const leftButton = document.querySelector('.navigation-button.left');
   const rightButton = document.querySelector('.navigation-button.right');
 
@@ -147,4 +147,9 @@ document.getElementById('homeLink').addEventListener('mouseover', function() {
 
 document.getElementById('homeLink').addEventListener('mouseout', function() {
   this.textContent = '●'; // Original text
+});
+
+
+window.addEventListener('resize', () => {
+  document.body.style.height = window.innerHeight + 'px';
 });
