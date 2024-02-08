@@ -106,6 +106,7 @@ body {
   text-align: left;
   display: flex;
   flex-direction: column; /* Stack items vertically */
+  max-width: 150px;
 }
 
 .artwork-title {
@@ -122,7 +123,6 @@ body {
   font-size: 14px;
   margin-top: 5px;
   text-align: left;
-  max-width: 140px; /* Set a max-width to control the width of the description */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -197,11 +197,13 @@ body {
   }
 
   #homeLink {
-    top: 50px;
+    top: 40px;
+    font-size: 15px;
   }
 
   #homeLink:hover {
-    top: 30px;
+    top: 36px;
+    font-size: 21px;
   }
 
   .artwork-container {
@@ -214,12 +216,13 @@ body {
 
   .info-navigation-container {
     font-size: 12px;
-    position: absolute;
     right: 0px;
     bottom: 15px;
-    text-align: left;
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    color: #6c6c6c;
   }
+
+  .artwork-description {
+    font-size: 11px;
+    max-width: 120px
+  }
+
 }
