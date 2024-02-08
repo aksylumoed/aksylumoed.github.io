@@ -148,8 +148,3 @@ document.getElementById('homeLink').addEventListener('mouseover', function() {
 document.getElementById('homeLink').addEventListener('mouseout', function() {
   this.textContent = '●'; // Original text
 });
-
-
-window.addEventListener('resize', () => {
-  document.body.style.height = window.innerHeight + 'px';
-});

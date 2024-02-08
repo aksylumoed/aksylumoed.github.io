@@ -17,15 +17,8 @@
         <a href="artworks/" class="view-link">/artworks</a>
     </div>
     <script>
-        function adjustBodyHeight() {
-            document.body.style.height = window.innerHeight + 'px';
-        }
-
         // Adjust the height on initial load
-        adjustBodyHeight();
-
-        // Adjust the height whenever the window is resized
-        window.addEventListener('resize', adjustBodyHeight);
+        document.body.style.height = window.innerHeight + 'px';
     </script>
 </body>
 </html>
