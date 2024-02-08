@@ -1,0 +1,15 @@
+/* Remove tap highlight color for all interactive elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Optional: Adjust or remove the :active state styles if they cause a "flash" */
+*:active {
+  background-color: inherit; /* Or any desired override */
+  color: inherit; /* Or any desired override */
+}
+
+/* Optional: Remove focus outlines - remember to handle focus states for accessibility */
+*:focus {
+  outline: none; /* Provide alternative focus styles to maintain accessibility */
+}
