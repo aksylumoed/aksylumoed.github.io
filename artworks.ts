@@ -37,37 +37,26 @@ function displayInitialArtwork(index: number): void {
 
   loadImageWithProgress(artwork.imagePath,
     (progressText) => {
-      if (loadingIndicator) {
-        loadingIndicator.innerHTML = `fetching...<br><br>${progressText}`;
+      const progressElement = document.getElementById('progressText');
+      if (progressElement) {
+          progressElement.innerHTML = `<br>${progressText}`;
       }
     },
     (imgURL) => {
       initialArtworkElement.src = imgURL;
       initialArtworkElement.style.display = "block";
 
+      const loadingIndicator = document.getElementById('loadingIndicator');
       if (loadingIndicator) {
-        loadingIndicator.innerHTML = `fetching...<br><br>`;
-        loadingIndicator.style.display = 'none';
+          loadingIndicator.style.display = 'none';
+      }
+      // Reset progress text for next load
+      const progressElement = document.getElementById('progressText');
+      if (progressElement) {
+          progressElement.innerHTML = '';
       }
     }
   );
-
-
-  // Create a new Image object for loading
-  // const newImage = new Image();
-  // newImage.onload = () => {
-  //   initialArtworkElement.src = newImage.src;
-
-  //   initialArtworkElement.style.display = "block";
-
-  //   // Hide the loading indicator
-  //   if (loadingIndicator) {
-  //     loadingIndicator.style.display = 'none';
-  //   }
-  // };
-
-  // // Start loading the new image
-  // newImage.src = artwork.imagePath;
 }
 
 function preloadImage(src, callback) {
