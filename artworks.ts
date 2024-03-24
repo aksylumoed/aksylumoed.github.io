@@ -100,7 +100,7 @@ function displayDzi(index: number): void {
       zoomPerClick: 1.20,
       showNavigationControl: false,
       visibilityRatio: 1.0,
-      constrainDuringPan: true,
+      // constrainDuringPan: true,
       subPixelRoundingForTransparency: OpenSeadragon.SUBPIXEL_ROUNDING_OCCURRENCES.ALWAYS
     });
   }
