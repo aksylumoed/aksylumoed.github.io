@@ -99,6 +99,7 @@ function displayDzi(index: number): void {
       zoomPerScroll: 1.05,
       zoomPerClick: 1.20,
       showNavigationControl: false,
+      constrainDuringPan: true,
       subPixelRoundingForTransparency: OpenSeadragon.SUBPIXEL_ROUNDING_OCCURRENCES.ALWAYS
     });
   }
@@ -167,9 +168,12 @@ document.addEventListener('keydown', handleKeyPress);
 document.getElementById('zoom').addEventListener('click', function() {
   const initialArtwork = document.getElementById('initialArtwork');
   const info = document.getElementById('infoContainer');
+  const homeLink = document.getElementById('homeLink');
   if (initialArtwork) {
     initialArtwork.style.display = 'none'; // Hide the initial artwork image
     info.style.display = 'none';
+    homeLink.style.display = 'none'
+
   }
   displayDzi(currentArtworkIndex); // Call to display artwork in OpenSeadragon
 });
@@ -179,9 +183,11 @@ document.getElementById('closeViewer').addEventListener('click', function() {
   // Only display the initialArtwork if it has a source set
   const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
   const info = document.getElementById('infoContainer');
+  const homeLink = document.getElementById('homeLink');
   if (initialArtwork && initialArtwork.src) {
     initialArtwork.style.display = 'block';
     info.style.display = 'block';
+    homeLink.style.display = 'block'
   }
 });
 
@@ -204,4 +210,12 @@ document.getElementById('homeLink').addEventListener('mouseover', function() {
 
 document.getElementById('homeLink').addEventListener('mouseout', function() {
   this.textContent = '●'; // Original text
+});
+
+// Handle browser window resize
+window.addEventListener('resize', () => {
+  if (viewer) {
+    viewer.viewport.resize();
+    viewer.viewport.goHome(true);
+  }
 });
