@@ -32,7 +32,7 @@ function displayInitialArtwork(index: number): void {
   // Show loading indicator
   const loadingIndicator = document.getElementById('loadingIndicator');
   if (loadingIndicator) {
-    loadingIndicator.style.display = 'block';
+    loadingIndicator.style.display = 'flex';
   }
 
   loadImageWithProgress(artwork.imagePath,
