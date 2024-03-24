@@ -94,10 +94,10 @@ function displayDzi(index: number): void {
       id: "artworkContainer",
       prefixUrl: "images/", // Adjust the path to OpenSeadragon images
       tileSources: artwork.dziPath,
-      defaultZoomLevel: 1.0,
+      defaultZoomLevel: artwork.minZoomLevel,
       minZoomLevel: artwork.minZoomLevel,
       zoomPerScroll: 1.05,
-      zoomPerClick: 1.20,
+      zoomPerClick: 1.05,
       showNavigationControl: false,
       visibilityRatio: 1.0,
       // constrainDuringPan: true,
