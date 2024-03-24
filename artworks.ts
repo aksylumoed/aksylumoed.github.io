@@ -5,54 +5,78 @@ import { artworks } from './constants';
 let currentArtworkIndex = 0;
 let viewer = null;
 
-
+type ProgressCallback = (progressText: string) => void;
+type LoadCallback = (imgURL: string) => void;
 
 function displayInitialArtwork(index: number): void {
   const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
   const titleElement = document.getElementById('artworkTitle');
   const descElement = document.getElementById('artworkDescription');
   if (!initialArtworkElement || !titleElement || !descElement || index < 0 || index >= artworks.length) return;
-  initialArtworkElement.src = '';
 
-  const loadingIndicator = document.getElementById('loadingIndicator');
-  initialArtworkElement.style.display = "none"; // Hide the image initially to prevent showing the old image
+  // Hide the image initially to prevent showing the old image
+  initialArtworkElement.src = '';
+  initialArtworkElement.style.display = "none";
+
+  // Prepare to show the new artwork details
+  const artwork = artworks[index];
+  titleElement.textContent = artwork.title;
+  descElement.textContent = artwork.description;
+  initialArtworkElement.alt = artwork.title; // Set appropriate alt text
+
+  // Adjust styles based on the device
+  initialArtworkElement.style.maxWidth = window.innerWidth <= 780 && artwork.maxWidthPercentageMobile
+  ? artwork.maxWidthPercentageMobile
+  : artwork.maxWidthPercentage;
+
   // Show loading indicator
+  const loadingIndicator = document.getElementById('loadingIndicator');
   if (loadingIndicator) {
     loadingIndicator.style.display = 'block';
   }
 
+  loadImageWithProgress(artwork.imagePath,
+    (progressText) => {
+      if (loadingIndicator) {
+        loadingIndicator.innerHTML = `fetching...<br><br>${progressText}`;
+      }
+    },
+    (imgURL) => {
+      initialArtworkElement.src = imgURL;
+      initialArtworkElement.style.display = "block";
 
-   // Prepare to show the new artwork details
-   const artwork = artworks[index];
-   titleElement.textContent = artwork.title;
-   descElement.textContent = artwork.description;
-   initialArtworkElement.alt = artwork.title; // Set appropriate alt text
-
-   // Adjust styles based on the device
-   initialArtworkElement.style.maxWidth = window.innerWidth <= 780 && artwork.maxWidthPercentageMobile
-                                           ? artwork.maxWidthPercentageMobile
-                                           : artwork.maxWidthPercentage;
+      if (loadingIndicator) {
+        loadingIndicator.style.display = 'none';
+      }
+    }
+  );
 
 
   // Create a new Image object for loading
-  const newImage = new Image();
-  newImage.onload = () => {
-    initialArtworkElement.src = newImage.src;
+  // const newImage = new Image();
+  // newImage.onload = () => {
+  //   initialArtworkElement.src = newImage.src;
 
-    initialArtworkElement.style.display = "block"; // Show the image now that it's loaded and waited for 3 seconds
+  //   initialArtworkElement.style.display = "block";
 
-    // Hide the loading indicator
-    if (loadingIndicator) {
-      loadingIndicator.style.display = 'none';
-    }
-  };
+  //   // Hide the loading indicator
+  //   if (loadingIndicator) {
+  //     loadingIndicator.style.display = 'none';
+  //   }
+  // };
 
-  // Start loading the new image
-  newImage.src = artwork.imagePath;
+  // // Start loading the new image
+  // newImage.src = artwork.imagePath;
+}
+
+function preloadImage(src, callback) {
+  const img = new Image();
+  img.onload = () => callback(img.src);
+  img.src = src;
 }
 
 
-function displayArtwork(index: number): void {
+function displayDzi(index: number): void {
   const container = document.getElementById('artworkContainer');
 
   if (!container || index < 0 || index >= artworks.length) return;
@@ -77,6 +101,38 @@ function displayArtwork(index: number): void {
       subPixelRoundingForTransparency: OpenSeadragon.SUBPIXEL_ROUNDING_OCCURRENCES.ALWAYS
     });
   }
+}
+
+function loadImageWithProgress(
+  url: string,
+  onProgress: ProgressCallback,
+  onLoad: LoadCallback
+): void {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+
+    xhr.onprogress = (event: ProgressEvent) => {
+        if (event.lengthComputable) {
+            const loaded = (event.loaded / 1024 / 1024).toFixed(2); // Convert bytes to MB
+            const total = (event.total / 1024 / 1024).toFixed(2); // Convert bytes to MB
+            onProgress(`${loaded}MB / ${total}MB`);
+        }
+    };
+
+     xhr.onload = function() {
+        if (xhr.status === 200) {
+            const blob = xhr.response;
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                // Preload the image to render it all at once
+                preloadImage(reader.result.toString(), onLoad);
+            };
+            reader.readAsDataURL(blob);
+        }
+    };
+
+    xhr.send();
 }
 
 export function navigateArtwork(direction: 'left' | 'right'): void {
@@ -114,7 +170,7 @@ document.getElementById('zoom').addEventListener('click', function() {
     initialArtwork.style.display = 'none'; // Hide the initial artwork image
     info.style.display = 'none';
   }
-  displayArtwork(currentArtworkIndex); // Call to display artwork in OpenSeadragon
+  displayDzi(currentArtworkIndex); // Call to display artwork in OpenSeadragon
 });
 
 document.getElementById('closeViewer').addEventListener('click', function() {
