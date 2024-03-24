@@ -46,7 +46,7 @@ function displayInitialArtwork(index: number): void {
       initialArtworkElement.style.display = "block";
 
       if (loadingIndicator) {
-        loadingIndicator.innerHTML = `fetching...`;
+        loadingIndicator.innerHTML = `fetching...<br><br>`;
         loadingIndicator.style.display = 'none';
       }
     }
@@ -114,6 +114,7 @@ function loadImageWithProgress(
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
+    xhr.timeout = 60000; // Set a longer timeout, if necessary
 
     xhr.onprogress = (event: ProgressEvent) => {
         if (event.lengthComputable) {
@@ -133,6 +134,10 @@ function loadImageWithProgress(
             };
             reader.readAsDataURL(blob);
         }
+    };
+
+    xhr.ontimeout = function() {
+      console.error("The request for " + url + " timed out.");
     };
 
     xhr.send();
