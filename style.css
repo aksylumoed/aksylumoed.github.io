@@ -45,7 +45,15 @@ body {
   transform: translate(-50%, -50%);
   font-size: 16px;
   color: #6c6c6c;
+  min-height: 50px; /* Or another value that fits your design */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
+#progressText {
+  font-size: 15px;
 }
 
 .artwork-container {
