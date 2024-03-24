@@ -46,6 +46,7 @@ function displayInitialArtwork(index: number): void {
       initialArtworkElement.style.display = "block";
 
       if (loadingIndicator) {
+        loadingIndicator.innerHTML = `fetching...`;
         loadingIndicator.style.display = 'none';
       }
     }
