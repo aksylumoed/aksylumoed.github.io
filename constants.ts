@@ -26,7 +26,7 @@ export const artworks: Artwork[] = [
       dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/5.dzi",
       description: `95.3cm x 190cm aluminium dibond, direct print`,
       minZoomLevel: 1.2,
-      maxWidthPercentage: "25%",
+      maxWidthPercentage: "23%",
       maxWidthPercentageMobile: "50%"
   },
   {
