@@ -39,14 +39,13 @@ function displayInitialArtwork(index: number): void {
     (progressText) => {
       const progressElement = document.getElementById('progressText');
       if (progressElement) {
-          progressElement.innerHTML = `<br>${progressText}`;
+          progressElement.innerHTML = progressText;
       }
     },
     (imgURL) => {
       initialArtworkElement.src = imgURL;
       initialArtworkElement.style.display = "block";
 
-      const loadingIndicator = document.getElementById('loadingIndicator');
       if (loadingIndicator) {
           loadingIndicator.style.display = 'none';
       }
