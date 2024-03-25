@@ -38,23 +38,21 @@ body {
   transition: opacity 0.5s ease-in-out;
 }
 
-
 #loadingIndicator {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  color: #6c6c6c;
 }
 
 #fetchingText {
   font-size: 16px;
-  color: #6c6c6c;
 }
 
 #progressText {
   font-size: 15px;
-  color: #6c6c6c;
   margin-top: 10px; /* Adjust space between fetching text and progress text */
 }
 
@@ -220,8 +218,13 @@ body {
     top: -30px;
   }
 
-  #loadingIndicator {
+  #fetchingText {
     font-size: 10px;
+  }
+
+  #progressText {
+    font-size: 9px;
+    margin-top: 6px; /* Adjust space between fetching text and progress text */
   }
 
   .info-navigation-container {
