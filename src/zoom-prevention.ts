@@ -37,7 +37,7 @@ document.addEventListener('gestureend', function(event) {
 
 // Prevent zooming with keyboard shortcuts
 window.addEventListener('keydown', function(event) {
-  if ((event.ctrlKey || event.metaKey) && (event.key === '+' || event.key === '-' || event.key === '0')) {
+  if ((event.ctrlKey || event.metaKey) && (event.key === '=' || event.key === '-' || event.key === '0')) {
     event.preventDefault();
     resetZoom();
   }
