@@ -9,7 +9,7 @@ let viewer = null;
 document.addEventListener('DOMContentLoaded', () => displayArtwork(currentArtworkIndex));
 document.addEventListener('keydown', handleKeyPress);
 
-document.getElementById('zoom').addEventListener('click', function() {
+document.getElementById('initialArtwork').addEventListener('click', function() {
   const initialArtwork = document.getElementById('initialArtwork');
   const info = document.getElementById('infoContainer');
   const homeLink = document.getElementById('homeLink');

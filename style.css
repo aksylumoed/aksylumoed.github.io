@@ -51,6 +51,12 @@ body {
   font-size: 16px;
 }
 
+#zoomText {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #a0a0a0;
+}
+
 #progressText {
   font-size: 15px;
   margin-top: 10px; /* Adjust space between fetching text and progress text */
@@ -220,6 +226,10 @@ body {
 
   #fetchingText {
     font-size: 10px;
+  }
+
+  #zoomText {
+    font-size: 8px;
   }
 
   #progressText {
