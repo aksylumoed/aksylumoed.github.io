@@ -104,7 +104,7 @@ export const artworks: Artwork[] = [
     imagePath: "../png/10-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
-    description: `240cm x 102,2cm aluminium dibond, direct print`,
+    description: `l: 150 x 150cm  m: 150 x 150cm  r: 150 x 150cm  aluminium dibond, direct print`,
     minZoomLevel: 1.2,
     maxWidthPercentage: "70%",
     maxWidthPercentageMobile: "80%"
