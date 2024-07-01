@@ -1,6 +1,7 @@
 import OpenSeadragon from 'openseadragon';
 import { artworks } from './constants';
-import './zoom-prevention';
+import './prevent-zoom';
+import './prevent-image-actions'
 /// <reference path="openseadragon-extension.d.ts" />
 
 let currentArtworkIndex = 0;
