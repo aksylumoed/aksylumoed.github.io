@@ -1,11 +1,12 @@
 import OpenSeadragon from 'openseadragon';
 import { artworks } from './constants';
+import './zoom-prevention';
 /// <reference path="openseadragon-extension.d.ts" />
 
 let currentArtworkIndex = 0;
 let viewer = null;
 
-document.addEventListener('DOMContentLoaded', () => displayInitialArtwork(currentArtworkIndex));
+document.addEventListener('DOMContentLoaded', () => displayArtwork(currentArtworkIndex));
 document.addEventListener('keydown', handleKeyPress);
 
 document.getElementById('zoom').addEventListener('click', function() {
@@ -66,7 +67,7 @@ window.addEventListener('resize', () => {
 type ProgressCallback = (progressText: string) => void;
 type LoadCallback = (imgURL: string) => void;
 
-function displayInitialArtwork(index: number): void {
+function displayArtwork(index: number): void {
   const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
   const titleElement = document.getElementById('artworkTitle');
   const descElement = document.getElementById('artworkDescription');
@@ -202,7 +203,7 @@ export function navigateArtwork(direction: 'left' | 'right'): void {
   if (initialArtwork && initialArtwork.src) {
     initialArtwork.style.display = 'block';
   }
-  displayInitialArtwork(currentArtworkIndex);
+  displayArtwork(currentArtworkIndex);
 }
 
 // Update the keypress event to use navigateArtwork
