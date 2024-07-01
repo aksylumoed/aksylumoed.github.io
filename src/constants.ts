@@ -10,16 +10,6 @@ export interface Artwork {
 
 export const artworks: Artwork[] = [
   {
-    title: "#9",
-    imagePath: "../png/9.png",
-    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
-    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
-    description: `240cm x 102,2cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
-    maxWidthPercentage: "70%",
-    maxWidthPercentageMobile: "80%"
-  },
-  {
     title: "#8",
     imagePath: "../png/8-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/8.png",
@@ -88,5 +78,15 @@ export const artworks: Artwork[] = [
     minZoomLevel: 1.2,
     maxWidthPercentage: "60%",
     maxWidthPercentageMobile: "75%"
+  },
+  {
+    title: "#9",
+    imagePath: "../png/9-fs8.png",
+    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
+    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
+    description: `240cm x 102,2cm aluminium dibond, direct print`,
+    minZoomLevel: 1.2,
+    maxWidthPercentage: "70%",
+    maxWidthPercentageMobile: "80%"
   },
 ];
