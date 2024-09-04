@@ -80,8 +80,18 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "80%"
   },
   {
-    title: "#13",
+    title: "#13.1",
     imagePath: "../png/13.png",
+    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
+    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/1.dzi",
+    description: `145cm x 145cm aluminium dibond, direct print`,
+    minZoomLevel: 1.2,
+    maxWidthPercentage: "45%",
+    maxWidthPercentageMobile: "75%"
+  },
+  {
+    title: "#13.2",
+    imagePath: "../png/13.2-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/1.dzi",
     description: `145cm x 145cm aluminium dibond, direct print`,
