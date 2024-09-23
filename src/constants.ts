@@ -20,13 +20,13 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
-    title: "#11",
-    imagePath: "../png/11.png",
-    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/8.png",
-    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/8.dzi",
-    description: `100cm x 100cm\naluminium dibond, direct print`,
+    title: "#12",
+    imagePath: "../png/12-fs8.png",
+    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
+    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/1.dzi",
+    description: `155cm x 105cm aluminium dibond, direct print`,
     minZoomLevel: 1.2,
-    maxWidthPercentage: "45%",
+    maxWidthPercentage: "60%",
     maxWidthPercentageMobile: "75%"
   },
   {
@@ -40,14 +40,14 @@ export const artworks: Artwork[] = [
       maxWidthPercentageMobile: "50%"
   },
   {
-    title: "#4",
-    imagePath: "../png/4-fs8.png",
-    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
-    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
-    description: `300cm x 90cm aluminium dibond, direct print`,
+    title: "#11",
+    imagePath: "../png/11.png",
+    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/8.png",
+    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/8.dzi",
+    description: `100cm x 100cm\naluminium dibond, direct print`,
     minZoomLevel: 1.2,
-    maxWidthPercentage: "70%",
-    maxWidthPercentageMobile: "80%"
+    maxWidthPercentage: "45%",
+    maxWidthPercentageMobile: "75%"
   },
   {
     title: "#2",
@@ -75,6 +75,16 @@ export const artworks: Artwork[] = [
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
     description: `240cm x 102,2cm aluminium dibond, direct print`,
+    minZoomLevel: 1.2,
+    maxWidthPercentage: "70%",
+    maxWidthPercentageMobile: "80%"
+  },
+  {
+    title: "#4",
+    imagePath: "../png/4-fs8.png",
+    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
+    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
+    description: `300cm x 90cm aluminium dibond, direct print`,
     minZoomLevel: 1.2,
     maxWidthPercentage: "70%",
     maxWidthPercentageMobile: "80%"
