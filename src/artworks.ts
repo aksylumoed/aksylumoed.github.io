@@ -7,21 +7,41 @@ import './prevent-image-actions'
 
 let currentArtworkIndex = 0;
 let viewer = null;
-let currentXHR: XMLHttpRequest | null = null; // Keep track of current XMLHttpRequest
+let currentXHR: XMLHttpRequest | null = null;
 
-document.addEventListener('DOMContentLoaded', () => displayArtwork(currentArtworkIndex));
+document.addEventListener('DOMContentLoaded', () => {
+  let artworkId = artworks[0].id; // Default to the first artwork's ID
+
+  const hash = window.location.hash.substring(1); // Remove the '#' character
+  const pathParts = hash.split('/').filter(Boolean);
+
+  if (pathParts.length >= 1) {
+    artworkId = pathParts[0];
+  }
+
+  const index = artworks.findIndex(artwork => artwork.id === artworkId);
+
+  if (index !== -1) {
+    currentArtworkIndex = index;
+  } else {
+    // If the artwork is not found, default to the first artwork
+    currentArtworkIndex = 0;
+  }
+
+  displayArtwork(currentArtworkIndex);
+});
+
 document.addEventListener('keydown', handleKeyPress);
 
 document.getElementById('closeViewer').addEventListener('click', function() {
   document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
-  // Only display the initialArtwork if it has a source set
   const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
   const info = document.getElementById('infoContainer');
   const homeLink = document.getElementById('homeLink');
   if (initialArtwork && initialArtwork.src) {
     initialArtwork.style.display = 'block';
     info.style.display = 'block';
-    homeLink.style.display = 'block'
+    homeLink.style.display = 'block';
   }
 });
 
@@ -173,20 +193,24 @@ function loadImageWithProgress(
         console.error("The request for " + url + " timed out.");
         // Clear currentXHR on timeout
         currentXHR = null;
+        resetProgressText();
     };
 
-    xhr.send();
+  xhr.send();
 }
 
 export function navigateArtwork(direction: 'left' | 'right'): void {
   if (direction === 'right') {
-      currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
+    currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
   } else if (direction === 'left') {
-      currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
+    currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
   }
 
+  // Update the URL hash without reloading the page
+  const newHash = `#/${artworks[currentArtworkIndex].id}`;
+  window.location.hash = newHash;
+
   document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
-  // Only display the initialArtwork if it has a source set
   const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
   if (initialArtwork && initialArtwork.src) {
     initialArtwork.style.display = 'block';
@@ -197,8 +221,33 @@ export function navigateArtwork(direction: 'left' | 'right'): void {
 // Update the keypress event to use navigateArtwork
 function handleKeyPress(event: KeyboardEvent): void {
   if (event.key === 'ArrowRight') {
-      navigateArtwork('right');
+    navigateArtwork('right');
   } else if (event.key === 'ArrowLeft') {
-      navigateArtwork('left');
+    navigateArtwork('left');
   }
 }
+
+// Handle browser back and forward navigation
+window.addEventListener('hashchange', () => {
+  let artworkId = artworks[0].id; // Default to the first artwork's ID
+
+  const hash = window.location.hash.substring(1); // Remove the '#' character
+  const pathParts = hash.split('/').filter(Boolean);
+
+  if (pathParts.length >= 1) {
+    artworkId = pathParts[0];
+  }
+
+  const index = artworks.findIndex(artwork => artwork.id === artworkId);
+
+  if (index !== -1) {
+    currentArtworkIndex = index;
+    displayArtwork(currentArtworkIndex);
+  } else {
+    // Handle case where artwork is not found
+    console.error(`Artwork with ID "${artworkId}" not found.`);
+    // Optionally, redirect to the default artwork or show an error message
+    currentArtworkIndex = 0;
+    displayArtwork(currentArtworkIndex);
+  }
+});

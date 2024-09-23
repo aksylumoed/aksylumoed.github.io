@@ -1,4 +1,5 @@
 export interface Artwork {
+  id: string;
   title: string;
   imagePath: string;
   description: string;
@@ -10,6 +11,7 @@ export interface Artwork {
 
 export const artworks: Artwork[] = [
   {
+    id: '8',
     title: "#8",
     imagePath: "../png/8-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/8.png",
@@ -20,6 +22,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
+    id: '12',
     title: "#12",
     imagePath: "../png/12-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
@@ -30,16 +33,18 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
-      title: "#5",
-      imagePath: "../png/5-fs8.png",
-      // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/5.png",
-      dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/5.dzi",
-      description: `95.3cm x 190cm aluminium dibond, direct print`,
-      minZoomLevel: 1.2,
-      maxWidthPercentage: "23%",
-      maxWidthPercentageMobile: "50%"
+    id: '5',
+    title: "#5",
+    imagePath: "../png/5-fs8.png",
+    // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/5.png",
+    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/5.dzi",
+    description: `95.3cm x 190cm aluminium dibond, direct print`,
+    minZoomLevel: 1.2,
+    maxWidthPercentage: "23%",
+    maxWidthPercentageMobile: "50%"
   },
   {
+    id: '11',
     title: "#11",
     imagePath: "../png/11.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/8.png",
@@ -50,6 +55,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
+    id: '2',
     title: "#2",
     imagePath: "../png/2-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/2.png",
@@ -60,6 +66,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "80%"
   },
   {
+    id: '3',
     title: "#3",
     imagePath: "../png/3-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/3.png",
@@ -70,6 +77,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "80%"
   },
   {
+    id: '9',
     title: "#9",
     imagePath: "../png/9-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
@@ -80,6 +88,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "80%"
   },
   {
+    id: '4',
     title: "#4",
     imagePath: "../png/4-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
@@ -90,6 +99,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "80%"
   },
   {
+    id: '13-1',
     title: "#13.1",
     imagePath: "../png/13.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
@@ -100,6 +110,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
+    id: '13-2',
     title: "#13.2",
     imagePath: "../png/13.2-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
@@ -110,6 +121,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
+    id: '1',
     title: "#1",
     imagePath: "../png/1-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/1.png",
@@ -120,6 +132,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
+    id: '6',
     title: "#6",
     imagePath: "../png/6-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/6.png",
@@ -130,6 +143,7 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "65%"
   },
   {
+    id: '10',
     title: "#10",
     imagePath: "../png/10-fs8.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
