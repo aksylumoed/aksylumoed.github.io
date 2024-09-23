@@ -1,27 +1,16 @@
-import OpenSeadragon from 'openseadragon';
 import { artworks } from './constants';
-// import './prevent-zoom';
 import './prevent-image-actions'
+
+// import OpenSeadragon from 'openseadragon';
+// import './prevent-zoom';
 /// <reference path="openseadragon-extension.d.ts" />
 
 let currentArtworkIndex = 0;
 let viewer = null;
+let currentXHR: XMLHttpRequest | null = null; // Keep track of current XMLHttpRequest
 
 document.addEventListener('DOMContentLoaded', () => displayArtwork(currentArtworkIndex));
 document.addEventListener('keydown', handleKeyPress);
-
-// document.getElementById('initialArtwork').addEventListener('click', function() {
-//   const initialArtwork = document.getElementById('initialArtwork');
-//   const info = document.getElementById('infoContainer');
-//   const homeLink = document.getElementById('homeLink');
-//   if (initialArtwork) {
-//     initialArtwork.style.display = 'none'; // Hide the initial artwork image
-//     info.style.display = 'none';
-//     homeLink.style.display = 'none'
-
-//   }
-//   displayDzi(currentArtworkIndex); // Call to display artwork in OpenSeadragon
-// });
 
 document.getElementById('closeViewer').addEventListener('click', function() {
   document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
@@ -124,42 +113,19 @@ function preloadImage(src, callback) {
   img.src = src;
 }
 
-
-function displayDzi(index: number): void {
-  const container = document.getElementById('artworkContainer');
-
-  if (!container || index < 0 || index >= artworks.length) return;
-
-  container.style.display = 'block'; // Make the container visible
-
-  const artwork = artworks[index];
-  // Initialize OpenSeadragon viewer
-  if (viewer) {
-    // Update the tileSource if the viewer already exists
-    viewer.open(artwork.dziPath);
-  } else {
-    viewer = new OpenSeadragon.Viewer({
-      id: "artworkContainer",
-      prefixUrl: "images/", // Adjust the path to OpenSeadragon images
-      tileSources: artwork.dziPath,
-      defaultZoomLevel: artwork.minZoomLevel,
-      minZoomLevel: artwork.minZoomLevel,
-      zoomPerScroll: 1.05,
-      zoomPerClick: 1.05,
-      showNavigationControl: false,
-      visibilityRatio: 1.0,
-      // constrainDuringPan: true,
-      subPixelRoundingForTransparency: OpenSeadragon.SUBPIXEL_ROUNDING_OCCURRENCES.ALWAYS
-    });
-  }
-}
-
 function loadImageWithProgress(
   url: string,
   onProgress: ProgressCallback,
   onLoad: LoadCallback
 ): void {
+    // Abort any existing request
+    if (currentXHR) {
+        currentXHR.abort();
+    }
+
     const xhr = new XMLHttpRequest();
+    currentXHR = xhr;
+
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
     xhr.timeout = 60000; // Set a longer timeout, if necessary
@@ -172,7 +138,7 @@ function loadImageWithProgress(
         }
     };
 
-     xhr.onload = function() {
+    xhr.onload = function() {
         if (xhr.status === 200) {
             const blob = xhr.response;
             const reader = new FileReader();
@@ -182,10 +148,24 @@ function loadImageWithProgress(
             };
             reader.readAsDataURL(blob);
         }
+        // Clear the currentXHR after the request is completed
+        currentXHR = null;
+    };
+
+    xhr.onerror = function() {
+        // Handle error and clear currentXHR
+        currentXHR = null;
+    };
+
+    xhr.onabort = function() {
+        // Handle abort and clear currentXHR
+        currentXHR = null;
     };
 
     xhr.ontimeout = function() {
-      console.error("The request for " + url + " timed out.");
+        console.error("The request for " + url + " timed out.");
+        // Clear currentXHR on timeout
+        currentXHR = null;
     };
 
     xhr.send();
@@ -215,4 +195,3 @@ function handleKeyPress(event: KeyboardEvent): void {
       navigateArtwork('left');
   }
 }
-
