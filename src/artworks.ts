@@ -99,12 +99,16 @@ function displayArtwork(index: number): void {
           loadingIndicator.style.display = 'none';
       }
       // Reset progress text for next load
-      const progressElement = document.getElementById('progressText');
-      if (progressElement) {
-          progressElement.innerHTML = '';
-      }
+      resetProgressText();
     }
   );
+}
+
+function resetProgressText() {
+  const progressElement = document.getElementById('progressText');
+  if (progressElement) {
+    progressElement.innerHTML = '';
+  }
 }
 
 function preloadImage(src, callback) {
@@ -121,6 +125,7 @@ function loadImageWithProgress(
     // Abort any existing request
     if (currentXHR) {
         currentXHR.abort();
+        resetProgressText();
     }
 
     const xhr = new XMLHttpRequest();
@@ -155,11 +160,13 @@ function loadImageWithProgress(
     xhr.onerror = function() {
         // Handle error and clear currentXHR
         currentXHR = null;
+        resetProgressText();
     };
 
     xhr.onabort = function() {
         // Handle abort and clear currentXHR
         currentXHR = null;
+        resetProgressText();
     };
 
     xhr.ontimeout = function() {
