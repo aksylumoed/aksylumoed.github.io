@@ -66,6 +66,16 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "80%"
   },
   {
+    id: '15',
+    title: "#15",
+    imagePath: "../png/15-fs8.png",
+    dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/15.dzi",
+    description: `120cm x 150cm aluminium dibond, direct print`,
+    minZoomLevel: 1.2,
+    maxWidthPercentage: "40%",
+    maxWidthPercentageMobile: "70%"
+  },
+  {
     id: '3',
     title: "#3",
     imagePath: "../png/3-fs8.png",
