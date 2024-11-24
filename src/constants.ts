@@ -155,7 +155,7 @@ export const artworks: Artwork[] = [
   {
     id: '10',
     title: "#10",
-    imagePath: "../png/10-fs8.png",
+    imagePath: "../png/10.png",
     // imagePath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/png/4.png",
     dziPath: "https://adndkr-art.s3.eu-north-1.amazonaws.com/4.dzi",
     description: `l: 150 x 150cm \nm: 150 x 150cm \nr: 150 x 150cm \naluminium dibond, direct print`,
