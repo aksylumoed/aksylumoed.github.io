@@ -9,10 +9,12 @@ let currentArtworkIndex = 0;
 let viewer = null;
 let currentXHR: XMLHttpRequest | null = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  let artworkId = artworks[0].id; // Default to the first artwork's ID
+// track sub-image index when an artwork has multiple images
+let currentSubIndex = 0;
 
-  const hash = window.location.hash.substring(1); // Remove the '#' character
+document.addEventListener('DOMContentLoaded', () => {
+  let artworkId = artworks[0].id;
+  const hash = window.location.hash.substring(1); // remove '#'
   const pathParts = hash.split('/').filter(Boolean);
 
   if (pathParts.length >= 1) {
@@ -24,11 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (index !== -1) {
     currentArtworkIndex = index;
   } else {
-    // If the artwork is not found, default to the first artwork
     currentArtworkIndex = 0;
   }
 
-  displayArtwork(currentArtworkIndex);
+  if (pathParts.length >= 2) {
+    currentSubIndex = parseInt(pathParts[1], 10) - 1; // e.g. "#/16/2" => subIndex = 1
+    if (isNaN(currentSubIndex)) currentSubIndex = 0;
+  } else {
+    currentSubIndex = 0;
+  }
+
+  displayArtwork(currentArtworkIndex, currentSubIndex);
 });
 
 document.addEventListener('keydown', handleKeyPress);
@@ -47,9 +55,17 @@ document.getElementById('closeViewer').addEventListener('click', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.style.height = window.innerHeight + 'px';
+  const upButton = document.querySelector('.navigation-button.up');
+  const downButton = document.querySelector('.navigation-button.down');
   const leftButton = document.querySelector('.navigation-button.left');
   const rightButton = document.querySelector('.navigation-button.right');
 
+  if (upButton) {
+    upButton.addEventListener('click', () => navigateSubImage('up'));
+  }
+  if (downButton) {
+    downButton.addEventListener('click', () => navigateSubImage('down'));
+  }
   if (leftButton) {
     leftButton.addEventListener('click', () => navigateArtwork('left'));
   }
@@ -77,34 +93,59 @@ window.addEventListener('resize', () => {
 type ProgressCallback = (progressText: string) => void;
 type LoadCallback = (imgURL: string) => void;
 
-function displayArtwork(index: number): void {
+function displayArtwork(index: number, subIndex: number = 0): void {
   const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
   const titleElement = document.getElementById('artworkTitle');
   const descElement = document.getElementById('artworkDescription');
-  if (!initialArtworkElement || !titleElement || !descElement || index < 0 || index >= artworks.length) return;
+  if (!initialArtworkElement || !titleElement || !descElement) return;
+  if (index < 0 || index >= artworks.length) return;
 
-  // Hide the image initially to prevent showing the old image
+  // Hide old image
   initialArtworkElement.src = '';
   initialArtworkElement.style.display = "none";
 
-  // Prepare to show the new artwork details
   const artwork = artworks[index];
+  const upButton = document.querySelector('.navigation-button.up') as HTMLElement;
+  const downButton = document.querySelector('.navigation-button.down') as HTMLElement;
+  if (artwork.subImages && artwork.subImages.length > 1) {
+    // If #16 (or any multi-image artwork), show Up/Down
+    upButton.style.display = 'inline-block';
+    downButton.style.display = 'inline-block';
+  } else {
+    // Otherwise hide
+    upButton.style.display = 'none';
+    downButton.style.display = 'none';
+  }
   titleElement.textContent = artwork.title;
   descElement.textContent = artwork.description;
-  initialArtworkElement.alt = artwork.title; // Set appropriate alt text
+  initialArtworkElement.alt = artwork.title;
 
   // Adjust styles based on the device
-  initialArtworkElement.style.maxWidth = window.innerWidth <= 780 && artwork.maxWidthPercentageMobile
-  ? artwork.maxWidthPercentageMobile
-  : artwork.maxWidthPercentage;
+  initialArtworkElement.style.maxWidth =
+    window.innerWidth <= 780 && artwork.maxWidthPercentageMobile
+      ? artwork.maxWidthPercentageMobile
+      : artwork.maxWidthPercentage;
 
-  // Show loading indicator
   const loadingIndicator = document.getElementById('loadingIndicator');
   if (loadingIndicator) {
     loadingIndicator.style.display = 'block';
   }
 
-  loadImageWithProgress(artwork.imagePath,
+  // Decide which image path to load
+  let imageToLoad: string;
+  if (artwork.subImages && artwork.subImages.length > 0) {
+    // Make sure subIndex is in range
+    if (subIndex < 0) subIndex = 0;
+    if (subIndex >= artwork.subImages.length) {
+      subIndex = artwork.subImages.length - 1;
+    }
+    imageToLoad = artwork.subImages[subIndex];
+  } else {
+    imageToLoad = artwork.imagePath || '';
+  }
+
+  loadImageWithProgress(
+    imageToLoad,
     (progressText) => {
       const progressElement = document.getElementById('progressText');
       if (progressElement) {
@@ -118,7 +159,6 @@ function displayArtwork(index: number): void {
       if (loadingIndicator) {
           loadingIndicator.style.display = 'none';
       }
-      // Reset progress text for next load
       resetProgressText();
     }
   );
@@ -220,34 +260,78 @@ export function navigateArtwork(direction: 'left' | 'right'): void {
 
 // Update the keypress event to use navigateArtwork
 function handleKeyPress(event: KeyboardEvent): void {
-  if (event.key === 'ArrowRight') {
-    navigateArtwork('right');
-  } else if (event.key === 'ArrowLeft') {
-    navigateArtwork('left');
+  switch (event.key) {
+    case 'ArrowRight':
+      navigateArtwork('right');
+      break;
+    case 'ArrowLeft':
+      navigateArtwork('left');
+      break;
+    case 'ArrowUp':
+      navigateSubImage('up');
+      break;
+    case 'ArrowDown':
+      navigateSubImage('down');
+      break;
   }
+}
+
+function navigateSubImage(direction: 'up' | 'down'): void {
+  const artwork = artworks[currentArtworkIndex];
+  if (!artwork.subImages) {
+    // If no subImages, do nothing
+    return;
+  }
+
+  // 'up' => subIndex--
+  // 'down' => subIndex++
+  if (direction === 'up') {
+    currentSubIndex--;
+    if (currentSubIndex < 0) {
+      currentSubIndex = 0; // or wrap around if you want
+    }
+  } else {
+    currentSubIndex++;
+    if (currentSubIndex >= artwork.subImages.length) {
+      currentSubIndex = artwork.subImages.length - 1; // or wrap around
+    }
+  }
+
+  updateHashAndDisplay();
+}
+
+function updateHashAndDisplay(): void {
+  // For the route: #/16/3 means subIndex=2
+  // So the subIndex to display in URL is (currentSubIndex+1)
+  const artworkId = artworks[currentArtworkIndex].id;
+  const newHash = `#/${artworkId}/${(currentSubIndex + 1)}`;
+  window.location.hash = newHash;
+  displayArtwork(currentArtworkIndex, currentSubIndex);
 }
 
 // Handle browser back and forward navigation
 window.addEventListener('hashchange', () => {
-  let artworkId = artworks[0].id; // Default to the first artwork's ID
-
-  const hash = window.location.hash.substring(1); // Remove the '#' character
+  let artworkId = artworks[0].id;
+  const hash = window.location.hash.substring(1);
   const pathParts = hash.split('/').filter(Boolean);
 
   if (pathParts.length >= 1) {
     artworkId = pathParts[0];
   }
-
   const index = artworks.findIndex(artwork => artwork.id === artworkId);
-
   if (index !== -1) {
     currentArtworkIndex = index;
-    displayArtwork(currentArtworkIndex);
   } else {
-    // Handle case where artwork is not found
-    console.error(`Artwork with ID "${artworkId}" not found.`);
-    // Optionally, redirect to the default artwork or show an error message
     currentArtworkIndex = 0;
-    displayArtwork(currentArtworkIndex);
   }
+
+  // NEW: also parse subIndex
+  if (pathParts.length >= 2) {
+    currentSubIndex = parseInt(pathParts[1], 10) - 1;
+    if (isNaN(currentSubIndex)) currentSubIndex = 0;
+  } else {
+    currentSubIndex = 0;
+  }
+
+  displayArtwork(currentArtworkIndex, currentSubIndex);
 });

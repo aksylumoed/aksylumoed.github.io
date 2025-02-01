@@ -199,6 +199,38 @@ body {
   margin: 0 auto; /* Centers the image horizontally */
 }
 
+.remote-navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizontal-arrows {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0; /* space between ^ and v */
+  width: 80px;   /* adjust as needed for button spacing */
+}
+
+/* Make sure your .navigation-button styles still apply as normal.
+   You might want slightly bigger or smaller arrows. E.g.: */
+
+.navigation-button {
+  font-size: 24px; /* bigger arrow icons */
+  cursor: pointer;
+  user-select: none;
+  color: #6c6c6c;
+  margin: 4px; /* spacing around each arrow */
+}
+
+/* You can tweak hover states if you like */
+.navigation-button:hover {
+  color: #444;
+}
+
 
 @media (max-width: 780px) {
   .view-link {
