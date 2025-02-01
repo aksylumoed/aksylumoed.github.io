@@ -1,10 +1,19 @@
+export interface SubImage {
+  path: string;
+  maxWidthPercentage?: string;
+  maxWidthPercentageMobile?: string;
+}
+
 export interface Artwork {
   id: string;
   title: string;
-  imagePath?: string;          // single image (used by most artworks)
-  subImages?: string[];        // multiple images (used by #16)
+  imagePath?: string;    // single image fallback
+  subImages?: SubImage[]; // array of multiple images
+
   description: string;
-  minZoomLevel: number;
+  /**
+   * Default max width for single-image or fallback for sub-images
+   */
   maxWidthPercentage: string;
   maxWidthPercentageMobile: string;
 }
@@ -15,7 +24,6 @@ export const artworks: Artwork[] = [
     title: "#8",
     imagePath: "../png/8-fs8.png",
     description: `190cm x 190cm\naluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "45%",
     maxWidthPercentageMobile: "75%"
   },
@@ -24,28 +32,28 @@ export const artworks: Artwork[] = [
     title: "#12",
     imagePath: "../png/12-fs8.png",
     description: `155cm x 105cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "60%",
     maxWidthPercentageMobile: "75%"
   },
-  {
-    id: '16',
-    title: "#16",
-    subImages: [
-      "../png/16/1.png",
-      "../png/16/2.png",
-    ],
-    description: "50cm x 75cm aluminium dibond, direct print",
-    minZoomLevel: 1.2,
-    maxWidthPercentage: "60%",
-    maxWidthPercentageMobile: "75%"
-  },
+  // {
+  //   id: '16',
+  //   title: "#16.x",
+  //   subImages: [
+  //     {
+  //       path: "../png/16/1.png",
+  //     },
+
+
+  //   ],
+  //   description: "50cm x 75cm aluminium dibond, direct print",
+  //   maxWidthPercentage: "60%",
+  //   maxWidthPercentageMobile: "75%"
+  // },
   {
     id: '5',
     title: "#5",
     imagePath: "../png/5-fs8.png",
     description: `95.3cm x 190cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "23%",
     maxWidthPercentageMobile: "50%"
   },
@@ -54,7 +62,6 @@ export const artworks: Artwork[] = [
     title: "#11",
     imagePath: "../png/11.png",
     description: `100cm x 100cm\naluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "45%",
     maxWidthPercentageMobile: "75%"
   },
@@ -63,7 +70,6 @@ export const artworks: Artwork[] = [
     title: "#2",
     imagePath: "../png/2-fs8.png",
     description: `160cm x 90cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "60%",
     maxWidthPercentageMobile: "80%"
   },
@@ -72,7 +78,6 @@ export const artworks: Artwork[] = [
     title: "#15",
     imagePath: "../png/15-fs8.png",
     description: `120cm x 150cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "40%",
     maxWidthPercentageMobile: "70%"
   },
@@ -81,7 +86,6 @@ export const artworks: Artwork[] = [
     title: "#3",
     imagePath: "../png/3-fs8.png",
     description: `135cm x 90cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "60%",
     maxWidthPercentageMobile: "80%"
   },
@@ -90,7 +94,6 @@ export const artworks: Artwork[] = [
     title: "#9",
     imagePath: "../png/9-fs8.png",
     description: `240cm x 102,2cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "70%",
     maxWidthPercentageMobile: "80%"
   },
@@ -99,7 +102,6 @@ export const artworks: Artwork[] = [
     title: "#4",
     imagePath: "../png/4-fs8.png",
     description: `300cm x 90cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "70%",
     maxWidthPercentageMobile: "80%"
   },
@@ -108,7 +110,6 @@ export const artworks: Artwork[] = [
     title: "#13.1",
     imagePath: "../png/13.png",
     description: `145cm x 145cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "45%",
     maxWidthPercentageMobile: "75%"
   },
@@ -117,7 +118,6 @@ export const artworks: Artwork[] = [
     title: "#13.2",
     imagePath: "../png/13.2-fs8.png",
     description: `145cm x 145cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "45%",
     maxWidthPercentageMobile: "75%"
   },
@@ -126,7 +126,6 @@ export const artworks: Artwork[] = [
     title: "#1",
     imagePath: "../png/1-fs8.png",
     description: `150cm x 100cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "60%",
     maxWidthPercentageMobile: "75%"
   },
@@ -135,7 +134,6 @@ export const artworks: Artwork[] = [
     title: "#6",
     imagePath: "../png/6-fs8.png",
     description: `126.7cm x 190cm aluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "30%",
     maxWidthPercentageMobile: "65%"
   },
@@ -144,7 +142,6 @@ export const artworks: Artwork[] = [
     title: "#10",
     imagePath: "../png/10.png",
     description: `l: 150 x 150cm \nm: 150 x 150cm \nr: 150 x 150cm \naluminium dibond, direct print`,
-    minZoomLevel: 1.2,
     maxWidthPercentage: "100%",
     maxWidthPercentageMobile: "80%"
   },

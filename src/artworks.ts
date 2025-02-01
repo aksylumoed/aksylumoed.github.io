@@ -105,59 +105,80 @@ function displayArtwork(index: number, subIndex: number = 0): void {
   initialArtworkElement.style.display = "none";
 
   const artwork = artworks[index];
+
+  // Show or hide Up/Down buttons depending on subImages
   const upButton = document.querySelector('.navigation-button.up') as HTMLElement;
   const downButton = document.querySelector('.navigation-button.down') as HTMLElement;
-  if (artwork.subImages && artwork.subImages.length > 1) {
-    // If #16 (or any multi-image artwork), show Up/Down
+  if (artwork.subImages && artwork.subImages.length > 0) {
     upButton.style.display = 'inline-block';
     downButton.style.display = 'inline-block';
   } else {
-    // Otherwise hide
     upButton.style.display = 'none';
     downButton.style.display = 'none';
   }
+
+  // Set title, desc, and alt
   titleElement.textContent = artwork.title;
   descElement.textContent = artwork.description;
   initialArtworkElement.alt = artwork.title;
 
-  // Adjust styles based on the device
-  initialArtworkElement.style.maxWidth =
-    window.innerWidth <= 780 && artwork.maxWidthPercentageMobile
-      ? artwork.maxWidthPercentageMobile
-      : artwork.maxWidthPercentage;
+  // Decide which image path + width settings to load
+  let imageToLoad: string;
+  // Start with artwork's default widths
+  let maxWidthDesktop = artwork.maxWidthPercentage;
+  let maxWidthMobile = artwork.maxWidthPercentageMobile;
 
+  if (artwork.subImages && artwork.subImages.length > 0) {
+    // Make sure subIndex is valid
+    if (subIndex < 0) subIndex = 0;
+    if (subIndex >= artwork.subImages.length) {
+      subIndex = artwork.subImages.length - 1;
+    }
+    // Pick the sub-image
+    const subImage = artwork.subImages[subIndex];
+    imageToLoad = subImage.path;
+
+    // If subImage provides specific maxWidth overrides, use them
+    if (subImage.maxWidthPercentage) {
+      maxWidthDesktop = subImage.maxWidthPercentage;
+    }
+    if (subImage.maxWidthPercentageMobile) {
+      maxWidthMobile = subImage.maxWidthPercentageMobile;
+    }
+  } else {
+    // Single image fallback
+    imageToLoad = artwork.imagePath || '';
+  }
+
+  // Adjust styles based on device
+  if (window.innerWidth <= 780) {
+    initialArtworkElement.style.maxWidth = maxWidthMobile;
+  } else {
+    initialArtworkElement.style.maxWidth = maxWidthDesktop;
+  }
+
+  // Show loading indicator
   const loadingIndicator = document.getElementById('loadingIndicator');
   if (loadingIndicator) {
     loadingIndicator.style.display = 'block';
   }
 
-  // Decide which image path to load
-  let imageToLoad: string;
-  if (artwork.subImages && artwork.subImages.length > 0) {
-    // Make sure subIndex is in range
-    if (subIndex < 0) subIndex = 0;
-    if (subIndex >= artwork.subImages.length) {
-      subIndex = artwork.subImages.length - 1;
-    }
-    imageToLoad = artwork.subImages[subIndex];
-  } else {
-    imageToLoad = artwork.imagePath || '';
-  }
-
+  // Load image with progress
   loadImageWithProgress(
     imageToLoad,
     (progressText) => {
       const progressElement = document.getElementById('progressText');
       if (progressElement) {
-          progressElement.innerHTML = progressText;
+        progressElement.innerHTML = progressText;
       }
     },
     (imgURL) => {
+      // Once loaded, display the image
       initialArtworkElement.src = imgURL;
       initialArtworkElement.style.display = "block";
 
       if (loadingIndicator) {
-          loadingIndicator.style.display = 'none';
+        loadingIndicator.style.display = 'none';
       }
       resetProgressText();
     }
@@ -279,21 +300,21 @@ function handleKeyPress(event: KeyboardEvent): void {
 function navigateSubImage(direction: 'up' | 'down'): void {
   const artwork = artworks[currentArtworkIndex];
   if (!artwork.subImages) {
-    // If no subImages, do nothing
+    // No subImages => do nothing
     return;
   }
 
-  // 'up' => subIndex--
-  // 'down' => subIndex++
   if (direction === 'up') {
     currentSubIndex--;
+    // Wrap to last sub-image if below 0
     if (currentSubIndex < 0) {
-      currentSubIndex = 0; // or wrap around if you want
+      currentSubIndex = artwork.subImages.length - 1;
     }
   } else {
     currentSubIndex++;
+    // Wrap to first sub-image if past the end
     if (currentSubIndex >= artwork.subImages.length) {
-      currentSubIndex = artwork.subImages.length - 1; // or wrap around
+      currentSubIndex = 0;
     }
   }
 
