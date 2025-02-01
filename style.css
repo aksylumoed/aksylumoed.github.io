@@ -148,7 +148,7 @@ body {
 
 .navigation {
   display: flex;
-  width: 100%;
+  width: 55%;
   margin-top: 10px;
   align-items: center;
   justify-content: flex-start;
@@ -202,8 +202,8 @@ body {
 .remote-navigation {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 }
 
 .horizontal-arrows {
@@ -219,11 +219,11 @@ body {
    You might want slightly bigger or smaller arrows. E.g.: */
 
 .navigation-button {
-  font-size: 24px; /* bigger arrow icons */
+  font-size: 18px; /* bigger arrow icons */
   cursor: pointer;
   user-select: none;
   color: #6c6c6c;
-  margin: 4px; /* spacing around each arrow */
+  margin: 2px; /* spacing around each arrow */
 }
 
 /* You can tweak hover states if you like */
