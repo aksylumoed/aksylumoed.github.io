@@ -12,6 +12,9 @@ let currentXHR: XMLHttpRequest | null = null;
 // track sub-image index when an artwork has multiple images
 let currentSubIndex = 0;
 
+// Map from artworkId to the last subIndex displayed
+const subIndexMap: { [artworkId: string]: number } = {};
+
 document.addEventListener('DOMContentLoaded', () => {
   let artworkId = artworks[0].id;
   const hash = window.location.hash.substring(1); // remove '#'
@@ -110,11 +113,11 @@ function displayArtwork(index: number, subIndex: number = 0): void {
   const upButton = document.querySelector('.navigation-button.up') as HTMLElement;
   const downButton = document.querySelector('.navigation-button.down') as HTMLElement;
   if (artwork.subImages && artwork.subImages.length > 0) {
-    upButton.style.display = 'inline-block';
-    downButton.style.display = 'inline-block';
+    upButton.style.visibility = 'visible';
+    downButton.style.visibility = 'visible';
   } else {
-    upButton.style.display = 'none';
-    downButton.style.display = 'none';
+    upButton.style.visibility = 'hidden';
+    downButton.style.visibility = 'hidden';
   }
 
   // Set title, desc, and alt
@@ -145,6 +148,9 @@ function displayArtwork(index: number, subIndex: number = 0): void {
     if (subImage.maxWidthPercentageMobile) {
       maxWidthMobile = subImage.maxWidthPercentageMobile;
     }
+
+    // store the latest accessed subIndex for this artwork
+    subIndexMap[artwork.id] = subIndex;
   } else {
     // Single image fallback
     imageToLoad = artwork.imagePath || '';
@@ -261,22 +267,39 @@ function loadImageWithProgress(
 }
 
 export function navigateArtwork(direction: 'left' | 'right'): void {
+  const oldArtwork = artworks[currentArtworkIndex];
+  // If old artwork has subImages, remember subIndex
+  if (oldArtwork.subImages && oldArtwork.subImages.length > 0) {
+    subIndexMap[oldArtwork.id] = currentSubIndex;
+  }
+
+  // Move left or right
   if (direction === 'right') {
     currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
-  } else if (direction === 'left') {
+  } else {
     currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
   }
 
-  // Update the URL hash without reloading the page
-  const newHash = `#/${artworks[currentArtworkIndex].id}`;
-  window.location.hash = newHash;
-
-  document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
+  // Hide the viewer, show initial
+  document.getElementById('artworkContainer').style.display = 'none';
   const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
-  if (initialArtwork && initialArtwork.src) {
+  if (initialArtwork?.src) {
     initialArtwork.style.display = 'block';
   }
-  displayArtwork(currentArtworkIndex);
+
+  // Figure out if the new artwork has subImages
+  const newArtwork = artworks[currentArtworkIndex];
+  if (newArtwork.subImages && newArtwork.subImages.length > 0) {
+    // Sub-images exist => retrieve from map (or default = 0)
+    currentSubIndex = subIndexMap[newArtwork.id] ?? 0;
+    window.location.hash = `#/${newArtwork.id}/${currentSubIndex + 1}`;
+    displayArtwork(currentArtworkIndex, currentSubIndex);
+  } else {
+    // No sub-images => skip subIndex altogether
+    currentSubIndex = 0;
+    window.location.hash = `#/${newArtwork.id}`;
+    displayArtwork(currentArtworkIndex);
+  }
 }
 
 // Update the keypress event to use navigateArtwork
@@ -299,34 +322,32 @@ function handleKeyPress(event: KeyboardEvent): void {
 
 function navigateSubImage(direction: 'up' | 'down'): void {
   const artwork = artworks[currentArtworkIndex];
-  if (!artwork.subImages) {
-    // No subImages => do nothing
-    return;
+  if (!artwork.subImages || artwork.subImages.length === 0) {
+    return; // No sub-images => do nothing
   }
 
+  // Move currentSubIndex up/down
   if (direction === 'up') {
     currentSubIndex--;
-    // Wrap to last sub-image if below 0
     if (currentSubIndex < 0) {
       currentSubIndex = artwork.subImages.length - 1;
     }
   } else {
     currentSubIndex++;
-    // Wrap to first sub-image if past the end
     if (currentSubIndex >= artwork.subImages.length) {
       currentSubIndex = 0;
     }
   }
 
+  // Store the new subIndex for this artwork
+  subIndexMap[artwork.id] = currentSubIndex;
   updateHashAndDisplay();
 }
 
 function updateHashAndDisplay(): void {
-  // For the route: #/16/3 means subIndex=2
-  // So the subIndex to display in URL is (currentSubIndex+1)
-  const artworkId = artworks[currentArtworkIndex].id;
-  const newHash = `#/${artworkId}/${(currentSubIndex + 1)}`;
-  window.location.hash = newHash;
+  const artwork = artworks[currentArtworkIndex];
+  // If subImages exist, update hash with subIndex
+  window.location.hash = `#/${artwork.id}/${(currentSubIndex + 1)}`;
   displayArtwork(currentArtworkIndex, currentSubIndex);
 }
 

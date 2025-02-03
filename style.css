@@ -111,7 +111,7 @@ body {
   font-size: 18px;
 }
 
-.info-navigation-container {
+/* .info-navigation-container {
   font-family: 'M PLUS Code Latin', monospace;
   font-size: 16px;
   position: absolute;
@@ -119,8 +119,25 @@ body {
   bottom: 30px;
   text-align: left;
   display: flex;
-  flex-direction: column; /* Stack items vertically */
+  flex-direction: column;
   max-width: 150px;
+}
+*/
+
+.navigation-container {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+}
+
+/* New container for the title and description (bottom-left) */
+.info-container {
+  font-size: 16px;
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  text-align: left;
+  max-width: 120px; /* adjust as you like */
 }
 
 .artwork-title {
@@ -270,14 +287,31 @@ body {
     margin-top: 6px; /* Adjust space between fetching text and progress text */
   }
 
-  .info-navigation-container {
+  /* .info-navigation-container {
     font-size: 12px;
     right: 0px;
     bottom: 15px;
+  } */
+
+  .navigation-container {
+    position: absolute;
+    right: 15px;
+    bottom: 30px;
+  }
+
+
+  /* New container for the title and description (bottom-left) */
+  .info-container {
+    font-size: 14px;
+    position: absolute;
+    left: 30px;
+    bottom: 30px;
+    text-align: left;
+    max-width: 120px; /* adjust as you like */
   }
 
   .artwork-description {
-    font-size: 11px;
+    font-size: 12px;
     max-width: 120px
   }
 

@@ -14,28 +14,37 @@
     <div class="header">
         <a href="/" id="homeLink">●</a>
     </div>
+
     <div id="loadingIndicator">
         <div id="fetchingText">fetching...</div>
         <div id="progressText"></div>
     </div>
+
     <img id="initialArtwork">
+
     <div id="artworkContainer" class="artwork-container" style="display: none;">
-        <button id="closeViewer" >x</button>
+        <button id="closeViewer">x</button>
         <!-- DZI will be displayed here -->
     </div>
-    <div id="infoContainer" class="info-navigation-container">
-        <div class="navigation remote-navigation">
-            <div class="navigation-button up">&#94;</div>
-            <div class="horizontal-arrows">
-              <div class="navigation-button left">&#60;</div>
-              <div class="navigation-button right">&#62;</div>
-            </div>
-            <div class="navigation-button down">&#118;</div>
+
+    <!-- New container for the navigation arrows on the bottom-right -->
+    <div id="navigationContainer" class="navigation-container">
+      <div class="navigation remote-navigation">
+        <div class="navigation-button up">&#94;</div>
+        <div class="horizontal-arrows">
+          <div class="navigation-button left">&#60;</div>
+          <div class="navigation-button right">&#62;</div>
         </div>
-        <p id="artworkTitle" class="artwork-title"></p>
-        <p id="artworkDescription" class="artwork-description"></p>
+        <div class="navigation-button down">&#118;</div>
+      </div>
+    </div>
+
+    <!-- New container for the title and description on the bottom-left -->
+    <div id="infoContainer" class="info-container">
+      <p id="artworkTitle" class="artwork-title"></p>
+      <p id="artworkDescription" class="artwork-description"></p>
     </div>
 
     <script src="../dist/bundle.js"></script>
-</body>
+  </body>
 </html>

@@ -1,8 +1,5 @@
-export interface SubImage {
-  path: string;
-  maxWidthPercentage?: string;
-  maxWidthPercentageMobile?: string;
-}
+
+import { SIXTEEN, SubImage } from "./subimages";
 
 export interface Artwork {
   id: string;
@@ -35,20 +32,14 @@ export const artworks: Artwork[] = [
     maxWidthPercentage: "60%",
     maxWidthPercentageMobile: "75%"
   },
-  // {
-  //   id: '16',
-  //   title: "#16.x",
-  //   subImages: [
-  //     {
-  //       path: "../png/16/1.png",
-  //     },
-
-
-  //   ],
-  //   description: "50cm x 75cm aluminium dibond, direct print",
-  //   maxWidthPercentage: "60%",
-  //   maxWidthPercentageMobile: "75%"
-  // },
+  {
+    id: '16',
+    title: "#16.x",
+    subImages: SIXTEEN,
+    description: "55 x 50cm x 75cm aluminium dibond, direct print",
+    maxWidthPercentage: "50%",
+    maxWidthPercentageMobile: "75%"
+  },
   {
     id: '5',
     title: "#5",
