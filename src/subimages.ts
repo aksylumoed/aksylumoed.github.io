@@ -162,7 +162,7 @@ export const SIXTEEN: SubImage[] = [
     path: "../png/16/28.png"
   },
   {
-    path: "../png/16/33.png"
+    path: "../png/16/56.png"
   },
   {
     path: "../png/16/24.png",
