@@ -9,7 +9,7 @@ export const SIXTEEN: SubImage[] = [
     path: "../png/16/27.png"
   },
   {
-    path: "../png/16/3.png"
+    path: "../png/16/58.png"
   },
   {
     path: "../png/16/41.png"
@@ -20,7 +20,7 @@ export const SIXTEEN: SubImage[] = [
     maxWidthPercentageMobile: "55%"
   },
   {
-    path: "../png/16/7.png"
+    path: "../png/16/59.png"
   },
   {
     path: "../png/16/23.png"
@@ -96,9 +96,6 @@ export const SIXTEEN: SubImage[] = [
     path: "../png/16/37.png"
   },
   {
-    path: "../png/16/5.png"
-  },
-  {
     path: "../png/16/18.png",
     maxWidthPercentage: "30%",
     maxWidthPercentageMobile: "55%"
@@ -111,6 +108,11 @@ export const SIXTEEN: SubImage[] = [
   },
   {
     path: "../png/16/47.png"
+  },
+  {
+    path: "../png/16/57.png",
+    maxWidthPercentage: "30%",
+    maxWidthPercentageMobile: "55%"
   },
   {
     path: "../png/16/4.png"
@@ -159,7 +161,7 @@ export const SIXTEEN: SubImage[] = [
     path: "../png/16/49.png"
   },
   {
-    path: "../png/16/28.png"
+    path: "../png/16/60.png"
   },
   {
     path: "../png/16/56.png"
