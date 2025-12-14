@@ -121,14 +121,6 @@ export const artworks: Artwork[] = [
     maxWidthPercentageMobile: "75%"
   },
   {
-    id: '1',
-    title: "#1",
-    imagePath: "../png/1-fs8.png",
-    description: `150cm x 100cm aluminium dibond, direct print`,
-    maxWidthPercentage: "60%",
-    maxWidthPercentageMobile: "75%"
-  },
-  {
     id: '17',
     title: "#17",
     imagePath: "../png/17-fs8.png",
