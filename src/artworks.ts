@@ -22,7 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   deploymentStatus.addEventListener('click', () => {
     if (deploymentStatus.classList.contains('not-deployed')) return;
-    trajectoryPanel.classList.toggle('open');
+    const statusDot = document.getElementById('statusDot');
+    const isOpen = trajectoryPanel.classList.toggle('open');
+    if (isOpen) {
+      statusDot.textContent = 'x';
+      statusDot.classList.add('status-dot-open');
+    } else {
+      statusDot.textContent = '';
+      statusDot.classList.remove('status-dot-open');
+    }
   });
 });
 
@@ -400,6 +408,7 @@ interface Sighting {
   timestamp: number;
   city: string;
   neighborhood: string;
+  postcode: string;
 }
 
 async function updateDeploymentStatus(artworkId: string): Promise<void> {
@@ -410,6 +419,8 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
   const trajectoryContent = document.getElementById('trajectoryContent');
 
   trajectoryPanel.classList.remove('open');
+  statusDot.textContent = '';
+  statusDot.classList.remove('status-dot-open');
   statusDot.className = 'status-dot status-loading';
   statusLabel.textContent = '';
 
@@ -448,7 +459,8 @@ function renderSightings(sightings: Sighting[]): string {
   return sightings.map((s, i) => {
     const d = new Date(s.timestamp);
     const dateStr = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
-    const location = s.neighborhood ? `${s.neighborhood}, ${s.city}` : s.city;
+    const postcodeCity = s.postcode ? `${s.postcode} ${s.city}` : s.city;
+    const location = s.neighborhood ? `${s.neighborhood}, ${postcodeCity}` : postcodeCity;
     const isOrigin = i === sightings.length - 1;
     return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${dateStr}&nbsp;&nbsp;${location}${isOrigin ? '&nbsp;&nbsp;<span class="origin-tag">[origin]</span>' : ''}</div>`;
   }).join('');

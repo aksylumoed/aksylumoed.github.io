@@ -3,6 +3,7 @@ import { API_BASE_URL } from './config';
 interface Sighting {
   city: string;
   neighborhood: string;
+  postcode: string;
   lat: number;
   lng: number;
 }
@@ -39,9 +40,10 @@ locateBtn.addEventListener('click', () => {
         );
         const data = await res.json();
         const addr = data.address || {};
-        const city = addr.city || addr.town || addr.village || addr.county || '';
-        const neighborhood = addr.suburb || addr.neighbourhood || addr.road || '';
-        showConfirm(city, neighborhood, latitude, longitude);
+        const city = addr.city || addr.town || addr.village || addr.municipality || addr.county || '';
+        const neighborhood = addr.road || addr.quarter || addr.suburb || addr.city_district || '';
+        const postcode = addr.postcode || '';
+        showConfirm(city, neighborhood, postcode, latitude, longitude);
       } catch {
         showManual();
       }
@@ -59,11 +61,12 @@ function showManual() {
   locateBtn.style.display = 'none';
   manualToggle.style.display = 'none';
   manualEntry.style.display = 'flex';
-  (document.getElementById('cityInput') as HTMLInputElement).focus();
+  (document.getElementById('neighborhoodInput') as HTMLInputElement).focus();
 }
 
-function showConfirm(city: string, neighborhood: string, lat: number, lng: number) {
-  const locationStr = neighborhood ? `${neighborhood}, ${city}` : city;
+function showConfirm(city: string, neighborhood: string, postcode: string, lat: number, lng: number) {
+  const postcodeCity = postcode ? `${postcode} ${city}` : city;
+  const locationStr = neighborhood ? `${neighborhood}, ${postcodeCity}` : postcodeCity;
 
   locateBtn.style.display = 'none';
   manualToggle.style.display = 'none';
@@ -85,7 +88,7 @@ function showConfirm(city: string, neighborhood: string, lat: number, lng: numbe
 
   confirm.querySelector('.scan-confirm-yes').addEventListener('click', async () => {
     confirm.remove();
-    await submitSighting({ city, neighborhood, lat, lng });
+    await submitSighting({ city, neighborhood, postcode, lat, lng });
   });
 
   confirm.querySelector('.scan-confirm-no').addEventListener('click', () => {
@@ -93,12 +96,14 @@ function showConfirm(city: string, neighborhood: string, lat: number, lng: numbe
     showManual();
     (document.getElementById('cityInput') as HTMLInputElement).value = city;
     (document.getElementById('neighborhoodInput') as HTMLInputElement).value = neighborhood;
+    (document.getElementById('postcodeInput') as HTMLInputElement).value = postcode;
   });
 }
 
 submitBtn.addEventListener('click', async () => {
   const city = (document.getElementById('cityInput') as HTMLInputElement).value.trim();
   const neighborhood = (document.getElementById('neighborhoodInput') as HTMLInputElement).value.trim();
+  const postcode = (document.getElementById('postcodeInput') as HTMLInputElement).value.trim();
 
   if (!city) {
     scanStatus.textContent = 'city is required.';
@@ -106,7 +111,7 @@ submitBtn.addEventListener('click', async () => {
   }
 
   manualEntry.style.display = 'none';
-  await submitSighting({ city, neighborhood, lat: 0, lng: 0 });
+  await submitSighting({ city, neighborhood, postcode, lat: 0, lng: 0 });
 });
 
 async function submitSighting(sighting: Sighting) {
@@ -121,13 +126,14 @@ async function submitSighting(sighting: Sighting) {
     const res = await fetch(`${API_BASE_URL}/sighting`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ artworkId, ...sighting }),
+      body: JSON.stringify({ artworkId, city: sighting.city, neighborhood: sighting.neighborhood, postcode: sighting.postcode, lat: sighting.lat, lng: sighting.lng }),
     });
 
     if (res.ok) {
+      const postcodeCity = sighting.postcode ? `${sighting.postcode} ${sighting.city}` : sighting.city;
       const locationStr = sighting.neighborhood
-        ? `${sighting.neighborhood}, ${sighting.city}`
-        : sighting.city;
+        ? `${sighting.neighborhood}, ${postcodeCity}`
+        : postcodeCity;
 
       document.querySelector('.scan-container').innerHTML = `
         <a href="/" class="scan-home">adndkr</a>

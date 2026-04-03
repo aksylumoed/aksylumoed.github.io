@@ -137,7 +137,7 @@ body {
   left: 30px;
   bottom: 30px;
   text-align: left;
-  max-width: 120px; /* adjust as you like */
+  max-width: 280px;
 }
 
 .artwork-title {
@@ -301,17 +301,33 @@ body {
   color: #aaa;
 }
 
+.status-dot.status-dot-open {
+  background-color: transparent;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  font-size: 11px;
+  animation: none;
+}
+
+.status-dot.status-deployed.status-dot-open { color: #6a9f6a; }
+.status-dot.status-deployed-new.status-dot-open { color: #c8a84b; }
+
 /* ── Trajectory panel ────────────────────────────────────────────────────── */
 
 .trajectory-panel {
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.22s ease-out;
-  min-width: 200px;
+  min-width: 260px;
 }
 
 .trajectory-panel.open {
   max-height: 220px;
+}
+
+.trajectory-panel.open + .artwork-description {
+  display: none;
 }
 
 .trajectory-header {
@@ -408,12 +424,12 @@ body {
     left: 30px;
     bottom: 30px;
     text-align: left;
-    max-width: 120px; /* adjust as you like */
+    max-width: 220px;
   }
 
   .artwork-description {
     font-size: 12px;
-    max-width: 120px
+    max-width: 220px;
   }
 
   .zoom {

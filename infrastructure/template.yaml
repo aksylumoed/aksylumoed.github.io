@@ -62,7 +62,7 @@ Resources:
           };
           exports.handler = async (event) => {
             const body = JSON.parse(event.body || '{}');
-            const { artworkId, city, neighborhood, lat, lng } = body;
+            const { artworkId, city, neighborhood, postcode, lat, lng } = body;
             if (!artworkId || !city) {
               return { statusCode: 400, headers: HEADERS, body: JSON.stringify({ error: 'artworkId and city required' }) };
             }
@@ -74,6 +74,7 @@ Resources:
                 timestamp: { N: String(timestamp) },
                 city: { S: city },
                 neighborhood: { S: neighborhood || '' },
+                postcode: { S: postcode || '' },
                 lat: { N: String(lat || 0) },
                 lng: { N: String(lng || 0) },
               },
@@ -114,6 +115,7 @@ Resources:
               timestamp: parseInt(item.timestamp.N),
               city: item.city.S,
               neighborhood: item.neighborhood.S,
+              postcode: item.postcode ? item.postcode.S : '',
             }));
             return { statusCode: 200, headers: HEADERS, body: JSON.stringify({ sightings }) };
           };
