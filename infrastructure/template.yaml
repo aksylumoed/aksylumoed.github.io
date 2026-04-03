@@ -1,0 +1,192 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: adndkr artwork sighting tracker
+
+Resources:
+
+  SightingsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: adndkr-sightings
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: artworkId
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: N
+      KeySchema:
+        - AttributeName: artworkId
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:PutItem
+                  - dynamodb:Query
+                Resource: !GetAtt SightingsTable.Arn
+
+  PostSightingFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: adndkr-post-sighting
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref SightingsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient, PutItemCommand } = require('@aws-sdk/client-dynamodb');
+          const client = new DynamoDBClient({});
+          const HEADERS = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          };
+          exports.handler = async (event) => {
+            const body = JSON.parse(event.body || '{}');
+            const { artworkId, city, neighborhood, lat, lng } = body;
+            if (!artworkId || !city) {
+              return { statusCode: 400, headers: HEADERS, body: JSON.stringify({ error: 'artworkId and city required' }) };
+            }
+            const timestamp = Date.now();
+            await client.send(new PutItemCommand({
+              TableName: process.env.TABLE_NAME,
+              Item: {
+                artworkId: { S: artworkId },
+                timestamp: { N: String(timestamp) },
+                city: { S: city },
+                neighborhood: { S: neighborhood || '' },
+                lat: { N: String(lat || 0) },
+                lng: { N: String(lng || 0) },
+              },
+            }));
+            return { statusCode: 200, headers: HEADERS, body: JSON.stringify({ success: true }) };
+          };
+
+  GetSightingsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: adndkr-get-sightings
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaRole.Arn
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref SightingsTable
+      Code:
+        ZipFile: |
+          const { DynamoDBClient, QueryCommand } = require('@aws-sdk/client-dynamodb');
+          const client = new DynamoDBClient({});
+          const HEADERS = {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          };
+          exports.handler = async (event) => {
+            const artworkId = event.queryStringParameters && event.queryStringParameters.artworkId;
+            if (!artworkId) {
+              return { statusCode: 400, headers: HEADERS, body: JSON.stringify({ error: 'artworkId required' }) };
+            }
+            const result = await client.send(new QueryCommand({
+              TableName: process.env.TABLE_NAME,
+              KeyConditionExpression: 'artworkId = :id',
+              ExpressionAttributeValues: { ':id': { S: artworkId } },
+              ScanIndexForward: false,
+            }));
+            const sightings = (result.Items || []).map(item => ({
+              timestamp: parseInt(item.timestamp.N),
+              city: item.city.S,
+              neighborhood: item.neighborhood.S,
+            }));
+            return { statusCode: 200, headers: HEADERS, body: JSON.stringify({ sightings }) };
+          };
+
+  HttpApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: adndkr-api
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins:
+          - '*'
+        AllowMethods:
+          - GET
+          - POST
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+
+  DefaultStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref HttpApi
+      StageName: $default
+      AutoDeploy: true
+
+  PostSightingIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref HttpApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostSightingFunction.Arn}/invocations
+      PayloadFormatVersion: '2.0'
+
+  GetSightingsIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref HttpApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetSightingsFunction.Arn}/invocations
+      PayloadFormatVersion: '2.0'
+
+  PostSightingRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: POST /sighting
+      Target: !Sub integrations/${PostSightingIntegration}
+
+  GetSightingsRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: GET /sightings
+      Target: !Sub integrations/${GetSightingsIntegration}
+
+  PostSightingPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt PostSightingFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*/*/sighting
+
+  GetSightingsPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt GetSightingsFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*/*/sightings
+
+Outputs:
+  ApiUrl:
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+    Description: Paste this into src/config.ts as API_BASE_URL

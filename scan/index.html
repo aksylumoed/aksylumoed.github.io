@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adndkr</title>
+    <link rel="stylesheet" href="scan.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="scan-container">
+        <a href="/" class="scan-home">adndkr</a>
+        <div id="artworkId" class="scan-artwork-id"></div>
+        <div class="scan-prompt">you found it.</div>
+
+        <button id="locateBtn" class="scan-locate-btn">mark your location</button>
+        <button id="manualToggle" class="scan-manual-toggle">enter manually instead</button>
+
+        <div id="manualEntry" class="scan-manual" style="display:none;">
+            <input type="text" id="cityInput" placeholder="city" class="scan-input" autocomplete="off">
+            <input type="text" id="neighborhoodInput" placeholder="neighborhood / street" class="scan-input" autocomplete="off">
+            <button id="submitBtn" class="scan-submit-btn">confirm</button>
+        </div>
+
+        <div id="scanStatus" class="scan-status"></div>
+    </div>
+    <script src="../dist/scan.bundle.js"></script>
+</body>
+</html>
