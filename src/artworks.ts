@@ -19,15 +19,10 @@ const subIndexMap: { [artworkId: string]: number } = {};
 document.addEventListener('DOMContentLoaded', () => {
   const deploymentStatus = document.getElementById('deploymentStatus');
   const trajectoryPanel = document.getElementById('trajectoryPanel');
-  const trajectoryClose = document.getElementById('trajectoryClose');
 
   deploymentStatus.addEventListener('click', () => {
+    if (deploymentStatus.classList.contains('not-deployed')) return;
     trajectoryPanel.classList.toggle('open');
-  });
-
-  trajectoryClose.addEventListener('click', (e) => {
-    e.stopPropagation();
-    trajectoryPanel.classList.remove('open');
   });
 });
 
@@ -407,6 +402,7 @@ interface Sighting {
 async function updateDeploymentStatus(artworkId: string): Promise<void> {
   const statusDot = document.getElementById('statusDot');
   const statusLabel = document.getElementById('statusLabel');
+  const deploymentStatus = document.getElementById('deploymentStatus');
   const trajectoryPanel = document.getElementById('trajectoryPanel');
   const trajectoryContent = document.getElementById('trajectoryContent');
 
@@ -414,12 +410,21 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
   statusDot.className = 'status-dot status-loading';
   statusLabel.textContent = '';
 
-  if (API_BASE_URL === 'YOUR_API_GATEWAY_URL') {
+  const setNotDeployed = () => {
     statusDot.className = 'status-dot status-studio';
-    statusLabel.textContent = 'studio';
-    trajectoryContent.innerHTML = '<div class="trajectory-entry">not deployed</div>';
-    return;
-  }
+    statusLabel.textContent = 'not deployed';
+    deploymentStatus.classList.add('not-deployed');
+    trajectoryContent.innerHTML = '';
+  };
+
+  const setDeployed = (sightings: Sighting[]) => {
+    deploymentStatus.classList.remove('not-deployed');
+    statusDot.className = sightings.length === 1
+      ? 'status-dot status-deployed-new'
+      : 'status-dot status-deployed';
+    statusLabel.textContent = 'deployed';
+    trajectoryContent.innerHTML = renderSightings(sightings);
+  };
 
   try {
     const res = await fetch(`${API_BASE_URL}/sightings?artworkId=${encodeURIComponent(artworkId)}`);
@@ -427,22 +432,12 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
     const sightings: Sighting[] = data.sightings || [];
 
     if (sightings.length === 0) {
-      statusDot.className = 'status-dot status-studio';
-      statusLabel.textContent = 'studio';
-      trajectoryContent.innerHTML = '<div class="trajectory-entry">not deployed</div>';
-    } else if (sightings.length === 1) {
-      statusDot.className = 'status-dot status-deployed-new';
-      statusLabel.textContent = 'deployed';
-      trajectoryContent.innerHTML = renderSightings(sightings);
+      setNotDeployed();
     } else {
-      statusDot.className = 'status-dot status-deployed';
-      statusLabel.textContent = 'deployed';
-      trajectoryContent.innerHTML = renderSightings(sightings);
+      setDeployed(sightings);
     }
   } catch {
-    statusDot.className = 'status-dot status-studio';
-    statusLabel.textContent = '—';
-    trajectoryContent.innerHTML = '';
+    setNotDeployed();
   }
 }
 

@@ -260,6 +260,10 @@ body {
   user-select: none;
 }
 
+.deployment-status.not-deployed {
+  cursor: default;
+}
+
 .status-dot {
   width: 7px;
   height: 7px;
@@ -299,20 +303,11 @@ body {
 
 /* ── Trajectory panel ────────────────────────────────────────────────────── */
 
-.info-container {
-  position: relative;
-}
-
 .trajectory-panel {
-  position: absolute;
-  top: 26px;
-  left: 0;
-  background: #fff;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.22s ease-out;
-  z-index: 1;
-  min-width: 190px;
+  min-width: 200px;
 }
 
 .trajectory-panel.open {
@@ -326,17 +321,6 @@ body {
   padding-bottom: 5px;
   font-family: 'M PLUS Code Latin', monospace;
   font-size: 11px;
-}
-
-.trajectory-close {
-  color: #aaa;
-  cursor: pointer;
-  font-size: 11px;
-  flex-shrink: 0;
-}
-
-.trajectory-close:hover {
-  color: #555;
 }
 
 .trajectory-divider {
