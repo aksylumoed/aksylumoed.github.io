@@ -1,7 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/artworks.ts', // Adjust this path
+  entry: {
+    bundle: './src/artworks.ts',
+    'scan.bundle': './src/scan.ts',
+  },
   module: {
     rules: [
       {
@@ -15,7 +18,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'), // Adjust output directory as needed
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
   },
 };

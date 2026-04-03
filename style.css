@@ -249,6 +249,123 @@ body {
 }
 
 
+/* ── Deployment status dot ───────────────────────────────────────────────── */
+
+.deployment-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color 0.3s;
+}
+
+.status-dot.status-studio {
+  background-color: #b0b0b0;
+}
+
+.status-dot.status-deployed-new {
+  background-color: #c8a84b;
+  animation: dot-pulse 2s ease-in-out infinite;
+}
+
+.status-dot.status-deployed {
+  background-color: #6a9f6a;
+  animation: dot-pulse 2s ease-in-out infinite;
+}
+
+.status-dot.status-loading {
+  background-color: #d8d8d8;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.status-label {
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* ── Trajectory panel ────────────────────────────────────────────────────── */
+
+.info-container {
+  position: relative;
+}
+
+.trajectory-panel {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  background: #fff;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.22s ease-out;
+  z-index: 1;
+  min-width: 190px;
+}
+
+.trajectory-panel.open {
+  max-height: 220px;
+}
+
+.trajectory-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 5px;
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 11px;
+}
+
+.trajectory-close {
+  color: #aaa;
+  cursor: pointer;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.trajectory-close:hover {
+  color: #555;
+}
+
+.trajectory-divider {
+  color: #ddd;
+  letter-spacing: -1.5px;
+  overflow: hidden;
+}
+
+.trajectory-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.trajectory-entry {
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 11px;
+  color: #777;
+  line-height: 1.8;
+  white-space: nowrap;
+}
+
+.trajectory-origin {
+  color: #aaa;
+}
+
+.origin-tag {
+  color: #c0c0c0;
+}
+
 @media (max-width: 780px) {
   .view-link {
     bottom: 20px;

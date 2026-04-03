@@ -1,4 +1,5 @@
 import { artworks } from './constants';
+import { API_BASE_URL } from './config';
 import './prevent-image-actions'
 
 // import OpenSeadragon from 'openseadragon';
@@ -14,6 +15,21 @@ let currentSubIndex = 0;
 
 // Map from artworkId to the last subIndex displayed
 const subIndexMap: { [artworkId: string]: number } = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const deploymentStatus = document.getElementById('deploymentStatus');
+  const trajectoryPanel = document.getElementById('trajectoryPanel');
+  const trajectoryClose = document.getElementById('trajectoryClose');
+
+  deploymentStatus.addEventListener('click', () => {
+    trajectoryPanel.classList.toggle('open');
+  });
+
+  trajectoryClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    trajectoryPanel.classList.remove('open');
+  });
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   let artworkId = artworks[0].id;
@@ -124,6 +140,8 @@ function displayArtwork(index: number, subIndex: number = 0): void {
   titleElement.textContent = artwork.title;
   descElement.textContent = artwork.description;
   initialArtworkElement.alt = artwork.title;
+
+  updateDeploymentStatus(artwork.id);
 
   // Decide which image path + width settings to load
   let imageToLoad: string;
@@ -377,3 +395,63 @@ window.addEventListener('hashchange', () => {
 
   displayArtwork(currentArtworkIndex, currentSubIndex);
 });
+
+// ── Trajectory / deployment status ──────────────────────────────────────────
+
+interface Sighting {
+  timestamp: number;
+  city: string;
+  neighborhood: string;
+}
+
+async function updateDeploymentStatus(artworkId: string): Promise<void> {
+  const statusDot = document.getElementById('statusDot');
+  const statusLabel = document.getElementById('statusLabel');
+  const trajectoryPanel = document.getElementById('trajectoryPanel');
+  const trajectoryContent = document.getElementById('trajectoryContent');
+
+  trajectoryPanel.classList.remove('open');
+  statusDot.className = 'status-dot status-loading';
+  statusLabel.textContent = '';
+
+  if (API_BASE_URL === 'YOUR_API_GATEWAY_URL') {
+    statusDot.className = 'status-dot status-studio';
+    statusLabel.textContent = 'studio';
+    trajectoryContent.innerHTML = '<div class="trajectory-entry">not deployed</div>';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/sightings?artworkId=${encodeURIComponent(artworkId)}`);
+    const data = await res.json();
+    const sightings: Sighting[] = data.sightings || [];
+
+    if (sightings.length === 0) {
+      statusDot.className = 'status-dot status-studio';
+      statusLabel.textContent = 'studio';
+      trajectoryContent.innerHTML = '<div class="trajectory-entry">not deployed</div>';
+    } else if (sightings.length === 1) {
+      statusDot.className = 'status-dot status-deployed-new';
+      statusLabel.textContent = 'deployed';
+      trajectoryContent.innerHTML = renderSightings(sightings);
+    } else {
+      statusDot.className = 'status-dot status-deployed';
+      statusLabel.textContent = 'deployed';
+      trajectoryContent.innerHTML = renderSightings(sightings);
+    }
+  } catch {
+    statusDot.className = 'status-dot status-studio';
+    statusLabel.textContent = '—';
+    trajectoryContent.innerHTML = '';
+  }
+}
+
+function renderSightings(sightings: Sighting[]): string {
+  return sightings.map((s, i) => {
+    const d = new Date(s.timestamp);
+    const dateStr = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+    const location = s.neighborhood ? `${s.neighborhood}, ${s.city}` : s.city;
+    const isOrigin = i === sightings.length - 1;
+    return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${dateStr}&nbsp;&nbsp;${location}${isOrigin ? '&nbsp;&nbsp;<span class="origin-tag">[origin]</span>' : ''}</div>`;
+  }).join('');
+}
