@@ -136,7 +136,10 @@ function displayArtwork(index: number, subIndex: number = 0): void {
   descElement.textContent = artwork.description;
   initialArtworkElement.alt = artwork.title;
 
-  updateDeploymentStatus(artwork.id);
+  const trackingId = (artwork.subImages && artwork.subImages.length > 0)
+    ? `${artwork.id}-${subIndex + 1}`
+    : artwork.id;
+  updateDeploymentStatus(trackingId);
 
   // Decide which image path + width settings to load
   let imageToLoad: string;
