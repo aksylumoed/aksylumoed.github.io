@@ -10,7 +10,8 @@ interface Sighting {
 const params = new URLSearchParams(window.location.search);
 const artworkId = params.get('a') || '';
 
-document.getElementById('artworkId').textContent = `#${artworkId}`;
+const artworkIdDisplay = artworkId.replace('-', '.');
+document.getElementById('artworkId').textContent = `#${artworkIdDisplay}`;
 
 const locateBtn = document.getElementById('locateBtn') as HTMLButtonElement;
 const manualToggle = document.getElementById('manualToggle') as HTMLButtonElement;
