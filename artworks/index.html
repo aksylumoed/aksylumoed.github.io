@@ -41,14 +41,11 @@
 
     <!-- New container for the title and description on the bottom-left -->
     <div id="infoContainer" class="info-container">
-      <div id="deploymentStatus" class="deployment-status">
-        <span id="statusDot" class="status-dot status-loading"></span>
-        <span id="statusLabel" class="status-label"></span>
-      </div>
+      <p id="artworkDescription" class="artwork-description"></p>
 
       <p id="artworkTitle" class="artwork-title"></p>
 
-      <!-- Trajectory panel - slides down below title -->
+      <!-- Trajectory panel - grows upward toward deployed status -->
       <div id="trajectoryPanel" class="trajectory-panel">
         <div class="trajectory-header">
           <span class="trajectory-divider">──────────────────</span>
@@ -56,7 +53,10 @@
         <div id="trajectoryContent" class="trajectory-content"></div>
       </div>
 
-      <p id="artworkDescription" class="artwork-description"></p>
+      <div id="deploymentStatus" class="deployment-status">
+        <span id="statusDot" class="status-dot status-loading"></span>
+        <span id="statusLabel" class="status-label"></span>
+      </div>
     </div>
 
     <script src="../dist/bundle.js"></script>

@@ -119,8 +119,11 @@ function displayArtwork(index: number, subIndex: number = 0): void {
   const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
   const titleElement = document.getElementById('artworkTitle');
   const descElement = document.getElementById('artworkDescription');
+  const deploymentStatusEl = document.getElementById('deploymentStatus');
   if (!initialArtworkElement || !titleElement || !descElement) return;
   if (index < 0 || index >= artworks.length) return;
+
+  deploymentStatusEl.classList.add('status-hidden');
 
   // Hide old image
   initialArtworkElement.src = '';
@@ -211,6 +214,7 @@ function displayArtwork(index: number, subIndex: number = 0): void {
         loadingIndicator.style.display = 'none';
       }
       resetProgressText();
+      deploymentStatusEl.classList.remove('status-hidden');
     }
   );
 }
