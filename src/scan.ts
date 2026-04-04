@@ -41,7 +41,8 @@ locateBtn.addEventListener('click', () => {
         const data = await res.json();
         const addr = data.address || {};
         const city = addr.city || addr.town || addr.village || addr.municipality || addr.county || '';
-        const neighborhood = addr.road || addr.quarter || addr.suburb || addr.city_district || '';
+        const road = addr.road ? `${addr.road}${addr.house_number ? ' ' + addr.house_number : ''}` : '';
+        const neighborhood = road || addr.quarter || addr.suburb || addr.city_district || '';
         const postcode = addr.postcode || '';
         showConfirm(city, neighborhood, postcode, latitude, longitude);
       } catch {
