@@ -169,6 +169,7 @@ body {
 .info-body {
   position: relative;
   overflow: hidden;
+  clip-path: inset(0);
   min-height: 65px;
   min-width: 260px;
   pointer-events: none;
