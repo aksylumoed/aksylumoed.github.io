@@ -77,13 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-document.getElementById('homeLink').addEventListener('mouseover', function() {
-  this.textContent = '○'; // Text to display on hover
-});
-
-document.getElementById('homeLink').addEventListener('mouseout', function() {
-  this.textContent = '●'; // Original text
-});
 
 
 type ProgressCallback = (progressText: string) => void;

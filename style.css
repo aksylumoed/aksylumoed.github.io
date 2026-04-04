@@ -15,6 +15,8 @@
   top: 46px;
   font-size: 26px;
   text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 1px #525252;
 }
 
 body {

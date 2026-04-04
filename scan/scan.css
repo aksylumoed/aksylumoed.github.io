@@ -29,6 +29,7 @@ body {
 
 .scan-home::before {
   content: "●";
+  display: inline-block;
 }
 
 .scan-home:hover {
@@ -37,7 +38,8 @@ body {
 }
 
 .scan-home:hover::before {
-  content: "○";
+  color: transparent;
+  -webkit-text-stroke: 1px #525252;
 }
 
 .scan-artwork-id {
