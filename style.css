@@ -460,4 +460,18 @@ body {
     margin-right: 30px;
   }
 
+  .horizontal-arrows {
+    width: 44px;
+    margin: 4px 0;
+  }
+
+  .remote-navigation .navigation-button {
+    margin: 1px;
+  }
+
+  .trajectory-header,
+  .trajectory-entry {
+    font-size: 10px;
+  }
+
 }
