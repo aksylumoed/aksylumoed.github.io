@@ -170,14 +170,16 @@ body {
   position: relative;
   overflow: hidden;
   min-height: 65px;
+  min-width: 260px;
 }
 
 .info-title-desc {
-  transition: transform 0.22s ease;
+  transition: transform 0.22s ease, opacity 0.22s ease;
 }
 
 .trajectory-panel.open ~ .info-title-desc {
   transform: translateY(100%);
+  opacity: 0;
 }
 
 .navigation {
