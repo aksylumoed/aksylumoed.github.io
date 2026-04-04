@@ -1,4 +1,5 @@
 import { API_BASE_URL } from './config';
+import { artworks } from './constants';
 
 interface Sighting {
   city: string;
@@ -13,6 +14,16 @@ const artworkId = params.get('a') || '';
 
 const artworkIdDisplay = artworkId.replace('-', '.');
 document.getElementById('artworkId').textContent = `#${artworkIdDisplay}`;
+
+const artwork = artworks.find(a => a.id === artworkId);
+const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
+if (artwork && previewImg) {
+  const imgPath = artwork.imagePath ?? artwork.subImages?.[0]?.path;
+  if (imgPath) {
+    previewImg.src = imgPath;
+    previewImg.style.display = 'block';
+  }
+}
 
 const locateBtn = document.getElementById('locateBtn') as HTMLButtonElement;
 const manualToggle = document.getElementById('manualToggle') as HTMLButtonElement;
