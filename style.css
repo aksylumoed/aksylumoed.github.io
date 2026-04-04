@@ -360,22 +360,14 @@ body {
 .trajectory-content {
   display: flex;
   flex-direction: column;
-  max-height: 70px;
+  max-height: 62px;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-width: none;
 }
 
 .trajectory-content::-webkit-scrollbar {
-  width: 2px;
-}
-
-.trajectory-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.trajectory-content::-webkit-scrollbar-thumb {
-  background: #d8d8d8;
-  border-radius: 1px;
+  display: none;
 }
 
 .trajectory-entry {
