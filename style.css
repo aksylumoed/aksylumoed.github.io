@@ -135,9 +135,10 @@ body {
   font-size: 16px;
   position: absolute;
   left: 30px;
-  bottom: 52px;
+  bottom: 30px;
   text-align: left;
   max-width: 280px;
+  overflow: hidden;
 }
 
 .artwork-title {
@@ -271,12 +272,10 @@ body {
 /* ── Deployment status dot ───────────────────────────────────────────────── */
 
 .deployment-status {
-  position: absolute;
-  left: 30px;
-  bottom: 30px;
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-bottom: 10px;
   cursor: pointer;
   user-select: none;
   transition: opacity 0.4s ease;
@@ -443,9 +442,10 @@ body {
     font-size: 14px;
     position: absolute;
     left: 30px;
-    bottom: 52px;
+    bottom: 30px;
     text-align: left;
     max-width: 220px;
+    overflow: hidden;
   }
 
   .artwork-description {
