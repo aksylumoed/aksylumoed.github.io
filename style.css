@@ -171,7 +171,9 @@ body {
   overflow: hidden;
   min-height: 65px;
   min-width: 260px;
+  pointer-events: none;
 }
+
 
 .info-title-desc {
   max-width: 120px;
@@ -365,6 +367,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: none;
+  pointer-events: auto;
 }
 
 .trajectory-content::-webkit-scrollbar {
