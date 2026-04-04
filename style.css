@@ -243,6 +243,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 8px;
 }
 
 .horizontal-arrows {
@@ -250,19 +251,16 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 8px 0; /* space between ^ and v */
-  width: 80px;   /* adjust as needed for button spacing */
+  width: 80px;
 }
 
-/* Make sure your .navigation-button styles still apply as normal.
-   You might want slightly bigger or smaller arrows. E.g.: */
-
 .navigation-button {
-  font-size: 18px; /* bigger arrow icons */
+  font-size: 17px;
+  line-height: 1;
   cursor: pointer;
   user-select: none;
   color: #6c6c6c;
-  margin: 2px; /* spacing around each arrow */
+  margin: 0;
 }
 
 /* You can tweak hover states if you like */
@@ -463,11 +461,10 @@ body {
 
   .horizontal-arrows {
     width: 44px;
-    margin: 4px 0;
   }
 
-  .remote-navigation .navigation-button {
-    margin: 1px;
+  .remote-navigation {
+    gap: 5px;
   }
 
   .trajectory-header,
