@@ -138,8 +138,6 @@ body {
   bottom: 30px;
   text-align: left;
   max-width: 280px;
-  display: flex;
-  flex-direction: column-reverse;
 }
 
 .artwork-title {
@@ -148,6 +146,16 @@ body {
   margin-top: 10px;
   margin-bottom: 3px;
   text-align: left;
+  max-height: 50px;
+  overflow: hidden;
+  transition: max-height 0.2s ease 0.15s, margin 0.2s ease 0.15s;
+}
+
+.trajectory-panel.open + .artwork-title {
+  max-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  transition: max-height 0.22s ease, margin 0.22s ease;
 }
 
 .artwork-description {
@@ -164,6 +172,15 @@ body {
   line-height: 1.4; /* Adjust line height for better readability */
   white-space: pre-wrap; /* Preserve whitespace and line breaks */
   max-width: 120px;
+  max-height: 120px;
+  transition: max-height 0.2s ease 0.15s, margin-top 0.2s ease 0.15s;
+}
+
+.trajectory-panel.open ~ .artwork-description {
+  max-height: 0;
+  margin-top: 0;
+  transition: max-height 0.22s ease, margin-top 0.22s ease;
+}
 }
 
 .navigation {
@@ -310,17 +327,6 @@ body {
   color: #aaa;
 }
 
-.status-dot.status-dot-open {
-  background-color: transparent;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  font-size: 11px;
-  animation: none;
-}
-
-.status-dot.status-deployed.status-dot-open { color: #6a9f6a; }
-.status-dot.status-deployed-new.status-dot-open { color: #c8a84b; }
 
 /* ── Trajectory panel ────────────────────────────────────────────────────── */
 
@@ -332,7 +338,7 @@ body {
 }
 
 .trajectory-panel.open {
-  max-height: 220px;
+  max-height: 95px;
 }
 
 
@@ -354,6 +360,22 @@ body {
 .trajectory-content {
   display: flex;
   flex-direction: column;
+  max-height: 70px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.trajectory-content::-webkit-scrollbar {
+  width: 2px;
+}
+
+.trajectory-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.trajectory-content::-webkit-scrollbar-thumb {
+  background: #d8d8d8;
+  border-radius: 1px;
 }
 
 .trajectory-entry {
