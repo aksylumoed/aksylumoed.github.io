@@ -466,6 +466,10 @@ body {
     gap: 7px;
   }
 
+  .navigation-button {
+    font-size: 16px;
+  }
+
   .trajectory-header,
   .trajectory-entry {
     font-size: 10px;
