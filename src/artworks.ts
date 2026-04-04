@@ -2,12 +2,7 @@ import { artworks } from './constants';
 import { API_BASE_URL } from './config';
 import './prevent-image-actions'
 
-// import OpenSeadragon from 'openseadragon';
-// import './prevent-zoom';
-/// <reference path="openseadragon-extension.d.ts" />
-
 let currentArtworkIndex = 0;
-let viewer = null;
 let currentXHR: XMLHttpRequest | null = null;
 
 // track sub-image index when an artwork has multiple images
@@ -60,17 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('keydown', handleKeyPress);
 
-document.getElementById('closeViewer').addEventListener('click', function() {
-  document.getElementById('artworkContainer').style.display = 'none'; // Hide the viewer
-  const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
-  const info = document.getElementById('infoContainer');
-  const homeLink = document.getElementById('homeLink');
-  if (initialArtwork && initialArtwork.src) {
-    initialArtwork.style.display = 'block';
-    info.style.display = 'block';
-    homeLink.style.display = 'block';
-  }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.style.height = window.innerHeight + 'px';
@@ -101,13 +85,6 @@ document.getElementById('homeLink').addEventListener('mouseout', function() {
   this.textContent = '●'; // Original text
 });
 
-// Handle browser window resize
-window.addEventListener('resize', () => {
-  if (viewer) {
-    viewer.viewport.resize();
-    viewer.viewport.goHome(true);
-  }
-});
 
 type ProgressCallback = (progressText: string) => void;
 type LoadCallback = (imgURL: string) => void;
@@ -303,13 +280,6 @@ export function navigateArtwork(direction: 'left' | 'right'): void {
     currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
   } else {
     currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
-  }
-
-  // Hide the viewer, show initial
-  document.getElementById('artworkContainer').style.display = 'none';
-  const initialArtwork = document.getElementById('initialArtwork') as HTMLImageElement;
-  if (initialArtwork?.src) {
-    initialArtwork.style.display = 'block';
   }
 
   // Figure out if the new artwork has subImages
