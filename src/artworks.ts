@@ -457,7 +457,7 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
 function renderSightings(sightings: Sighting[]): string {
   return sightings.map((s, i) => {
     const d = new Date(s.timestamp);
-    const dateStr = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+    const dateStr = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${String(d.getFullYear()).slice(2)}`;
     const postcodeCity = s.postcode ? `${s.postcode} ${s.city}` : s.city;
     const location = s.neighborhood ? `${s.neighborhood}, ${postcodeCity}` : postcodeCity;
     const isOrigin = i === sightings.length - 1;
