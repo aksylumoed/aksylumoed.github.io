@@ -47,8 +47,7 @@ if (!artwork || imgPath === null) {
 }
 
 function init(resolvedImgPath: string) {
-  const artworkIdDisplay = artworkId.replace('-', '.');
-  document.getElementById('artworkId').textContent = `#${artworkIdDisplay}`;
+  document.getElementById('artworkId').textContent = artwork.title;
 
   const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
   previewImg.src = resolvedImgPath;
