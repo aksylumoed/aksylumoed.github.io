@@ -127,7 +127,7 @@ body {
 .navigation-container {
   position: absolute;
   right: 30px;
-  bottom: 30px;
+  bottom: 36px;
 }
 
 /* New container for the title and description (bottom-left) */
@@ -435,7 +435,7 @@ body {
   .navigation-container {
     position: absolute;
     right: 15px;
-    bottom: 30px;
+    bottom: 36px;
   }
 
 
