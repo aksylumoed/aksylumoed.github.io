@@ -20,27 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const deploymentStatus = document.getElementById('deploymentStatus');
   const trajectoryPanel = document.getElementById('trajectoryPanel');
 
-  const infoContainer = document.getElementById('infoContainer');
-
-  const closePanel = () => {
-    trajectoryPanel.classList.remove('open');
-    setTimeout(() => {
-      infoContainer.style.height = '';
-    }, 400);
-  };
-
   deploymentStatus.addEventListener('click', (e) => {
     if (deploymentStatus.classList.contains('not-deployed')) return;
     e.stopPropagation();
-    const isOpen = trajectoryPanel.classList.toggle('open');
-    if (isOpen) {
-      infoContainer.style.height = infoContainer.offsetHeight + 'px';
-    } else {
-      infoContainer.style.height = '';
-    }
+    trajectoryPanel.classList.toggle('open');
   });
 
-  document.addEventListener('click', closePanel);
+  document.addEventListener('click', () => {
+    trajectoryPanel.classList.remove('open');
+  });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -432,7 +420,6 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
   const trajectoryContent = document.getElementById('trajectoryContent');
 
   trajectoryPanel.classList.remove('open');
-  document.getElementById('infoContainer').style.height = '';
   statusDot.className = 'status-dot status-loading';
   statusLabel.textContent = '';
 
