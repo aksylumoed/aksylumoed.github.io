@@ -96,7 +96,7 @@ body {
   height: auto; /* Maintains the aspect ratio of the image */
   display: block; /* Makes the image a block-level element */
   position: relative;
-  margin: -80px auto 5px; /* Centers the image horizontally */
+  margin: -80px auto 10px; /* Centers the image horizontally */
 }
 
 .view-link {
