@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const closePanel = () => {
     trajectoryPanel.classList.remove('open');
-    infoContainer.style.height = '';
+    setTimeout(() => {
+      infoContainer.style.height = '';
+    }, 400);
   };
 
   deploymentStatus.addEventListener('click', (e) => {

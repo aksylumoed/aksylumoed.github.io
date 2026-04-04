@@ -138,7 +138,6 @@ body {
   bottom: 30px;
   text-align: left;
   max-width: 280px;
-  overflow: hidden;
 }
 
 .artwork-title {
@@ -445,7 +444,6 @@ body {
     bottom: 30px;
     text-align: left;
     max-width: 220px;
-    overflow: hidden;
   }
 
   .artwork-description {
