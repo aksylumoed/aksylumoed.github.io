@@ -251,7 +251,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 92px;
+  width: 86px;
 }
 
 .navigation-button {
@@ -459,7 +459,7 @@ body {
   }
 
   .horizontal-arrows {
-    width: 50px;
+    width: 54px;
   }
 
   .remote-navigation {
