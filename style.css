@@ -243,7 +243,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .horizontal-arrows {
@@ -251,12 +251,11 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 80px;
+  width: 92px;
 }
 
 .navigation-button {
   font-size: 17px;
-  line-height: 1;
   cursor: pointer;
   user-select: none;
   color: #6c6c6c;
@@ -460,11 +459,11 @@ body {
   }
 
   .horizontal-arrows {
-    width: 44px;
+    width: 50px;
   }
 
   .remote-navigation {
-    gap: 5px;
+    gap: 7px;
   }
 
   .trajectory-header,
