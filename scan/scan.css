@@ -25,11 +25,19 @@ body {
   color: #525252;
   text-decoration: none;
   margin-bottom: 48px;
-  transition: font-size 0.1s ease;
+}
+
+.scan-home::before {
+  content: "●";
 }
 
 .scan-home:hover {
   font-size: 26px;
+  transform: translateY(-4px);
+}
+
+.scan-home:hover::before {
+  content: "○";
 }
 
 .scan-artwork-id {
