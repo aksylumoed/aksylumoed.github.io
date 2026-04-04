@@ -239,8 +239,7 @@ body {
 .remote-navigation {
   display: flex;
   flex-direction: column;
-  align-items: left;
-  justify-content: left;
+  align-items: center;
 }
 
 .horizontal-arrows {
