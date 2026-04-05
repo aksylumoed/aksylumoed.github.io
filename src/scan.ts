@@ -47,7 +47,10 @@ if (!artwork || imgPath === null) {
 }
 
 function init(resolvedImgPath: string) {
-  document.getElementById('artworkId').textContent = artwork.title;
+  const artworkIdEl = document.getElementById('artworkId') as HTMLAnchorElement;
+  artworkIdEl.textContent = artwork.title;
+  const objectsHash = subIndexParam ? `#/${artworkId}/${subIndexParam}` : `#/${artworkId}`;
+  artworkIdEl.href = `/objects/${objectsHash}`;
 
   const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
   previewImg.src = resolvedImgPath;
