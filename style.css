@@ -285,6 +285,7 @@ body {
 .deployment-status.status-hidden {
   opacity: 0;
   pointer-events: none;
+  transition: none;
 }
 
 .deployment-status.not-deployed {
