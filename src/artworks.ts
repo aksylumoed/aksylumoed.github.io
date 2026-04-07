@@ -14,6 +14,7 @@ const subIndexMap: { [artworkId: string]: number } = {};
 document.addEventListener('DOMContentLoaded', () => {
   const deploymentStatus = document.getElementById('deploymentStatus');
   const trajectoryPanel = document.getElementById('trajectoryPanel');
+  const trajectoryContent = document.getElementById('trajectoryContent');
 
   deploymentStatus.addEventListener('click', (e) => {
     if (deploymentStatus.classList.contains('not-deployed')) return;
@@ -24,6 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', () => {
     trajectoryPanel.classList.remove('open');
   });
+
+  trajectoryContent.addEventListener('scroll', () => updateTrajectoryFades(trajectoryContent));
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -391,6 +394,7 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
     statusLabel.textContent = 'not deployed';
     deploymentStatus.classList.add('not-deployed');
     trajectoryContent.innerHTML = '';
+    trajectoryContent.classList.remove('has-top', 'has-bottom');
   };
 
   const setDeployed = (sightings: Sighting[]) => {
@@ -400,6 +404,7 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
       : 'status-dot status-deployed';
     statusLabel.textContent = 'deployed';
     trajectoryContent.innerHTML = renderSightings(sightings);
+    updateTrajectoryFades(trajectoryContent);
   };
 
   try {
@@ -415,6 +420,11 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
   } catch {
     setNotDeployed();
   }
+}
+
+function updateTrajectoryFades(el: HTMLElement): void {
+  el.classList.toggle('has-top', el.scrollTop > 0);
+  el.classList.toggle('has-bottom', el.scrollTop + el.clientHeight < el.scrollHeight - 1);
 }
 
 function renderSightings(sightings: Sighting[]): string {

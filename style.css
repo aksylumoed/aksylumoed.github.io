@@ -371,6 +371,21 @@ body {
   pointer-events: auto;
 }
 
+.trajectory-content.has-bottom {
+  mask-image: linear-gradient(to bottom, black calc(100% - 12px), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 12px), transparent);
+}
+
+.trajectory-content.has-top {
+  mask-image: linear-gradient(to bottom, transparent, black 12px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 12px);
+}
+
+.trajectory-content.has-top.has-bottom {
+  mask-image: linear-gradient(to bottom, transparent, black 12px, black calc(100% - 12px), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 12px, black calc(100% - 12px), transparent);
+}
+
 .trajectory-content::-webkit-scrollbar {
   display: none;
 }
