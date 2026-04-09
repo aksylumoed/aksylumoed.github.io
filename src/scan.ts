@@ -1,5 +1,7 @@
 import { API_BASE_URL } from './config';
 import { artworks } from './constants';
+import { t, applyDataI18n } from './i18n';
+import { initLangSwitcher } from './lang-switcher';
 
 interface Sighting {
   city: string;
@@ -20,7 +22,7 @@ function show404() {
     <a href="/" class="scan-home">adndkr</a>
     <div class="scan-404">
       <div class="scan-404-code">404</div>
-      <div class="scan-404-msg">artwork not found.</div>
+      <div class="scan-404-msg">${t('artwork_not_found')}</div>
     </div>
   `;
 }
@@ -47,6 +49,9 @@ if (!artwork || imgPath === null) {
 }
 
 function init(resolvedImgPath: string) {
+  applyDataI18n();
+  initLangSwitcher();
+
   const artworkIdEl = document.getElementById('artworkId') as HTMLAnchorElement;
   artworkIdEl.textContent = artwork.title;
   const objectsHash = subIndexParam ? `#/${artworkId}/${subIndexParam}` : `#/${artworkId}`;
@@ -68,7 +73,7 @@ function init(resolvedImgPath: string) {
       return;
     }
 
-    locateBtn.textContent = 'locating...';
+    locateBtn.textContent = t('locating');
     locateBtn.disabled = true;
     manualToggle.style.display = 'none';
 
@@ -118,12 +123,12 @@ function init(resolvedImgPath: string) {
     confirm.className = 'scan-confirm';
     confirm.innerHTML = `
       <div class="scan-confirm-location">
-        <span>found at</span>
+        <span>${t('found_at')}</span>
         ${locationStr || 'unknown location'}
       </div>
       <div class="scan-confirm-btns">
-        <button class="scan-confirm-yes">confirm</button>
-        <button class="scan-confirm-no">edit</button>
+        <button class="scan-confirm-yes">${t('confirm')}</button>
+        <button class="scan-confirm-no">${t('edit')}</button>
       </div>
     `;
 
@@ -149,7 +154,7 @@ function init(resolvedImgPath: string) {
     const postcode = (document.getElementById('postcodeInput') as HTMLInputElement).value.trim();
 
     if (!city) {
-      scanStatus.textContent = 'city is required.';
+      scanStatus.textContent = t('city_required');
       return;
     }
 
@@ -158,10 +163,10 @@ function init(resolvedImgPath: string) {
   });
 
   async function submitSighting(sighting: Sighting) {
-    scanStatus.textContent = 'logging...';
+    scanStatus.textContent = t('logging');
 
     if (API_BASE_URL === 'YOUR_API_GATEWAY_URL') {
-      scanStatus.textContent = 'api not configured.';
+      scanStatus.textContent = t('api_not_configured');
       return;
     }
 
@@ -181,15 +186,15 @@ function init(resolvedImgPath: string) {
         document.querySelector('.scan-container').innerHTML = `
           <a href="/" class="scan-home">adndkr</a>
           <div class="scan-done-state">
-            <div class="scan-done-label">● logged.</div>
+            <div class="scan-done-label">${t('logged')}</div>
             <div class="scan-done-location">${locationStr}</div>
           </div>
         `;
       } else {
-        scanStatus.textContent = 'something went wrong. try again.';
+        scanStatus.textContent = t('something_wrong');
       }
     } catch {
-      scanStatus.textContent = 'network error. try again.';
+      scanStatus.textContent = t('network_error');
     }
   }
 }
