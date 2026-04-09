@@ -3,9 +3,6 @@ export type Lang = 'en' | 'de';
 const translations = {
   en: {
     fetching: 'fetching...',
-    not_deployed: 'not deployed',
-    deployed: 'deployed',
-    origin: '[origin]',
     you_found_it: 'you found it.',
     mark_location: 'mark your location',
     enter_manually: 'enter manually instead',
@@ -23,16 +20,9 @@ const translations = {
     something_wrong: 'something went wrong. try again.',
     network_error: 'network error. try again.',
     artwork_not_found: 'artwork not found.',
-    work_in_progress: 'work in progress.',
-    nav_objects: '/objects',
-    nav_notes: '/notes',
-    nav_contact: '/contact',
   },
   de: {
     fetching: 'laden...',
-    not_deployed: 'nicht ausgestellt',
-    deployed: 'ausgestellt',
-    origin: '[ursprung]',
     you_found_it: 'du hast es gefunden.',
     mark_location: 'standort markieren',
     enter_manually: 'manuell eingeben',
@@ -50,16 +40,14 @@ const translations = {
     something_wrong: 'etwas ist schiefgelaufen. erneut versuchen.',
     network_error: 'netzwerkfehler. erneut versuchen.',
     artwork_not_found: 'kunstwerk nicht gefunden.',
-    work_in_progress: 'in arbeit.',
-    nav_objects: '/objekte',
-    nav_notes: '/notizen',
-    nav_contact: '/kontakt',
   },
 } as const;
 
 export type TranslationKey = keyof typeof translations.en;
 
 let currentLang: Lang = (localStorage.getItem('lang') as Lang) || 'en';
+
+const listeners: Array<() => void> = [];
 
 export function t(key: TranslationKey): string {
   return translations[currentLang][key];
@@ -69,9 +57,15 @@ export function getLang(): Lang {
   return currentLang;
 }
 
+export function onLangChange(cb: () => void): void {
+  listeners.push(cb);
+}
+
 export function setLang(lang: Lang): void {
+  currentLang = lang;
   localStorage.setItem('lang', lang);
-  window.location.reload();
+  applyDataI18n();
+  listeners.forEach(cb => cb());
 }
 
 export function applyDataI18n(): void {

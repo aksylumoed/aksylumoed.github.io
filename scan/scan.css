@@ -224,8 +224,45 @@ body {
   color: #555;
 }
 
+/* ── Language switcher ───────────────────────────────────────────────────── */
+
+.lang-switcher {
+  position: fixed;
+  top: 50px;
+  right: 36px;
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 20px;
+  color: #bbb;
+  z-index: 100;
+  user-select: none;
+}
+
+.lang-option {
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.lang-option:hover {
+  color: #525252;
+}
+
+.lang-option.lang-active {
+  color: #525252;
+  cursor: default;
+}
+
+.lang-sep {
+  color: #ddd;
+}
+
 @media (max-width: 780px) {
   .scan-home {
     font-size: 15px;
+  }
+
+  .lang-switcher {
+    font-size: 15px;
+    top: 50px;
+    right: 36px;
   }
 }
