@@ -124,12 +124,12 @@ function init(resolvedImgPath: string) {
     confirm.className = 'scan-confirm';
     confirm.innerHTML = `
       <div class="scan-confirm-location">
-        <span>${t('found_at')}</span>
+        <span data-i18n="found_at">${t('found_at')}</span>
         ${locationStr || 'unknown location'}
       </div>
       <div class="scan-confirm-btns">
-        <button class="scan-confirm-yes">${t('confirm')}</button>
-        <button class="scan-confirm-no">${t('edit')}</button>
+        <button class="scan-confirm-yes" data-i18n="confirm">${t('confirm')}</button>
+        <button class="scan-confirm-no" data-i18n="edit">${t('edit')}</button>
       </div>
     `;
 
