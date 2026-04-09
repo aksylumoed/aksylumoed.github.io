@@ -12,18 +12,19 @@
 <body>
     <div class="scan-container">
         <a href="/" class="scan-home">●</a>
+        <div id="langSwitcher" class="lang-switcher"></div>
         <a id="artworkId" class="scan-artwork-id"></a>
         <img id="artworkPreview" class="scan-artwork-preview" style="display:none;">
-        <div class="scan-prompt">you found it.</div>
+        <div class="scan-prompt" data-i18n="you_found_it">you found it.</div>
 
-        <button id="locateBtn" class="scan-locate-btn">mark your location</button>
-        <button id="manualToggle" class="scan-manual-toggle">enter manually instead</button>
+        <button id="locateBtn" class="scan-locate-btn" data-i18n="mark_location">mark your location</button>
+        <button id="manualToggle" class="scan-manual-toggle" data-i18n="enter_manually">enter manually instead</button>
 
         <div id="manualEntry" class="scan-manual" style="display:none;">
-            <input type="text" id="neighborhoodInput" placeholder="street / neighborhood" class="scan-input" autocomplete="off">
-            <input type="text" id="postcodeInput" placeholder="postcode" class="scan-input" autocomplete="off">
-            <input type="text" id="cityInput" placeholder="city" class="scan-input" autocomplete="off">
-            <button id="submitBtn" class="scan-submit-btn">confirm</button>
+            <input type="text" id="neighborhoodInput" placeholder="street / neighborhood" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_street">
+            <input type="text" id="postcodeInput" placeholder="postcode" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_postcode">
+            <input type="text" id="cityInput" placeholder="city" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_city">
+            <button id="submitBtn" class="scan-submit-btn" data-i18n="confirm">confirm</button>
         </div>
 
         <div id="scanStatus" class="scan-status"></div>

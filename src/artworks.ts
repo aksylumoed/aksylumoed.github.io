@@ -1,6 +1,8 @@
 import { artworks } from './constants';
 import { API_BASE_URL } from './config';
-import './prevent-image-actions'
+import './prevent-image-actions';
+import { t, applyDataI18n } from './i18n';
+import { initLangSwitcher } from './lang-switcher';
 
 let currentArtworkIndex = 0;
 let currentXHR: XMLHttpRequest | null = null;
@@ -12,6 +14,9 @@ let currentSubIndex = 0;
 const subIndexMap: { [artworkId: string]: number } = {};
 
 document.addEventListener('DOMContentLoaded', () => {
+  applyDataI18n();
+  initLangSwitcher();
+
   const deploymentStatus = document.getElementById('deploymentStatus');
   const trajectoryPanel = document.getElementById('trajectoryPanel');
   const trajectoryContent = document.getElementById('trajectoryContent');
@@ -391,7 +396,7 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
 
   const setNotDeployed = () => {
     statusDot.className = 'status-dot status-studio';
-    statusLabel.textContent = 'not deployed';
+    statusLabel.textContent = t('not_deployed');
     deploymentStatus.classList.add('not-deployed');
     trajectoryContent.innerHTML = '';
     trajectoryContent.classList.remove('has-top', 'has-bottom');
@@ -402,7 +407,7 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
     statusDot.className = sightings.length === 1
       ? 'status-dot status-deployed-new'
       : 'status-dot status-deployed';
-    statusLabel.textContent = 'deployed';
+    statusLabel.textContent = t('deployed');
     trajectoryContent.innerHTML = renderSightings(sightings);
     updateTrajectoryFades(trajectoryContent);
   };
@@ -434,6 +439,6 @@ function renderSightings(sightings: Sighting[]): string {
     const postcodeCity = s.postcode ? `${s.postcode} ${s.city}` : s.city;
     const location = s.neighborhood ? `${s.neighborhood}, ${postcodeCity}` : postcodeCity;
     const isOrigin = i === sightings.length - 1;
-    return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${dateStr}&nbsp;&nbsp;${location}${isOrigin ? '&nbsp;&nbsp;<span class="origin-tag">[origin]</span>' : ''}</div>`;
+    return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${dateStr}&nbsp;&nbsp;${location}${isOrigin ? `&nbsp;&nbsp;<span class="origin-tag">${t('origin')}</span>` : ''}</div>`;
   }).join('');
 }

@@ -12,15 +12,36 @@
 
 </head>
 <body>
+    <div id="langSwitcher" class="lang-switcher"></div>
     <div class="container">
         <img src="title.webp" alt="Main Artwork" class="logo-image">
-        <a href="objects/" class="view-link">/objects</a>
-        <a href="notes/" class="view-link">/notes</a>
-        <a href="https://www.instagram.com/adndkr" class="view-link">/contact</a>
+        <a href="objects/" class="view-link" id="navObjects">/objects</a>
+        <a href="notes/" class="view-link" id="navNotes">/notes</a>
+        <a href="https://www.instagram.com/adndkr" class="view-link" id="navContact">/contact</a>
     </div>
     <script>
-        // Adjust the height on initial load
         document.body.style.height = window.innerHeight + 'px';
+        (function () {
+          var t = {
+            en: { objects: '/objects', notes: '/notes', contact: '/contact' },
+            de: { objects: '/objekte', notes: '/notizen', contact: '/kontakt' }
+          };
+          var lang = localStorage.getItem('lang') === 'de' ? 'de' : 'en';
+          document.getElementById('navObjects').textContent = t[lang].objects;
+          document.getElementById('navNotes').textContent = t[lang].notes;
+          document.getElementById('navContact').textContent = t[lang].contact;
+          var sw = document.getElementById('langSwitcher');
+          sw.innerHTML =
+            '<span class="lang-option' + (lang === 'en' ? ' lang-active' : '') + '" data-lang="en">EN</span>' +
+            '<span class="lang-sep"> | </span>' +
+            '<span class="lang-option' + (lang === 'de' ? ' lang-active' : '') + '" data-lang="de">DE</span>';
+          sw.querySelectorAll('.lang-option').forEach(function (el) {
+            el.addEventListener('click', function () {
+              var l = el.getAttribute('data-lang');
+              if (l !== lang) { localStorage.setItem('lang', l); location.reload(); }
+            });
+          });
+        })();
     </script>
 </body>
 </html>
