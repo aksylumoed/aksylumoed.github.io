@@ -1,6 +1,6 @@
 import { API_BASE_URL } from './config';
 import { artworks } from './constants';
-import { t, applyDataI18n } from './i18n';
+import { t, applyDataI18n, onLangChange } from './i18n';
 import { initLangSwitcher } from './lang-switcher';
 
 interface Sighting {
@@ -51,6 +51,7 @@ if (!artwork || imgPath === null) {
 function init(resolvedImgPath: string) {
   applyDataI18n();
   initLangSwitcher();
+  onLangChange(() => applyDataI18n());
 
   const artworkIdEl = document.getElementById('artworkId') as HTMLAnchorElement;
   artworkIdEl.textContent = artwork.title;

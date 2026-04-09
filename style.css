@@ -495,34 +495,3 @@ body {
   }
 
 }
-
-/* ── Language switcher ───────────────────────────────────────────────────── */
-
-.lang-switcher {
-  position: fixed;
-  top: 18px;
-  right: 20px;
-  font-family: 'M PLUS Code Latin', monospace;
-  font-size: 11px;
-  color: #bbb;
-  z-index: 100;
-  user-select: none;
-}
-
-.lang-option {
-  cursor: pointer;
-  transition: color 0.15s;
-}
-
-.lang-option:hover {
-  color: #666;
-}
-
-.lang-option.lang-active {
-  color: #777;
-  cursor: default;
-}
-
-.lang-sep {
-  color: #ddd;
-}
