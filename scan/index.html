@@ -10,25 +10,63 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="langSwitcher" class="lang-switcher"></div>
-    <div class="scan-container">
-        <a href="/" class="scan-home">●</a>
-        <a id="artworkId" class="scan-artwork-id"></a>
-        <img id="artworkPreview" class="scan-artwork-preview" style="display:none;">
-        <div class="scan-prompt" data-i18n="you_found_it">you found it.</div>
 
-        <button id="locateBtn" class="scan-locate-btn" data-i18n="mark_location">mark your location</button>
-        <button id="manualToggle" class="scan-manual-toggle" data-i18n="enter_manually">enter manually instead</button>
+    <!-- Phase 1: Certificate of Passage -->
+    <div id="phase-certificate" class="scan-phase">
+        <div class="scan-cert-layout">
 
-        <div id="manualEntry" class="scan-manual" style="display:none;">
-            <input type="text" id="neighborhoodInput" placeholder="street / neighborhood" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_street">
-            <input type="text" id="postcodeInput" placeholder="postcode" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_postcode">
-            <input type="text" id="cityInput" placeholder="city" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_city">
-            <button id="submitBtn" class="scan-submit-btn" data-i18n="confirm">confirm</button>
+            <div id="certLangColumn" class="scan-lang-column">
+                <span class="lang-option" data-lang="en">EN</span>
+                <span class="lang-option" data-lang="de">DE</span>
+            </div>
+
+            <div class="scan-certificate">
+                <div class="scan-cert-rule"></div>
+
+                <div class="scan-cert-title">CERTIFICATE OF PASSAGE<br>& STEWARDSHIP</div>
+
+                <div class="scan-cert-body">
+                    <p>The maker hereby requests and authorises all those who encounter this object to receive it freely, without hesitation or guilt, and without claim of ownership by any prior party. Possession without asking is recognised here as sufficient — and as the most direct declaration that the object was wanted.</p>
+
+                    <p><strong>On the matter of care:</strong> The bearer is respectfully asked to shield this object from prolonged direct sunlight, which may in time diminish its surface. It requires no special treatment beyond that afforded to any object kept in a home.</p>
+
+                    <p><strong>On the matter of commerce:</strong> Should the bearer wish to sell, trade, or exchange this object for profit, they are expressly encouraged to do so. No permission need be sought. The maker makes no claim.</p>
+
+                    <p><strong>On the matter of provenance:</strong> This object carries a record. The code printed herein may be scanned at any point in its life — by the finder, a future owner, or a stranger passing through. Each scan adds a mark to its map. The object asks only this: that it remain scannable, and that its travels, however modest, continue to be known. No personal information is requested, and none is retained.</p>
+
+                    <p class="scan-cert-footer"><em>Issued without condition. Valid wherever this object may travel.</em></p>
+                </div>
+
+                <div class="scan-cert-rule"></div>
+
+                <button id="acknowledgeBtn" class="scan-acknowledge-btn" data-i18n="acknowledge_continue">acknowledge and continue</button>
+            </div>
+
         </div>
-
-        <div id="scanStatus" class="scan-status"></div>
     </div>
+
+    <!-- Phase 2: Sighting -->
+    <div id="phase-sighting" class="scan-phase" style="display:none;">
+        <div class="scan-container">
+            <a href="/" class="scan-home">●</a>
+            <a id="artworkId" class="scan-artwork-id"></a>
+            <img id="artworkPreview" class="scan-artwork-preview" style="display:none;">
+            <div class="scan-prompt" data-i18n="you_found_it">you found it.</div>
+
+            <button id="locateBtn" class="scan-locate-btn" data-i18n="mark_location">mark your location</button>
+            <button id="manualToggle" class="scan-manual-toggle" data-i18n="enter_manually">enter manually instead</button>
+
+            <div id="manualEntry" class="scan-manual" style="display:none;">
+                <input type="text" id="neighborhoodInput" placeholder="street / neighborhood" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_street">
+                <input type="text" id="postcodeInput" placeholder="postcode" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_postcode">
+                <input type="text" id="cityInput" placeholder="city" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_city">
+                <button id="submitBtn" class="scan-submit-btn" data-i18n="confirm">confirm</button>
+            </div>
+
+            <div id="scanStatus" class="scan-status"></div>
+        </div>
+    </div>
+
     <script src="../dist/scan.bundle.js"></script>
 </body>
 </html>

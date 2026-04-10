@@ -20,6 +20,7 @@ const translations = {
     something_wrong: 'something went wrong. try again.',
     network_error: 'network error. try again.',
     artwork_not_found: 'artwork not found.',
+    acknowledge_continue: 'acknowledge and continue',
   },
   de: {
     fetching: 'laden...',
@@ -40,6 +41,7 @@ const translations = {
     something_wrong: 'etwas ist schiefgelaufen. erneut versuchen.',
     network_error: 'netzwerkfehler. erneut versuchen.',
     artwork_not_found: 'kunstwerk nicht gefunden.',
+    acknowledge_continue: 'acknowledge and continue',
   },
 } as const;
 

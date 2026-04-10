@@ -224,45 +224,114 @@ body {
   color: #555;
 }
 
-/* ── Language switcher ───────────────────────────────────────────────────── */
+/* ── Certificate phase ───────────────────────────────────────────────────── */
 
-.lang-switcher {
-  position: fixed;
-  top: 50px;
-  right: 36px;
-  font-family: 'M PLUS Code Latin', monospace;
-  font-size: 18px;
-  color: #bbb;
-  z-index: 100;
+.scan-cert-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 18px;
+  padding: 52px 28px 48px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.scan-lang-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 2px;
+  flex-shrink: 0;
+  width: 24px;
   user-select: none;
 }
 
 .lang-option {
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 11px;
+  color: #ccc;
   cursor: pointer;
   transition: color 0.15s;
+  display: block;
 }
 
 .lang-option:hover {
-  color: #525252;
+  color: #888;
 }
 
 .lang-option.lang-active {
-  color: #525252;
+  color: #555;
   cursor: default;
 }
 
-.lang-sep {
-  color: #ddd;
+.scan-certificate {
+  flex: 1;
+  min-width: 0;
+}
+
+.scan-cert-rule {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 0;
+}
+
+.scan-cert-title {
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  color: #555;
+  font-weight: normal;
+  line-height: 1.65;
+  margin: 18px 0 18px 0;
+}
+
+.scan-cert-body {
+  font-size: 12px;
+  color: #777;
+  line-height: 1.8;
+  text-align: left;
+}
+
+.scan-cert-body p {
+  margin: 0 0 14px 0;
+}
+
+.scan-cert-body p:last-child {
+  margin-bottom: 0;
+}
+
+.scan-cert-body strong {
+  color: #555;
+}
+
+.scan-cert-footer {
+  color: #aaa;
+  font-size: 11px;
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
+}
+
+.scan-acknowledge-btn {
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 12px;
+  color: #555;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-color: #ccc;
+  margin-top: 18px;
+  display: block;
+  margin-left: auto;
+}
+
+.scan-acknowledge-btn:hover {
+  color: #333;
 }
 
 @media (max-width: 780px) {
   .scan-home {
     font-size: 15px;
-  }
-
-  .lang-switcher {
-    font-size: 13px;
-    top: 50px;
-    right: 36px;
   }
 }

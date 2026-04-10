@@ -1,7 +1,6 @@
 import { API_BASE_URL } from './config';
 import { artworks } from './constants';
-import { t, applyDataI18n, onLangChange } from './i18n';
-import { initLangSwitcher } from './lang-switcher';
+import { t, applyDataI18n, onLangChange, getLang, setLang, Lang } from './i18n';
 
 interface Sighting {
   city: string;
@@ -16,16 +15,6 @@ const artworkId = params.get('a') || '';
 const subIndexParam = params.get('s');
 
 const artwork = artworks.find(a => a.id === artworkId);
-
-function show404() {
-  document.querySelector('.scan-container').innerHTML = `
-    <a href="/" class="scan-home">adndkr</a>
-    <div class="scan-404">
-      <div class="scan-404-code">404</div>
-      <div class="scan-404-msg">${t('artwork_not_found')}</div>
-    </div>
-  `;
-}
 
 function resolveImagePath(): string | null {
   if (!artwork) return null;
@@ -43,14 +32,54 @@ function resolveImagePath(): string | null {
 const imgPath = resolveImagePath();
 
 if (!artwork || imgPath === null) {
-  show404();
+  const phaseCert = document.getElementById('phase-certificate') as HTMLDivElement;
+  const phaseSighting = document.getElementById('phase-sighting') as HTMLDivElement;
+  phaseCert.style.display = 'none';
+  phaseSighting.style.display = 'block';
+  document.querySelector<HTMLElement>('.scan-container').innerHTML = `
+    <a href="/" class="scan-home">adndkr</a>
+    <div class="scan-404">
+      <div class="scan-404-code">404</div>
+      <div class="scan-404-msg">${t('artwork_not_found')}</div>
+    </div>
+  `;
 } else {
-  init(imgPath);
+  applyDataI18n();
+  initLangColumn();
+  initSightingPhase(imgPath);
+
+  document.getElementById('acknowledgeBtn').addEventListener('click', () => {
+    (document.getElementById('phase-certificate') as HTMLDivElement).style.display = 'none';
+    (document.getElementById('phase-sighting') as HTMLDivElement).style.display = 'block';
+    window.scrollTo(0, 0);
+  });
 }
 
-function init(resolvedImgPath: string) {
-  applyDataI18n();
-  initLangSwitcher();
+function initLangColumn() {
+  const column = document.getElementById('certLangColumn');
+  if (!column) return;
+
+  function updateActive() {
+    const lang = getLang();
+    column.querySelectorAll<HTMLElement>('.lang-option').forEach(el => {
+      el.classList.toggle('lang-active', el.dataset.lang === lang);
+    });
+  }
+
+  updateActive();
+  onLangChange(updateActive);
+
+  column.querySelectorAll<HTMLElement>('.lang-option').forEach(el => {
+    el.addEventListener('click', () => {
+      const newLang = el.dataset.lang as Lang;
+      if (newLang !== getLang()) {
+        setLang(newLang);
+      }
+    });
+  });
+}
+
+function initSightingPhase(resolvedImgPath: string) {
   onLangChange(() => applyDataI18n());
 
   const artworkIdEl = document.getElementById('artworkId') as HTMLAnchorElement;
