@@ -46,6 +46,11 @@ if (!artwork || imgPath === null) {
 } else {
   applyDataI18n();
   initLangColumn();
+
+  // Start fetching the image immediately so it's ready when user reaches step 2
+  const _preload = new Image();
+  _preload.src = imgPath;
+
   initSightingPhase(imgPath);
 
   document.getElementById('acknowledgeBtn').addEventListener('click', () => {
@@ -220,7 +225,7 @@ function initSightingPhase(resolvedImgPath: string) {
           : postcodeCity;
 
         document.querySelector('.scan-container').innerHTML = `
-          <a href="/" class="scan-home">adndkr</a>
+          <a href="/" class="scan-home">●</a>
           <div class="scan-done-state">
             <div class="scan-done-label">${t('logged')}</div>
             <div class="scan-done-location">${locationStr}</div>
