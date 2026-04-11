@@ -101,6 +101,14 @@ function initSightingPhase(resolvedImgPath: string) {
   const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
   previewImg.src = resolvedImgPath;
   previewImg.style.display = 'block';
+  previewImg.style.transition = 'opacity 0.3s ease';
+  if (previewImg.complete && previewImg.naturalWidth > 0) {
+    previewImg.style.opacity = '1';
+  } else {
+    previewImg.style.opacity = '0';
+    previewImg.addEventListener('load', () => { previewImg.style.opacity = '1'; }, { once: true });
+    previewImg.addEventListener('error', () => { previewImg.style.opacity = '1'; }, { once: true });
+  }
 
   const locateBtn = document.getElementById('locateBtn') as HTMLButtonElement;
   const manualToggle = document.getElementById('manualToggle') as HTMLButtonElement;

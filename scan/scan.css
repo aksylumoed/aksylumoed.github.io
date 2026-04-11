@@ -266,7 +266,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-top: 80px;
+  padding-top: 85px;
   flex-shrink: 0;
   width: 24px;
   user-select: none;
