@@ -20,11 +20,32 @@ body {
   min-height: 100vh;
 }
 
+.scan-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  align-self: stretch;
+  margin-bottom: 48px;
+}
+
 .scan-home {
   font-size: 20px;
   color: #525252;
   text-decoration: none;
-  margin-bottom: 48px;
+}
+
+.scan-back-btn {
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 20px;
+  color: #525252;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.scan-back-btn:hover {
+  color: #333;
 }
 
 .scan-home:hover {

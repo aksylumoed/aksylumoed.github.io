@@ -82,6 +82,12 @@ function initLangColumn() {
 function initSightingPhase(resolvedImgPath: string) {
   onLangChange(() => applyDataI18n());
 
+  document.getElementById('backBtn').addEventListener('click', () => {
+    (document.getElementById('phase-sighting') as HTMLDivElement).style.display = 'none';
+    (document.getElementById('phase-certificate') as HTMLDivElement).style.display = 'block';
+    window.scrollTo(0, 0);
+  });
+
   const artworkIdEl = document.getElementById('artworkId') as HTMLAnchorElement;
   artworkIdEl.textContent = artwork.title;
   const objectsHash = subIndexParam ? `#/${artworkId}/${subIndexParam}` : `#/${artworkId}`;
