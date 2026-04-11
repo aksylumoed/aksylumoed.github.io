@@ -266,7 +266,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding-top: 2px;
+  padding-top: 80px;
   flex-shrink: 0;
   width: 24px;
   user-select: none;
@@ -299,6 +299,10 @@ body {
   border: none;
   border-top: 1px solid #ddd;
   margin: 0;
+}
+
+.scan-certificate .scan-cert-rule:first-child {
+  margin-top: 8px;
 }
 
 .scan-cert-title {
