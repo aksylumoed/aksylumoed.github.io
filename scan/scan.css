@@ -231,7 +231,7 @@ body {
   flex-direction: row;
   gap: 18px;
   padding: 20px 28px 48px;
-  min-height: 100vh;
+  min-height: 100dvh;
   box-sizing: border-box;
 }
 
