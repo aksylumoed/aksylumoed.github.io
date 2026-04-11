@@ -78,7 +78,6 @@ body {
   height: auto;
   object-fit: contain;
   margin-bottom: 32px;
-  opacity: 0.85;
 }
 
 .scan-prompt {
