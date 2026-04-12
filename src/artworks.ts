@@ -1,6 +1,7 @@
 import { artworks } from './constants';
 import { API_BASE_URL } from './config';
 import './prevent-image-actions'
+import { loadImageWithProgress } from './image-loader';
 
 let currentArtworkIndex = 0;
 let currentXHR: XMLHttpRequest | null = null;
@@ -81,9 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-type ProgressCallback = (progressText: string) => void;
-type LoadCallback = (imgURL: string) => void;
 
 function displayArtwork(index: number, subIndex: number = 0): void {
   const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
@@ -166,8 +164,13 @@ function displayArtwork(index: number, subIndex: number = 0): void {
     loadingIndicator.style.display = 'block';
   }
 
-  // Load image with progress
-  loadImageWithProgress(
+  // Abort any in-flight request before starting a new one
+  if (currentXHR) {
+    currentXHR.abort();
+    resetProgressText();
+  }
+
+  currentXHR = loadImageWithProgress(
     imageToLoad,
     (progressText) => {
       const progressElement = document.getElementById('progressText');
@@ -176,7 +179,7 @@ function displayArtwork(index: number, subIndex: number = 0): void {
       }
     },
     (imgURL) => {
-      // Once loaded, display the image
+      currentXHR = null;
       initialArtworkElement.src = imgURL;
       initialArtworkElement.style.display = "block";
 
@@ -185,6 +188,10 @@ function displayArtwork(index: number, subIndex: number = 0): void {
       }
       resetProgressText();
       deploymentStatusEl.classList.remove('status-hidden');
+    },
+    () => {
+      currentXHR = null;
+      resetProgressText();
     }
   );
 }
@@ -194,74 +201,6 @@ function resetProgressText() {
   if (progressElement) {
     progressElement.innerHTML = '';
   }
-}
-
-function preloadImage(src, callback) {
-  const img = new Image();
-  img.onload = () => callback(img.src);
-  img.src = src;
-}
-
-function loadImageWithProgress(
-  url: string,
-  onProgress: ProgressCallback,
-  onLoad: LoadCallback
-): void {
-    // Abort any existing request
-    if (currentXHR) {
-        currentXHR.abort();
-        resetProgressText();
-    }
-
-    const xhr = new XMLHttpRequest();
-    currentXHR = xhr;
-
-    xhr.open('GET', url, true);
-    xhr.responseType = 'blob';
-    xhr.timeout = 60000; // Set a longer timeout, if necessary
-
-    xhr.onprogress = (event: ProgressEvent) => {
-        if (event.lengthComputable) {
-            const loaded = (event.loaded / 1024 / 1024).toFixed(2); // Convert bytes to MB
-            const total = (event.total / 1024 / 1024).toFixed(2); // Convert bytes to MB
-            onProgress(`${loaded}MB / ${total}MB`);
-        }
-    };
-
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            const blob = xhr.response;
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                // Preload the image to render it all at once
-                preloadImage(reader.result.toString(), onLoad);
-            };
-            reader.readAsDataURL(blob);
-        }
-        // Clear the currentXHR after the request is completed
-        currentXHR = null;
-    };
-
-    xhr.onerror = function() {
-        // Handle error and clear currentXHR
-        currentXHR = null;
-        resetProgressText();
-    };
-
-    xhr.onabort = function() {
-        // Handle abort and clear currentXHR
-        currentXHR = null;
-        resetProgressText();
-    };
-
-    xhr.ontimeout = function() {
-        console.error("The request for " + url + " timed out.");
-        // Clear currentXHR on timeout
-        currentXHR = null;
-        resetProgressText();
-    };
-
-  xhr.send();
 }
 
 export function navigateArtwork(direction: 'left' | 'right'): void {

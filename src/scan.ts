@@ -1,6 +1,7 @@
 import { API_BASE_URL } from './config';
 import { artworks } from './constants';
 import { t, applyDataI18n, onLangChange, getLang, setLang, Lang } from './i18n';
+import { loadImageWithProgress } from './image-loader';
 
 interface Sighting {
   city: string;
@@ -47,11 +48,25 @@ if (!artwork || imgPath === null) {
   applyDataI18n();
   initLangColumn();
 
-  // Start fetching the image immediately so it's ready when user reaches step 2
-  const _preload = new Image();
-  _preload.src = imgPath;
+  // Start loading the image immediately (during certificate reading) using the
+  // same XHR+progress mechanism as the objects page.
+  loadImageWithProgress(
+    imgPath,
+    (progressText) => {
+      (document.getElementById('scanStatus') as HTMLDivElement).textContent = progressText;
+    },
+    (imgURL) => {
+      const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
+      previewImg.src = imgURL;
+      previewImg.style.display = 'block';
+      (document.getElementById('scanStatus') as HTMLDivElement).textContent = '';
+    },
+    () => {
+      (document.getElementById('scanStatus') as HTMLDivElement).textContent = '';
+    }
+  );
 
-  initSightingPhase(imgPath);
+  initSightingPhase();
 
   document.getElementById('acknowledgeBtn').addEventListener('click', () => {
     (document.getElementById('phase-certificate') as HTMLDivElement).style.display = 'none';
@@ -84,7 +99,7 @@ function initLangColumn() {
   });
 }
 
-function initSightingPhase(resolvedImgPath: string) {
+function initSightingPhase() {
   onLangChange(() => applyDataI18n());
 
   document.getElementById('backBtn').addEventListener('click', () => {
@@ -97,18 +112,6 @@ function initSightingPhase(resolvedImgPath: string) {
   artworkIdEl.textContent = artwork.title;
   const objectsHash = subIndexParam ? `#/${artworkId}/${subIndexParam}` : `#/${artworkId}`;
   artworkIdEl.href = `/objects/${objectsHash}`;
-
-  const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
-  previewImg.src = resolvedImgPath;
-  previewImg.style.display = 'block';
-  previewImg.style.transition = 'opacity 0.3s ease';
-  if (previewImg.complete && previewImg.naturalWidth > 0) {
-    previewImg.style.opacity = '1';
-  } else {
-    previewImg.style.opacity = '0';
-    previewImg.addEventListener('load', () => { previewImg.style.opacity = '1'; }, { once: true });
-    previewImg.addEventListener('error', () => { previewImg.style.opacity = '1'; }, { once: true });
-  }
 
   const locateBtn = document.getElementById('locateBtn') as HTMLButtonElement;
   const manualToggle = document.getElementById('manualToggle') as HTMLButtonElement;
