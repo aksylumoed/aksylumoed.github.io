@@ -50,6 +50,7 @@ if (!artwork || imgPath === null) {
 
   // Start loading the image immediately (during certificate reading) using the
   // same XHR+progress mechanism as the objects page.
+  (document.getElementById('scanStatus') as HTMLDivElement).textContent = t('fetching');
   loadImageWithProgress(
     imgPath,
     (progressText) => {
@@ -72,6 +73,12 @@ if (!artwork || imgPath === null) {
     (document.getElementById('phase-certificate') as HTMLDivElement).style.display = 'none';
     (document.getElementById('phase-sighting') as HTMLDivElement).style.display = 'block';
     window.scrollTo(0, 0);
+    // If image loaded while certificate was showing, some browsers need a nudge
+    // to render it after the parent transitions from display:none to display:block.
+    const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
+    if (previewImg.src && previewImg.src !== window.location.href) {
+      previewImg.style.display = 'block';
+    }
   });
 }
 
