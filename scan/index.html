@@ -54,7 +54,10 @@
                 <div class="scan-nav-spacer"></div>
             </div>
             <a id="artworkId" class="scan-artwork-id"></a>
-            <img id="artworkPreview" class="scan-artwork-preview" style="display:none;">
+            <div class="scan-image-area">
+                <img id="artworkPreview" class="scan-artwork-preview" style="display:none;">
+                <div id="scanStatus" class="scan-status"></div>
+            </div>
 
             <button id="locateBtn" class="scan-locate-btn" data-i18n="mark_location">mark your location</button>
             <button id="manualToggle" class="scan-manual-toggle" data-i18n="enter_manually">enter manually instead</button>
@@ -65,8 +68,6 @@
                 <input type="text" id="cityInput" placeholder="city" class="scan-input" autocomplete="off" data-i18n-placeholder="placeholder_city">
                 <button id="submitBtn" class="scan-submit-btn" data-i18n="confirm">confirm</button>
             </div>
-
-            <div id="scanStatus" class="scan-status"></div>
         </div>
     </div>
 
