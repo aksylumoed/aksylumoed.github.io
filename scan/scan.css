@@ -229,7 +229,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 20px;
+  margin-top: 44px;
 }
 
 .scan-done-label {
@@ -237,9 +237,35 @@ body {
   color: #555;
 }
 
+.scan-done-dot {
+  font-size: 19px;
+  color: #6a9f6a;
+}
+
 .scan-done-location {
   font-size: 13px;
   color: #aaa;
+}
+
+.scan-done-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 18px;
+}
+
+.scan-done-link {
+  font-family: 'M PLUS Code Latin', monospace;
+  font-size: 13px;
+  color: #aaa;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: #ddd;
+}
+
+.scan-done-link:hover {
+  color: #777;
+  text-decoration-color: #aaa;
 }
 
 .scan-404 {

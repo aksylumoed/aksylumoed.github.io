@@ -234,12 +234,17 @@ function initSightingPhase() {
         const locationStr = sighting.neighborhood
           ? `${sighting.neighborhood}, ${postcodeCity}`
           : postcodeCity;
+        const objectsHash = subIndexParam ? `#/${artworkId}/${subIndexParam}` : `#/${artworkId}`;
 
         document.querySelector('.scan-container').innerHTML = `
           <a href="/" class="scan-home">●</a>
           <div class="scan-done-state">
-            <div class="scan-done-label">${t('logged')}</div>
+            <div class="scan-done-label"><span class="scan-done-dot">●</span> ${t('logged')}</div>
             <div class="scan-done-location">${locationStr}</div>
+            <div class="scan-done-links">
+              <a href="/objects/${objectsHash}" class="scan-done-link">${t('view_object_record')}</a>
+              <a href="https://www.instagram.com/adndkr" class="scan-done-link">${t('contact')}</a>
+            </div>
           </div>
         `;
       } else {
