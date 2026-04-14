@@ -406,6 +406,39 @@ body {
   color: #c0c0c0;
 }
 
+.trajectory-sep {
+  border-top: 1px dashed #303030;
+  margin: 2px 0;
+}
+
+.trajectory-group-header {
+  cursor: pointer;
+}
+
+.trajectory-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #3a3a3a;
+  color: #999;
+  font-size: 9px;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.trajectory-group-entries {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.15s ease;
+}
+
+.trajectory-group.expanded .trajectory-group-entries {
+  max-height: 200px;
+}
+
 @media (max-width: 780px) {
   .view-link {
     bottom: 20px;

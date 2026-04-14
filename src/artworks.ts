@@ -20,11 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
   deploymentStatus.addEventListener('click', (e) => {
     if (deploymentStatus.classList.contains('not-deployed')) return;
     e.stopPropagation();
+    const wasOpen = trajectoryPanel.classList.contains('open');
     trajectoryPanel.classList.toggle('open');
+    if (wasOpen) collapseAllGroups(trajectoryContent);
   });
 
   document.addEventListener('click', () => {
+    if (trajectoryPanel.classList.contains('open')) collapseAllGroups(trajectoryContent);
     trajectoryPanel.classList.remove('open');
+  });
+
+  trajectoryContent.addEventListener('click', (e) => {
+    const header = (e.target as Element).closest('.trajectory-group-header');
+    if (!header) return;
+    e.stopPropagation();
+    header.closest('.trajectory-group').classList.toggle('expanded');
+    updateTrajectoryFades(trajectoryContent);
   });
 
   trajectoryContent.addEventListener('scroll', () => updateTrajectoryFades(trajectoryContent));
@@ -366,13 +377,53 @@ function updateTrajectoryFades(el: HTMLElement): void {
   el.classList.toggle('has-bottom', el.scrollTop + el.clientHeight < el.scrollHeight - 1);
 }
 
+function formatSightingDate(timestamp: number): string {
+  const d = new Date(timestamp);
+  return `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${String(d.getFullYear()).slice(2)}`;
+}
+
+function formatLocation(s: Sighting): string {
+  const postcodeCity = s.postcode ? `${s.postcode} ${s.city}` : s.city;
+  return s.neighborhood ? `${s.neighborhood}, ${postcodeCity}` : postcodeCity;
+}
+
+function groupSightings(sightings: Sighting[]): Array<{ location: string; entries: Sighting[] }> {
+  const groups: Map<string, { location: string; entries: Sighting[] }> = new Map();
+  for (const s of sightings) {
+    const key = `${s.neighborhood || ''}|${s.postcode || ''}|${s.city || ''}`;
+    if (!groups.has(key)) groups.set(key, { location: formatLocation(s), entries: [] });
+    groups.get(key)!.entries.push(s);
+  }
+  return Array.from(groups.values());
+}
+
+function collapseAllGroups(container: HTMLElement): void {
+  container.querySelectorAll('.trajectory-group.expanded').forEach(g => g.classList.remove('expanded'));
+}
+
 function renderSightings(sightings: Sighting[]): string {
-  return sightings.map((s, i) => {
-    const d = new Date(s.timestamp);
-    const dateStr = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${String(d.getFullYear()).slice(2)}`;
-    const postcodeCity = s.postcode ? `${s.postcode} ${s.city}` : s.city;
-    const location = s.neighborhood ? `${s.neighborhood}, ${postcodeCity}` : postcodeCity;
-    const isOrigin = i === sightings.length - 1;
-    return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${dateStr}&nbsp;&nbsp;${location}${isOrigin ? '&nbsp;&nbsp;<span class="origin-tag">[origin]</span>' : ''}</div>`;
+  const groups = groupSightings(sightings);
+  return groups.map((group, gi) => {
+    const isOrigin = gi === groups.length - 1;
+    const originTag = isOrigin ? `&nbsp;&nbsp;<span class="origin-tag">[origin]</span>` : '';
+    const sep = gi < groups.length - 1 ? '<div class="trajectory-sep"></div>' : '';
+
+    if (group.entries.length === 1) {
+      const dateStr = formatSightingDate(group.entries[0].timestamp);
+      return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${dateStr}&nbsp;&nbsp;${group.location}${originTag}</div>${sep}`;
+    }
+
+    const newestDate = formatSightingDate(group.entries[0].timestamp);
+    const countBadge = `<span class="trajectory-count">${group.entries.length}</span>`;
+    const innerEntries = group.entries.map((s, ei) => {
+      const dateStr = formatSightingDate(s.timestamp);
+      const innerSep = ei < group.entries.length - 1 ? '<div class="trajectory-sep"></div>' : '';
+      return `<div class="trajectory-entry trajectory-subentry">  ${dateStr}&nbsp;&nbsp;${group.location}</div>${innerSep}`;
+    }).join('');
+
+    return `<div class="trajectory-group">` +
+      `<div class="trajectory-group-header trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${newestDate}&nbsp;&nbsp;${group.location}${originTag}&nbsp;&nbsp;${countBadge}</div>` +
+      `<div class="trajectory-group-entries">${innerEntries}</div>` +
+      `</div>${sep}`;
   }).join('');
 }
