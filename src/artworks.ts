@@ -406,24 +406,21 @@ function renderSightings(sightings: Sighting[]): string {
   return groups.map((group, gi) => {
     const isOrigin = gi === groups.length - 1;
     const originTag = isOrigin ? `&nbsp;&nbsp;<span class="origin-tag">[origin]</span>` : '';
-    const sep = gi < groups.length - 1 ? '<div class="trajectory-sep"></div>' : '';
 
     if (group.entries.length === 1) {
       const dateStr = formatSightingDate(group.entries[0].timestamp);
-      return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${dateStr}&nbsp;&nbsp;${group.location}${originTag}</div>${sep}`;
+      return `<div class="trajectory-entry${isOrigin ? ' trajectory-origin' : ''}"><span class="traj-dot"></span>${dateStr}&nbsp;&nbsp;${group.location}${originTag}</div>`;
     }
 
     const newestDate = formatSightingDate(group.entries[0].timestamp);
     const countBadge = `<span class="trajectory-count">${group.entries.length}</span>`;
-    const innerEntries = group.entries.map((s, ei) => {
-      const dateStr = formatSightingDate(s.timestamp);
-      const innerSep = ei < group.entries.length - 1 ? '<div class="trajectory-sep"></div>' : '';
-      return `<div class="trajectory-entry trajectory-subentry">  ${dateStr}&nbsp;&nbsp;${group.location}</div>${innerSep}`;
-    }).join('');
+    const innerEntries = group.entries.map(s =>
+      `<div class="trajectory-entry trajectory-subentry">${formatSightingDate(s.timestamp)}</div>`
+    ).join('');
 
     return `<div class="trajectory-group">` +
-      `<div class="trajectory-group-header trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">  ${newestDate}&nbsp;&nbsp;${group.location}${originTag}&nbsp;&nbsp;${countBadge}</div>` +
+      `<div class="trajectory-group-header trajectory-entry${isOrigin ? ' trajectory-origin' : ''}">${countBadge}${newestDate}&nbsp;&nbsp;${group.location}${originTag}</div>` +
       `<div class="trajectory-group-entries">${innerEntries}</div>` +
-      `</div>${sep}`;
+      `</div>`;
   }).join('');
 }
