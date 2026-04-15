@@ -44,7 +44,8 @@ infrastructure/        AWS CloudFormation template (Lambda + DynamoDB stack)
 
 ## Git Workflow
 
-- **Push directly to `master`** — no feature branches or PRs needed
+- **Always push directly to `master`** — this is the only branch that matters. Never push to a feature branch unless the user explicitly asks.
+- No feature branches, no PRs, no intermediate branches — commit and push straight to `master`.
 - No need to run npm/build steps locally; CI handles all compilation
 
 ## Backend
