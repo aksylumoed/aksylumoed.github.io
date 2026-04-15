@@ -337,12 +337,13 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
   };
 
   const setDeployed = (sightings: Sighting[]) => {
+    const deduped = deduplicateSightings(sightings);
     deploymentStatus.classList.remove('not-deployed');
-    statusDot.className = sightings.length === 1
+    statusDot.className = deduped.length === 1
       ? 'status-dot status-deployed-new'
       : 'status-dot status-deployed';
     statusLabel.textContent = 'deployed';
-    trajectoryContent.innerHTML = renderSightings(sightings);
+    trajectoryContent.innerHTML = renderSightings(deduped);
     updateTrajectoryFades(trajectoryContent);
   };
 
@@ -364,6 +365,20 @@ async function updateDeploymentStatus(artworkId: string): Promise<void> {
 function updateTrajectoryFades(el: HTMLElement): void {
   el.classList.toggle('has-top', el.scrollTop > 0);
   el.classList.toggle('has-bottom', el.scrollTop + el.clientHeight < el.scrollHeight - 1);
+}
+
+function deduplicateSightings(sightings: Sighting[]): Sighting[] {
+  const seen = new Set<string>();
+  return sightings.filter(s => {
+    const d = new Date(s.timestamp);
+    const dateStr = `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${String(d.getFullYear()).slice(2)}`;
+    const postcodeCity = s.postcode ? `${s.postcode} ${s.city}` : s.city;
+    const location = s.neighborhood ? `${s.neighborhood}, ${postcodeCity}` : postcodeCity;
+    const key = `${dateStr}|${location}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function renderSightings(sightings: Sighting[]): string {
