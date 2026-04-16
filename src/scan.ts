@@ -1,3 +1,4 @@
+import Typed from 'typed.js';
 import { API_BASE_URL } from './config';
 import { artworks } from './constants';
 import { t, applyDataI18n, onLangChange, getLang, setLang, Lang } from './i18n';
@@ -50,20 +51,50 @@ if (!artwork || imgPath === null) {
 
   // Start loading the image immediately (during certificate reading) using the
   // same XHR+progress mechanism as the objects page.
-  (document.getElementById('scanStatus') as HTMLDivElement).textContent = t('fetching');
+  let scanTyped: Typed | null = null;
+  let scanTypingComplete = false;
+  let scanPendingImageURL: string | null = null;
+
+  const scanStatusEl = document.getElementById('scanStatus') as HTMLDivElement;
+  scanStatusEl.textContent = '';
+  scanTyped = new Typed('#scanStatus', {
+    strings: [t('fetching')],
+    typeSpeed: 25,
+    loop: false,
+    showCursor: false,
+    onComplete: () => {
+      scanTypingComplete = true;
+      if (scanPendingImageURL) {
+        revealScanImage(scanPendingImageURL);
+        scanPendingImageURL = null;
+      }
+    },
+  });
+
+  function revealScanImage(imgURL: string): void {
+    if (scanTyped) { scanTyped.destroy(); scanTyped = null; }
+    const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
+    previewImg.src = imgURL;
+    previewImg.style.display = 'block';
+    scanStatusEl.textContent = '';
+  }
+
   loadImageWithProgress(
     imgPath,
     (progressText) => {
-      (document.getElementById('scanStatus') as HTMLDivElement).textContent = progressText;
+      if (!scanTypingComplete) return;
+      scanStatusEl.textContent = progressText;
     },
     (imgURL) => {
-      const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
-      previewImg.src = imgURL;
-      previewImg.style.display = 'block';
-      (document.getElementById('scanStatus') as HTMLDivElement).textContent = '';
+      if (scanTypingComplete) {
+        revealScanImage(imgURL);
+      } else {
+        scanPendingImageURL = imgURL;
+      }
     },
     () => {
-      (document.getElementById('scanStatus') as HTMLDivElement).textContent = '';
+      if (scanTyped) { scanTyped.destroy(); scanTyped = null; }
+      scanStatusEl.textContent = '';
     }
   );
 
