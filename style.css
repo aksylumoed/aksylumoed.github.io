@@ -62,7 +62,7 @@ body {
 #progressText {
   font-size: 15px;
   margin-top: 10px; /* Adjust space between fetching text and progress text */
-  min-height: 1em;
+  min-height: 1.2em;
 }
 
 .artwork-container {
@@ -444,7 +444,7 @@ body {
   #progressText {
     font-size: 9px;
     margin-top: 6px; /* Adjust space between fetching text and progress text */
-    min-height: 1em;
+    min-height: 1.2em;
   }
 
   /* .info-navigation-container {
