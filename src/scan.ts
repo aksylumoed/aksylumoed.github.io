@@ -49,27 +49,11 @@ if (!artwork || imgPath === null) {
   applyDataI18n();
   initLangColumn();
 
-  // Start loading the image immediately (during certificate reading) using the
-  // same XHR+progress mechanism as the objects page.
   let scanTyped: Typed | null = null;
   let scanTypingComplete = false;
   let scanPendingImageURL: string | null = null;
 
   const scanStatusEl = document.getElementById('scanStatus') as HTMLDivElement;
-  scanStatusEl.textContent = '';
-  scanTyped = new Typed('#scanStatus', {
-    strings: [t('fetching')],
-    typeSpeed: 25,
-    loop: false,
-    showCursor: false,
-    onComplete: () => {
-      scanTypingComplete = true;
-      if (scanPendingImageURL) {
-        revealScanImage(scanPendingImageURL);
-        scanPendingImageURL = null;
-      }
-    },
-  });
 
   function revealScanImage(imgURL: string): void {
     if (scanTyped) { scanTyped.destroy(); scanTyped = null; }
@@ -79,6 +63,8 @@ if (!artwork || imgPath === null) {
     scanStatusEl.textContent = '';
   }
 
+  // Start the XHR immediately so the image preloads during certificate reading.
+  // The Typed animation is deferred until the sighting phase is visible.
   loadImageWithProgress(
     imgPath,
     (progressText) => {
@@ -104,12 +90,23 @@ if (!artwork || imgPath === null) {
     (document.getElementById('phase-certificate') as HTMLDivElement).style.display = 'none';
     (document.getElementById('phase-sighting') as HTMLDivElement).style.display = 'block';
     window.scrollTo(0, 0);
-    // If image loaded while certificate was showing, some browsers need a nudge
-    // to render it after the parent transitions from display:none to display:block.
-    const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
-    if (previewImg.src && previewImg.src !== window.location.href) {
-      previewImg.style.display = 'block';
-    }
+
+    // Now that the element is visible, start the fetching... animation.
+    // If the image already loaded, pendingImageURL will be revealed in onComplete.
+    scanStatusEl.textContent = '';
+    scanTyped = new Typed('#scanStatus', {
+      strings: [t('fetching')],
+      typeSpeed: 25,
+      loop: false,
+      showCursor: false,
+      onComplete: () => {
+        scanTypingComplete = true;
+        if (scanPendingImageURL) {
+          revealScanImage(scanPendingImageURL);
+          scanPendingImageURL = null;
+        }
+      },
+    });
   });
 }
 
