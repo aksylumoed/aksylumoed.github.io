@@ -1,3 +1,4 @@
+import Typed from 'typed.js';
 import { artworks } from './constants';
 import { API_BASE_URL } from './config';
 import './prevent-image-actions'
@@ -5,6 +6,7 @@ import { loadImageWithProgress } from './image-loader';
 
 let currentArtworkIndex = 0;
 let currentXHR: XMLHttpRequest | null = null;
+let currentTyped: Typed | null = null;
 
 // track sub-image index when an artwork has multiple images
 let currentSubIndex = 0;
@@ -162,6 +164,22 @@ function displayArtwork(index: number, subIndex: number = 0): void {
   const loadingIndicator = document.getElementById('loadingIndicator');
   if (loadingIndicator) {
     loadingIndicator.style.display = 'block';
+  }
+
+  // Restart the typed "fetching..." animation
+  if (currentTyped) {
+    currentTyped.destroy();
+    currentTyped = null;
+  }
+  const fetchingEl = document.getElementById('fetchingText');
+  if (fetchingEl) {
+    fetchingEl.textContent = '';
+    currentTyped = new Typed('#fetchingText', {
+      strings: ['fetching...'],
+      typeSpeed: 40,
+      loop: false,
+      showCursor: false,
+    });
   }
 
   // Abort any in-flight request before starting a new one

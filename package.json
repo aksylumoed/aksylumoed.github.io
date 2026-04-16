@@ -1,5 +1,7 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "typed.js": "^3.0.0"
+  },
   "devDependencies": {
     "@types/node": "^20.10.6",
     "ts-loader": "^9.5.1",
