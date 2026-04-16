@@ -208,6 +208,7 @@ function displayArtwork(index: number, subIndex: number = 0): void {
     imageToLoad,
     (progressText) => {
       if (generation !== loadGeneration) return;
+      if (!typingComplete) return;
       const progressElement = document.getElementById('progressText');
       if (progressElement) {
         progressElement.innerHTML = progressText;
