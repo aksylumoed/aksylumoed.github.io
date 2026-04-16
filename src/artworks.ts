@@ -7,6 +7,9 @@ import { loadImageWithProgress } from './image-loader';
 let currentArtworkIndex = 0;
 let currentXHR: XMLHttpRequest | null = null;
 let currentTyped: Typed | null = null;
+let pendingImageURL: string | null = null;
+let typingComplete = false;
+let loadGeneration = 0;
 
 // track sub-image index when an artwork has multiple images
 let currentSubIndex = 0;
@@ -166,6 +169,17 @@ function displayArtwork(index: number, subIndex: number = 0): void {
     loadingIndicator.style.display = 'block';
   }
 
+  // Abort any in-flight request before starting a new one
+  if (currentXHR) {
+    currentXHR.abort();
+    resetProgressText();
+  }
+
+  // New generation invalidates any stale callbacks from a previous load
+  const generation = ++loadGeneration;
+  typingComplete = false;
+  pendingImageURL = null;
+
   // Restart the typed "fetching..." animation
   if (currentTyped) {
     currentTyped.destroy();
@@ -176,38 +190,41 @@ function displayArtwork(index: number, subIndex: number = 0): void {
     fetchingEl.textContent = '';
     currentTyped = new Typed('#fetchingText', {
       strings: ['fetching...'],
-      typeSpeed: 40,
+      typeSpeed: 25,
       loop: false,
       showCursor: false,
+      onComplete: () => {
+        if (generation !== loadGeneration) return;
+        typingComplete = true;
+        if (pendingImageURL) {
+          revealImage(pendingImageURL);
+          pendingImageURL = null;
+        }
+      },
     });
-  }
-
-  // Abort any in-flight request before starting a new one
-  if (currentXHR) {
-    currentXHR.abort();
-    resetProgressText();
   }
 
   currentXHR = loadImageWithProgress(
     imageToLoad,
     (progressText) => {
+      if (generation !== loadGeneration) return;
       const progressElement = document.getElementById('progressText');
       if (progressElement) {
         progressElement.innerHTML = progressText;
       }
     },
     (imgURL) => {
+      if (generation !== loadGeneration) return;
       currentXHR = null;
-      initialArtworkElement.src = imgURL;
-      initialArtworkElement.style.display = "block";
-
-      if (loadingIndicator) {
-        loadingIndicator.style.display = 'none';
-      }
       resetProgressText();
-      deploymentStatusEl.classList.remove('status-hidden');
+      if (typingComplete) {
+        revealImage(imgURL);
+      } else {
+        pendingImageURL = imgURL;
+      }
     },
     () => {
+      if (generation !== loadGeneration) return;
       currentXHR = null;
       resetProgressText();
     }
@@ -219,6 +236,20 @@ function resetProgressText() {
   if (progressElement) {
     progressElement.innerHTML = '';
   }
+}
+
+function revealImage(imgURL: string): void {
+  const initialArtworkElement = document.getElementById('initialArtwork') as HTMLImageElement;
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  const deploymentStatusEl = document.getElementById('deploymentStatus');
+
+  initialArtworkElement.src = imgURL;
+  initialArtworkElement.style.display = 'block';
+
+  if (loadingIndicator) {
+    loadingIndicator.style.display = 'none';
+  }
+  deploymentStatusEl.classList.remove('status-hidden');
 }
 
 export function navigateArtwork(direction: 'left' | 'right'): void {
