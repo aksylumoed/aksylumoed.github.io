@@ -53,14 +53,15 @@ if (!artwork || imgPath === null) {
   let scanTypingComplete = false;
   let scanPendingImageURL: string | null = null;
 
-  const scanStatusEl = document.getElementById('scanStatus') as HTMLDivElement;
+  const scanLoadingIndicator = document.getElementById('scanLoadingIndicator') as HTMLDivElement;
+  const scanProgressEl = document.getElementById('scanProgressText') as HTMLDivElement;
 
   function revealScanImage(imgURL: string): void {
     if (scanTyped) { scanTyped.destroy(); scanTyped = null; }
+    scanLoadingIndicator.style.display = 'none';
     const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
     previewImg.src = imgURL;
     previewImg.style.display = 'block';
-    scanStatusEl.textContent = '';
   }
 
   // Start the XHR immediately so the image preloads during certificate reading.
@@ -69,7 +70,7 @@ if (!artwork || imgPath === null) {
     imgPath,
     (progressText) => {
       if (!scanTypingComplete) return;
-      scanStatusEl.textContent = progressText;
+      scanProgressEl.textContent = progressText;
     },
     (imgURL) => {
       if (scanTypingComplete) {
@@ -80,7 +81,7 @@ if (!artwork || imgPath === null) {
     },
     () => {
       if (scanTyped) { scanTyped.destroy(); scanTyped = null; }
-      scanStatusEl.textContent = '';
+      scanLoadingIndicator.style.display = 'none';
     }
   );
 
@@ -91,10 +92,13 @@ if (!artwork || imgPath === null) {
     (document.getElementById('phase-sighting') as HTMLDivElement).style.display = 'block';
     window.scrollTo(0, 0);
 
-    // Now that the element is visible, start the fetching... animation.
+    // Show the loading indicator and start typing now that the element is visible.
     // If the image already loaded, pendingImageURL will be revealed in onComplete.
-    scanStatusEl.textContent = '';
-    scanTyped = new Typed('#scanStatus', {
+    scanLoadingIndicator.style.display = 'block';
+    scanProgressEl.textContent = '';
+    const fetchingEl = document.getElementById('scanFetchingText') as HTMLDivElement;
+    fetchingEl.textContent = '';
+    scanTyped = new Typed('#scanFetchingText', {
       strings: [t('fetching')],
       typeSpeed: 25,
       loop: false,
