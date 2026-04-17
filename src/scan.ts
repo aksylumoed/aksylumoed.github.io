@@ -52,14 +52,16 @@ if (!artwork || imgPath === null) {
   let scanTyped: Typed | null = null;
   let scanTypingComplete = false;
   let scanPendingImageURL: string | null = null;
+  let scanLoadedURL: string | null = null;
 
   const scanLoadingIndicator = document.getElementById('scanLoadingIndicator') as HTMLDivElement;
   const scanProgressEl = document.getElementById('scanProgressText') as HTMLDivElement;
+  const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
 
   function revealScanImage(imgURL: string): void {
     if (scanTyped) { scanTyped.destroy(); scanTyped = null; }
     scanLoadingIndicator.style.display = 'none';
-    const previewImg = document.getElementById('artworkPreview') as HTMLImageElement;
+    scanLoadedURL = imgURL;
     previewImg.src = imgURL;
     previewImg.style.display = 'block';
   }
@@ -86,6 +88,18 @@ if (!artwork || imgPath === null) {
   );
 
   initSightingPhase();
+
+  document.getElementById('backBtn').addEventListener('click', () => {
+    // Stop any in-progress animation and hide the overlay
+    if (scanTyped) { scanTyped.destroy(); scanTyped = null; }
+    scanLoadingIndicator.style.display = 'none';
+    scanProgressEl.textContent = '';
+    // Hide the image and reset state so the next acknowledge cycle
+    // plays the full animation before revealing again
+    previewImg.style.display = 'none';
+    scanTypingComplete = false;
+    scanPendingImageURL = scanLoadedURL; // restore URL for next cycle
+  });
 
   document.getElementById('acknowledgeBtn').addEventListener('click', () => {
     (document.getElementById('phase-certificate') as HTMLDivElement).style.display = 'none';
