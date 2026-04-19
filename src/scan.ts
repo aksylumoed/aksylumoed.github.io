@@ -18,6 +18,11 @@ const subIndexParam = params.get('s');
 
 const artwork = artworks.find(a => a.id === artworkId);
 
+// Match the trackingId format used by artworks.ts so sightings are queryable per sub-image
+const trackingId = (artwork?.subImages && artwork.subImages.length > 0 && subIndexParam)
+  ? `${artworkId}-${subIndexParam}`
+  : artworkId;
+
 function resolveImagePath(): string | null {
   if (!artwork) return null;
 
@@ -279,7 +284,7 @@ function initSightingPhase() {
       const res = await fetch(`${API_BASE_URL}/sighting`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ artworkId, city: sighting.city, neighborhood: sighting.neighborhood, postcode: sighting.postcode, lat: sighting.lat, lng: sighting.lng }),
+        body: JSON.stringify({ artworkId: trackingId, city: sighting.city, neighborhood: sighting.neighborhood, postcode: sighting.postcode, lat: sighting.lat, lng: sighting.lng }),
       });
 
       if (res.ok) {
