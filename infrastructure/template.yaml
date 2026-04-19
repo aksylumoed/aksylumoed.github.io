@@ -87,21 +87,19 @@ Resources:
               },
             }));
             try {
-              const lines = [
-                `artwork   ${artworkId}`,
-                `city      ${city}`,
-                neighborhood ? `area      ${neighborhood}` : null,
-                postcode     ? `postcode  ${postcode}`     : null,
-                (lat && lng) ? `coords    ${lat}, ${lng}`  : null,
-                `time      ${new Date(timestamp).toISOString()}`,
+              const fields = [
+                ['artwork',  artworkId],
+                ['city',     city],
+                neighborhood ? ['area',     neighborhood] : null,
+                postcode     ? ['postcode', postcode]     : null,
+                (lat && lng) ? ['coords',   `${lat}, ${lng}`] : null,
+                ['time',     new Date(timestamp).toISOString()],
               ].filter(Boolean);
-              const rows = lines.map(l => {
-                const idx = l.indexOf('   ');
-                const label = l.slice(0, idx).trim();
-                const value = l.slice(idx).trim();
-                return `<tr><td style="padding:4px 24px 4px 0;color:#555;white-space:nowrap;vertical-align:top;">${label}</td><td style="padding:4px 0;color:#eee;">${value}</td></tr>`;
-              }).join('');
-              const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#111;color:#eee;font-family:'Courier New',Courier,monospace;font-size:14px;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#111;"><tr><td style="padding:48px 40px;"><div style="max-width:480px;"><p style="margin:0 0 32px;letter-spacing:0.08em;color:#888;font-size:11px;text-transform:uppercase;">adndkr — sighting recorded</p><table cellpadding="0" cellspacing="0">${rows}</table><p style="margin:40px 0 0;color:#333;font-size:11px;">adndkr.com</p></div></td></tr></table></body></html>`;
+              const rows = fields.map(([label, value]) =>
+                `<tr><td style="padding:4px 24px 4px 0;color:#999;white-space:nowrap;vertical-align:top;">${label}</td><td style="padding:4px 0;color:#111;">${value}</td></tr>`
+              ).join('');
+              const text = fields.map(([l, v]) => `${l.padEnd(10)}${v}`).join('\n');
+              const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#fff;color:#111;font-family:'Courier New',Courier,monospace;font-size:14px;"><table width="100%" cellpadding="0" cellspacing="0" style="background:#fff;"><tr><td style="padding:48px 40px;"><div style="max-width:480px;"><p style="margin:0 0 32px;letter-spacing:0.08em;color:#aaa;font-size:11px;text-transform:uppercase;">adndkr — sighting recorded</p><table cellpadding="0" cellspacing="0">${rows}</table><p style="margin:40px 0 0;color:#ccc;font-size:11px;">adndkr.com</p></div></td></tr></table></body></html>`;
               await ses.send(new SendEmailCommand({
                 Source: process.env.NOTIFY_EMAIL,
                 Destination: { ToAddresses: [process.env.NOTIFY_EMAIL] },
@@ -109,7 +107,7 @@ Resources:
                   Subject: { Data: `sighting — ${artworkId} — ${city}` },
                   Body: {
                     Html: { Data: html },
-                    Text: { Data: lines.join('\n') },
+                    Text: { Data: text },
                   },
                 },
               }));
