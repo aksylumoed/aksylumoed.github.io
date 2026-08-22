@@ -133,8 +133,8 @@ export const artworks: Artwork[] = [
     title: "#17",
     imagePath: "../png/17-fs8.png",
     description: `155cm x 105cm aluminium dibond, direct print`,
-    maxWidthPercentage: "60%",
-    maxWidthPercentageMobile: "75%"
+    maxWidthPercentage: "70%",
+    maxWidthPercentageMobile: "80%"
   },
   {
     id: '6',
